@@ -92,14 +92,14 @@
 		DEAD15D02494250F00DCA5ED /* Grunty */ = {
 			isa = PBXGroup;
 			children = (
-				DEF84740249429FE005EDEDB /* Services */,
-				DEF8473F249429F8005EDEDB /* Controllers */,
-				DEF8473E249429F0005EDEDB /* Views */,
-				DEF8473D249429D0005EDEDB /* Models */,
 				DEAD15D12494250F00DCA5ED /* AppDelegate.swift */,
 				DEAD15D32494250F00DCA5ED /* Assets.xcassets */,
-				DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */,
+				DEF8473F249429F8005EDEDB /* Controllers */,
 				DEAD15D82494250F00DCA5ED /* Info.plist */,
+				DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */,
+				DEF8473D249429D0005EDEDB /* Models */,
+				DEF84740249429FE005EDEDB /* Services */,
+				DEF8473E249429F0005EDEDB /* Views */,
 			);
 			path = Grunty;
 			sourceTree = "<group>";
