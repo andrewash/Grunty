@@ -1,0 +1,460 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DE9BC6FA2494285100781C10 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DE9BC6F92494285100781C10 /* README.md */; };
+		DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15D12494250F00DCA5ED /* AppDelegate.swift */; };
+		DEAD15D42494250F00DCA5ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D32494250F00DCA5ED /* Assets.xcassets */; };
+		DEAD15D72494250F00DCA5ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */; };
+		DEAD15E22494250F00DCA5ED /* GruntyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15E12494250F00DCA5ED /* GruntyTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DEAD15DE2494250F00DCA5ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEAD15C62494250F00DCA5ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEAD15CD2494250F00DCA5ED;
+			remoteInfo = Grunty;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DE9BC6F92494285100781C10 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DEAD15CE2494250F00DCA5ED /* Grunty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grunty.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEAD15D12494250F00DCA5ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DEAD15D32494250F00DCA5ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DEAD15D62494250F00DCA5ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DEAD15D82494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEAD15DD2494250F00DCA5ED /* GruntyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GruntyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEAD15E12494250F00DCA5ED /* GruntyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GruntyTests.swift; sourceTree = "<group>"; };
+		DEAD15E32494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DEAD15CB2494250F00DCA5ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEAD15DA2494250F00DCA5ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DEAD15C52494250F00DCA5ED = {
+			isa = PBXGroup;
+			children = (
+				DE9BC6F92494285100781C10 /* README.md */,
+				DEAD15D02494250F00DCA5ED /* Grunty */,
+				DEAD15E02494250F00DCA5ED /* GruntyTests */,
+				DEAD15CF2494250F00DCA5ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DEAD15CF2494250F00DCA5ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD15CE2494250F00DCA5ED /* Grunty.app */,
+				DEAD15DD2494250F00DCA5ED /* GruntyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DEAD15D02494250F00DCA5ED /* Grunty */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD15D12494250F00DCA5ED /* AppDelegate.swift */,
+				DEAD15D32494250F00DCA5ED /* Assets.xcassets */,
+				DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */,
+				DEAD15D82494250F00DCA5ED /* Info.plist */,
+			);
+			path = Grunty;
+			sourceTree = "<group>";
+		};
+		DEAD15E02494250F00DCA5ED /* GruntyTests */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD15E12494250F00DCA5ED /* GruntyTests.swift */,
+				DEAD15E32494250F00DCA5ED /* Info.plist */,
+			);
+			path = GruntyTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DEAD15CD2494250F00DCA5ED /* Grunty */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEAD15E62494250F00DCA5ED /* Build configuration list for PBXNativeTarget "Grunty" */;
+			buildPhases = (
+				DEAD15CA2494250F00DCA5ED /* Sources */,
+				DEAD15CB2494250F00DCA5ED /* Frameworks */,
+				DEAD15CC2494250F00DCA5ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Grunty;
+			productName = Grunty;
+			productReference = DEAD15CE2494250F00DCA5ED /* Grunty.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DEAD15DC2494250F00DCA5ED /* GruntyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEAD15E92494250F00DCA5ED /* Build configuration list for PBXNativeTarget "GruntyTests" */;
+			buildPhases = (
+				DEAD15D92494250F00DCA5ED /* Sources */,
+				DEAD15DA2494250F00DCA5ED /* Frameworks */,
+				DEAD15DB2494250F00DCA5ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DEAD15DF2494250F00DCA5ED /* PBXTargetDependency */,
+			);
+			name = GruntyTests;
+			productName = GruntyTests;
+			productReference = DEAD15DD2494250F00DCA5ED /* GruntyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DEAD15C62494250F00DCA5ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = "Andrew Ash";
+				TargetAttributes = {
+					DEAD15CD2494250F00DCA5ED = {
+						CreatedOnToolsVersion = 11.5;
+					};
+					DEAD15DC2494250F00DCA5ED = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = DEAD15CD2494250F00DCA5ED;
+					};
+				};
+			};
+			buildConfigurationList = DEAD15C92494250F00DCA5ED /* Build configuration list for PBXProject "Grunty" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DEAD15C52494250F00DCA5ED;
+			productRefGroup = DEAD15CF2494250F00DCA5ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DEAD15CD2494250F00DCA5ED /* Grunty */,
+				DEAD15DC2494250F00DCA5ED /* GruntyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DEAD15CC2494250F00DCA5ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE9BC6FA2494285100781C10 /* README.md in Resources */,
+				DEAD15D42494250F00DCA5ED /* Assets.xcassets in Resources */,
+				DEAD15D72494250F00DCA5ED /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEAD15DB2494250F00DCA5ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DEAD15CA2494250F00DCA5ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEAD15D92494250F00DCA5ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEAD15E22494250F00DCA5ED /* GruntyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DEAD15DF2494250F00DCA5ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEAD15CD2494250F00DCA5ED /* Grunty */;
+			targetProxy = DEAD15DE2494250F00DCA5ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DEAD15D62494250F00DCA5ED /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DEAD15E42494250F00DCA5ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DEAD15E52494250F00DCA5ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DEAD15E72494250F00DCA5ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JAZXEU3UV7;
+				INFOPLIST_FILE = Grunty/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.emotiveapps.grunty;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DEAD15E82494250F00DCA5ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JAZXEU3UV7;
+				INFOPLIST_FILE = Grunty/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.emotiveapps.grunty;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		DEAD15EA2494250F00DCA5ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JAZXEU3UV7;
+				INFOPLIST_FILE = GruntyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.emotiveapps.GruntyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grunty.app/Grunty";
+			};
+			name = Debug;
+		};
+		DEAD15EB2494250F00DCA5ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JAZXEU3UV7;
+				INFOPLIST_FILE = GruntyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.emotiveapps.GruntyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grunty.app/Grunty";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DEAD15C92494250F00DCA5ED /* Build configuration list for PBXProject "Grunty" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEAD15E42494250F00DCA5ED /* Debug */,
+				DEAD15E52494250F00DCA5ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEAD15E62494250F00DCA5ED /* Build configuration list for PBXNativeTarget "Grunty" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEAD15E72494250F00DCA5ED /* Debug */,
+				DEAD15E82494250F00DCA5ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEAD15E92494250F00DCA5ED /* Build configuration list for PBXNativeTarget "GruntyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEAD15EA2494250F00DCA5ED /* Debug */,
+				DEAD15EB2494250F00DCA5ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DEAD15C62494250F00DCA5ED /* Project object */;
+}
