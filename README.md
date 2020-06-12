@@ -1,5 +1,5 @@
 # Grunty
-A moose-themed twitter clone I completed for a sample project
+A moose-themed twitter clone I completed as a code sample
 
 
 

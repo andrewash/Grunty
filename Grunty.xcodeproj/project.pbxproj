@@ -12,6 +12,13 @@
 		DEAD15D42494250F00DCA5ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D32494250F00DCA5ED /* Assets.xcassets */; };
 		DEAD15D72494250F00DCA5ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */; };
 		DEAD15E22494250F00DCA5ED /* GruntyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15E12494250F00DCA5ED /* GruntyTests.swift */; };
+		DEF8474224942A28005EDEDB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474124942A28005EDEDB /* Post.swift */; };
+		DEF8474424942A36005EDEDB /* PostComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474324942A36005EDEDB /* PostComment.swift */; };
+		DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474624942A5E005EDEDB /* CodableStorage.swift */; };
+		DEF8474924942AC9005EDEDB /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474824942AC9005EDEDB /* DataStore.swift */; };
+		DEF8474B24942ADF005EDEDB /* PostImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474A24942ADF005EDEDB /* PostImporter.swift */; };
+		DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */; };
+		DEF8474F24942B15005EDEDB /* PostDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +41,13 @@
 		DEAD15DD2494250F00DCA5ED /* GruntyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GruntyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEAD15E12494250F00DCA5ED /* GruntyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GruntyTests.swift; sourceTree = "<group>"; };
 		DEAD15E32494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEF8474124942A28005EDEDB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		DEF8474324942A36005EDEDB /* PostComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostComment.swift; sourceTree = "<group>"; };
+		DEF8474624942A5E005EDEDB /* CodableStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableStorage.swift; sourceTree = "<group>"; };
+		DEF8474824942AC9005EDEDB /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		DEF8474A24942ADF005EDEDB /* PostImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImporter.swift; sourceTree = "<group>"; };
+		DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
+		DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +90,10 @@
 		DEAD15D02494250F00DCA5ED /* Grunty */ = {
 			isa = PBXGroup;
 			children = (
+				DEF84740249429FE005EDEDB /* Services */,
+				DEF8473F249429F8005EDEDB /* Controllers */,
+				DEF8473E249429F0005EDEDB /* Views */,
+				DEF8473D249429D0005EDEDB /* Models */,
 				DEAD15D12494250F00DCA5ED /* AppDelegate.swift */,
 				DEAD15D32494250F00DCA5ED /* Assets.xcassets */,
 				DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */,
@@ -91,6 +109,41 @@
 				DEAD15E32494250F00DCA5ED /* Info.plist */,
 			);
 			path = GruntyTests;
+			sourceTree = "<group>";
+		};
+		DEF8473D249429D0005EDEDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DEF8474124942A28005EDEDB /* Post.swift */,
+				DEF8474324942A36005EDEDB /* PostComment.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DEF8473E249429F0005EDEDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DEF8473F249429F8005EDEDB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */,
+				DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		DEF84740249429FE005EDEDB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DEF8474624942A5E005EDEDB /* CodableStorage.swift */,
+				DEF8474824942AC9005EDEDB /* DataStore.swift */,
+				DEF8474A24942ADF005EDEDB /* PostImporter.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +248,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */,
+				DEF8474B24942ADF005EDEDB /* PostImporter.swift in Sources */,
+				DEF8474F24942B15005EDEDB /* PostDetailsTableViewController.swift in Sources */,
+				DEF8474224942A28005EDEDB /* Post.swift in Sources */,
+				DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */,
+				DEF8474924942AC9005EDEDB /* DataStore.swift in Sources */,
+				DEF8474424942A36005EDEDB /* PostComment.swift in Sources */,
+				DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
