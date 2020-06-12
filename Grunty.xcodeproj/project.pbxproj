@@ -19,6 +19,7 @@
 		DEF8474B24942ADF005EDEDB /* PostImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474A24942ADF005EDEDB /* PostImporter.swift */; };
 		DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */; };
 		DEF8474F24942B15005EDEDB /* PostDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */; };
+		DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8475024942BBC005EDEDB /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		DEF8474A24942ADF005EDEDB /* PostImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImporter.swift; sourceTree = "<group>"; };
 		DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
 		DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsTableViewController.swift; sourceTree = "<group>"; };
+		DEF8475024942BBC005EDEDB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				DEF8474624942A5E005EDEDB /* CodableStorage.swift */,
 				DEF8474824942AC9005EDEDB /* DataStore.swift */,
 				DEF8474A24942ADF005EDEDB /* PostImporter.swift */,
+				DEF8475024942BBC005EDEDB /* Utilities.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				DEF8474224942A28005EDEDB /* Post.swift in Sources */,
 				DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */,
 				DEF8474924942AC9005EDEDB /* DataStore.swift in Sources */,
+				DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */,
 				DEF8474424942A36005EDEDB /* PostComment.swift in Sources */,
 				DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */,
 			);
