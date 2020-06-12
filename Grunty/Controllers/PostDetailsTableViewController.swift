@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
+class PostDetailsTableViewController: UITableViewController {
+    var post: Post?
+}

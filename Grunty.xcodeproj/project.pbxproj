@@ -20,6 +20,7 @@
 		DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */; };
 		DEF8474F24942B15005EDEDB /* PostDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */; };
 		DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8475024942BBC005EDEDB /* Utilities.swift */; };
+		DEF847532494306E005EDEDB /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF847522494306E005EDEDB /* PostTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
 		DEF8474E24942B15005EDEDB /* PostDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsTableViewController.swift; sourceTree = "<group>"; };
 		DEF8475024942BBC005EDEDB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		DEF847522494306E005EDEDB /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 		DEF8473E249429F0005EDEDB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DEF847522494306E005EDEDB /* PostTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */,
 				DEF8474924942AC9005EDEDB /* DataStore.swift in Sources */,
 				DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */,
+				DEF847532494306E005EDEDB /* PostTableViewCell.swift in Sources */,
 				DEF8474424942A36005EDEDB /* PostComment.swift in Sources */,
 				DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */,
 			);
