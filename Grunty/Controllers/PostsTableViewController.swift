@@ -11,9 +11,10 @@ import UIKit
 
 class PostsTableViewController: UITableViewController {
     let cellIdentifier = "PostCell"
+    let loadingNavTitle = "Loading Grunts..."
     var activityIndicatorView: UIActivityIndicatorView?     // keeps reference to this view so we can stop it's animation
     var posts: [Post] = []      /// posts to show in this view
-    static let standardCellHeight: CGFloat = 60.0
+    static let standardCellHeight: CGFloat = 100.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +25,14 @@ class PostsTableViewController: UITableViewController {
     
     func prepareView() {
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        navigationItem.title = "All Grunts"
+        navigationItem.title = loadingNavTitle
     }
     
     
     
+    //==========================================================================
     // MARK: UITableViewDataSource and UITableViewDelegate
+    //==========================================================================
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
@@ -61,25 +64,53 @@ class PostsTableViewController: UITableViewController {
     }
     
     
+    //==========================================================================
     // MARK: Data-Layer Interactions
+    //==========================================================================
     func loadData() {
-        
+        DataStore.shared.retrievePosts { [weak self] result in
+            self?.stopActivityIndicator()
+            switch result {
+            case .success(let posts):
+                self?.navigationItem.title = "All Grunts"
+                self?.posts = posts
+                self?.tableView.reloadData()
+            case .failure(let error):
+                switch error {
+                case .noDataReturned:
+                    self?.alert(errorCode: "noDataReturned") { self?.loadData() }
+                case .decodeFailed:
+                    self?.alert(errorCode: "decodeFailed") { self?.loadData() }
+                case .dataTaskFailed:
+                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData() }
+                }
+            }
+        }
     }
+    
+    func alert(errorCode: String, then retryHandler: @escaping () -> ()) {
+        let alert = UIAlertController(title: "Can't Find a Moose", message: "Oops, we can't hear any grunts. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) -> () in
+            retryHandler()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     
     // Reset database and refresh data
     @objc func reset() {
         self.startActivityIndicator()
-        DataStore.shared.reset {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.loadData()
-            }
+        DataStore.shared.reset { [weak self] in
+            self?.tableView.reloadData()
+            self?.loadData()
         }
     }
 
     
     
+    //==========================================================================
     // MARK: Helpers
+    //==========================================================================
     /// Is there data available for a given row index?
     func isDataAvailable(rowIndex: Int) -> Bool {
         return rowIndex >= 0 && rowIndex < posts.count
@@ -88,7 +119,7 @@ class PostsTableViewController: UITableViewController {
     func startActivityIndicator() {
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.color = .white
-        navigationItem.title = "Loading Posts..."
+        navigationItem.title = loadingNavTitle
         navigationItem.setRightBarButton(UIBarButtonItem(customView: activityIndicatorView), animated: true)
         activityIndicatorView.startAnimating()
         self.activityIndicatorView = activityIndicatorView

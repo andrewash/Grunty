@@ -10,8 +10,8 @@ import Foundation
 
 // Post model
 struct Post: Codable {
-    let id: String      /// we use strings for ids because some APIs use alphanumeric ids
-    let userId: String
+    let id: Int
+    let userId: Int
     let title: String
     let body: String
 }

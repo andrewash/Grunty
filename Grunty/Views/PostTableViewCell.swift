@@ -29,9 +29,9 @@ class PostTableViewCell: UITableViewCell {
         }
     }
 
-    
-    
+    //==========================================================================
     // MARK: Controls
+    //==========================================================================
     func addSubviews() {
         addSubview(titleLabel)
         addSubview(bodyLabel)
@@ -39,14 +39,16 @@ class PostTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textAlignment = .natural
-        label.lineBreakMode = .byWordWrapping
+        label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let bodyLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 2
         label.textAlignment = .natural
         label.lineBreakMode = .byWordWrapping
@@ -55,12 +57,29 @@ class PostTableViewCell: UITableViewCell {
     }()
     
     func layoutControls() {
+        let titleLabelHeight: CGFloat = 20.0
+        let bodyLabelHeight: CGFloat = titleLabelHeight * CGFloat(bodyLabel.numberOfLines)
+        let labelVSpacing: CGFloat = 5.0
         
+        let titleLabelConstraints = [
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 15),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeight)
+        ]
+        let bodyLabelConstraints = [
+            bodyLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            bodyLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: labelVSpacing),
+            bodyLabel.heightAnchor.constraint(equalToConstant: bodyLabelHeight)
+        ]
+        NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(bodyLabelConstraints)
     }
-
     
-    
+    //==========================================================================
     // MARK: Helpers
+    //==========================================================================
     override func prepareForReuse() {
         super.prepareForReuse()
         titleLabel.text = nil

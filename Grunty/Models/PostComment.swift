@@ -10,8 +10,8 @@ import Foundation
 
 // PostComment model
 struct PostComment {
-    let id: String
-    let parentPostId: String
+    let id: Int
+    let parentPostId: Int
     let postedByEmail: String
     let title: String
     let body: String
