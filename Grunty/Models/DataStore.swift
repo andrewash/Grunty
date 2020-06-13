@@ -30,7 +30,8 @@ class DataStore {
                 case .success(let posts):
                     // Save [Posts] to disk for fast retrieval in future, then pass to handler
                     CodableStorage.save(posts, as: Configuration.postsFilename)
-                    let sortedPosts = self.sortPosts(posts: posts)
+                    let filteredPosts = self.filterPosts(posts: posts, byUserId: userId)
+                    let sortedPosts = self.sortPosts(posts: filteredPosts)
                     DispatchQueue.main.async {
                         handler(.success(sortedPosts))
                     }
