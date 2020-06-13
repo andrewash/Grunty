@@ -22,7 +22,9 @@ class PostDetailsViewController: UIViewController {
     }
     var comments: [PostComment] = [] {
         didSet {
-            // TODO
+            self.postCommentsHeading.text = "\(comments.count) Comments"
+            self.postCommentsTableView.comments = comments
+            self.postCommentsTableView.reloadData()
         }
     }
     
@@ -74,6 +76,8 @@ class PostDetailsViewController: UIViewController {
     private let titleLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 18), textAlignment: .natural)
     private let bodyLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 16), textAlignment: .natural)
     private let postsByAuthor: UIButton = UIButton(type: .roundedRect)
+    private let postCommentsHeading: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 18), textAlignment: .natural)
+    private let postCommentsTableView: PostCommentsTableView = PostCommentsTableView()
     
     func prepareView() {
         self.view.backgroundColor = .white  // for a smooth transition when pushing this VC onto nav stack
@@ -82,24 +86,38 @@ class PostDetailsViewController: UIViewController {
     }
     
     func addSubviews() {
-        let subviews = [userLabel, titleLabel, bodyLabel, postsByAuthor]
+        let subviews = [userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsTableView, postsByAuthor]
         for subview in subviews {
             view.addSubview(subview)
         }
         bodyLabel.numberOfLines = 0
         bodyLabel.sizeToFit()
+        postCommentsTableView.backgroundColor = .paleCerulean
         postsByAuthor.backgroundColor = UIColor.systemBlue
         postsByAuthor.setTitleColor(.white, for: .normal)
         postsByAuthor.addTarget(self, action: #selector(goPostsByAuthor), for: .touchUpInside)
     }
             
     func layoutControls() {
+        // Labels appear at top of the view
         NSLayoutConstraint.activate(makeConstraints(forView: userLabel, previousView: nil, topSpacing: CGFloat(7), height: CGFloat(30)))
         NSLayoutConstraint.activate(makeConstraints(forView: titleLabel, previousView: userLabel, topSpacing: CGFloat(0), height: CGFloat(28)))
         NSLayoutConstraint.activate(makeConstraints(forView: bodyLabel, previousView: titleLabel, topSpacing: CGFloat(4), height: CGFloat(120)))
+        NSLayoutConstraint.activate(makeConstraints(forView: postCommentsHeading, previousView: bodyLabel, topSpacing: CGFloat(8), height: CGFloat(30)))
         
+        // Comments appear in a UITableView in the middle
+        postCommentsTableView.translatesAutoresizingMaskIntoConstraints = false
+        let postCommentsConstraints = [
+            postCommentsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: postCommentsTableView.trailingAnchor, constant: 20),
+            postCommentsTableView.topAnchor.constraint(equalTo: postCommentsHeading.bottomAnchor, constant: 4)
+        ]
+        NSLayoutConstraint.activate(postCommentsConstraints)
+        
+        // Posts By Author appears at bottom of the view
         postsByAuthor.translatesAutoresizingMaskIntoConstraints = false
         let postsByAuthorConstraints = [
+            postsByAuthor.topAnchor.constraint(equalTo: postCommentsTableView.bottomAnchor, constant: 15),
             postsByAuthor.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: postsByAuthor.trailingAnchor, constant: 20),
             postsByAuthor.heightAnchor.constraint(equalToConstant: 48),

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DE6DFEDF24955F6A006C0966 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6DFEDE24955F6A006C0966 /* Configuration.swift */; };
 		DE9BC6FA2494285100781C10 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DE9BC6F92494285100781C10 /* README.md */; };
+		DEA3975B24958E740089404E /* PostCommentsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975A24958E740089404E /* PostCommentsTableView.swift */; };
+		DEA3975D249593B20089404E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975C249593B20089404E /* UIColor.swift */; };
 		DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15D12494250F00DCA5ED /* AppDelegate.swift */; };
 		DEAD15D42494250F00DCA5ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D32494250F00DCA5ED /* Assets.xcassets */; };
 		DEAD15D72494250F00DCA5ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */; };
@@ -37,6 +39,8 @@
 /* Begin PBXFileReference section */
 		DE6DFEDE24955F6A006C0966 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DE9BC6F92494285100781C10 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DEA3975A24958E740089404E /* PostCommentsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentsTableView.swift; sourceTree = "<group>"; };
+		DEA3975C249593B20089404E /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		DEAD15CE2494250F00DCA5ED /* Grunty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grunty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEAD15D12494250F00DCA5ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEAD15D32494250F00DCA5ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				DEF847522494306E005EDEDB /* PostTableViewCell.swift */,
+				DEA3975A24958E740089404E /* PostCommentsTableView.swift */,
+				DEA3975C249593B20089404E /* UIColor.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -261,9 +267,11 @@
 				DEF8474F24942B15005EDEDB /* PostDetailsViewController.swift in Sources */,
 				DEF8474224942A28005EDEDB /* Post.swift in Sources */,
 				DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */,
+				DEA3975B24958E740089404E /* PostCommentsTableView.swift in Sources */,
 				DEF8474924942AC9005EDEDB /* DataStore.swift in Sources */,
 				DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */,
 				DEF847532494306E005EDEDB /* PostTableViewCell.swift in Sources */,
+				DEA3975D249593B20089404E /* UIColor.swift in Sources */,
 				DEF8474424942A36005EDEDB /* PostComment.swift in Sources */,
 				DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */,
 				DE6DFEDF24955F6A006C0966 /* Configuration.swift in Sources */,
