@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let mainVC = PostsTableViewController(style: .plain)
+        let mainVC = PostsTableViewController()
         window = UIWindow()
         window?.backgroundColor = UIColor.white
         window?.rootViewController = UINavigationController(rootViewController: mainVC)

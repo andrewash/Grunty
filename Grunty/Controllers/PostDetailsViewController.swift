@@ -23,7 +23,7 @@ class PostDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        styleView()
+        prepareView()
         loadData()
     }
 
@@ -73,7 +73,7 @@ class PostDetailsViewController: UIViewController {
     private let bodyLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 16), textAlignment: .natural)
     private let postsByAuthor: UIButton = UIButton(type: .roundedRect)
     
-    func styleView() {
+    func prepareView() {
         self.view.backgroundColor = .white  // for a smooth transition when pushing this VC onto nav stack
         addSubviews()
         layoutControls()
@@ -112,7 +112,8 @@ class PostDetailsViewController: UIViewController {
     //==========================================================================
     
     @objc func goPostsByAuthor() {
-        print("goPostsByAuthor tapped")
+        let vc = PostsTableViewController(filterByUserId: self.post.userId)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     

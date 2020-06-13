@@ -13,17 +13,28 @@ class PostsTableViewController: UITableViewController {
     let cellIdentifier = "PostCell"
     let loadingNavTitle = "Loading Grunts..."
     var activityIndicatorView: UIActivityIndicatorView?     // keeps reference to this view so we can stop it's animation
+    var filterByUserId: Int?    /// which user are we filtering for (if nil, no filter is applied)
     var posts: [Post] = []      /// posts to show in this view
     static let standardCellHeight: CGFloat = 100.0
     
+    init(filterByUserId userId: Int? = nil) {
+        self.filterByUserId = userId
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("required because of storyboards")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadData(filterByUserId: self.filterByUserId)
         startActivityIndicator()
         prepareView()
-        loadData()
     }
     
     func prepareView() {
+        self.view.backgroundColor = .white
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         navigationItem.title = loadingNavTitle
     }
@@ -67,22 +78,28 @@ class PostsTableViewController: UITableViewController {
     //==========================================================================
     // MARK: Data-Layer Interactions
     //==========================================================================
-    func loadData() {
-        DataStore.shared.retrievePosts { [weak self] result in
+    func loadData(filterByUserId userId: Int? = nil) {
+        DataStore.shared.retrievePosts(filterByUserId: userId) { [weak self] result in
             self?.stopActivityIndicator()
             switch result {
             case .success(let posts):
-                self?.navigationItem.title = "All Grunts"
+                // 1 - Determine the navigation title
+                if let filteringForUserId = userId {
+                    self?.navigationItem.title = "Moose #\(filteringForUserId)'s Grunts"
+                } else {
+                    self?.navigationItem.title = "Recent \(posts.count) Grunts"
+                }
+                
                 self?.posts = posts
                 self?.tableView.reloadData()
             case .failure(let error):
                 switch error {
                 case .noDataReturned:
-                    self?.alert(errorCode: "noDataReturned") { self?.loadData() }
+                    self?.alert(errorCode: "noDataReturned") { self?.loadData(filterByUserId: userId) }
                 case .decodeFailed:
-                    self?.alert(errorCode: "decodeFailed") { self?.loadData() }
+                    self?.alert(errorCode: "decodeFailed") { self?.loadData(filterByUserId: userId) }
                 case .dataTaskFailed:
-                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData() }
+                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData(filterByUserId: userId) }
                 }
             }
         }

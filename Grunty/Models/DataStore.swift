@@ -12,12 +12,13 @@ class DataStore {
     static let shared = DataStore()
     let networkManager = NetworkManager()
             
-    func retrievePosts(then handler: @escaping (Result<[Post], NetworkManager.ImportError>) -> Void) {
+    func retrievePosts(filterByUserId userId: Int?, then handler: @escaping (Result<[Post], NetworkManager.ImportError>) -> Void) {
         DispatchQueue.global(qos: .background).async {
             // Load from device storage, when available
             if let posts = CodableStorage.load(Configuration.postsFilename, as: [Post].self) {                
                 Utilities.debugLog("Info: Loaded cached posts from disk")
-                let sortedPosts = self.sortPosts(posts: posts)
+                let filteredPosts = self.filterPosts(posts: posts, byUserId: userId)
+                let sortedPosts = self.sortPosts(posts: filteredPosts)
                 DispatchQueue.main.async {
                     handler(.success(sortedPosts))
                 }
@@ -40,6 +41,14 @@ class DataStore {
                 }
             }
         }
+    }
+    
+    func filterPosts(posts: [Post], byUserId userId: Int?) -> [Post] {
+        guard let userId = userId else {
+            // no filter supplied, so just return all posts
+            return posts
+        }
+        return posts.filter { $0.userId == userId }
     }
     
     func sortPosts(posts: [Post]) -> [Post] {
