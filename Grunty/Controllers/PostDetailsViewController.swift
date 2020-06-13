@@ -20,6 +20,11 @@ class PostDetailsViewController: UIViewController {
             self.postsByAuthor.setTitle("More by \(userLabel.text ?? "this author")", for: .normal)
         }
     }
+    var comments: [PostComment] = [] {
+        didSet {
+            // TODO
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,29 +38,26 @@ class PostDetailsViewController: UIViewController {
     //==========================================================================
     
     func loadData() {
-        // TODO: Load Comments
-//        DataStore.shared.retrievePosts { [weak self] result in
-//            self?.stopActivityIndicator()
-//            switch result {
-//            case .success(let posts):
-//                self?.navigationItem.title = "All Grunts"
-//                self?.posts = posts
-//                self?.tableView.reloadData()
-//            case .failure(let error):
-//                switch error {
-//                case .noDataReturned:
-//                    self?.alert(errorCode: "noDataReturned") { self?.loadData() }
-//                case .decodeFailed:
-//                    self?.alert(errorCode: "decodeFailed") { self?.loadData() }
-//                case .dataTaskFailed:
-//                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData() }
-//                }
-//            }
-//        }
+        DataStore.shared.retrieveComments(forPostId: post.id) { [weak self] result in
+            self?.stopActivityIndicator()
+            switch result {
+            case .success(let comments):
+                self?.comments = comments
+            case .failure(let error):
+                switch error {
+                case .noDataReturned:
+                    self?.alert(errorCode: "noDataReturned") { self?.loadData() }
+                case .decodeFailed:
+                    self?.alert(errorCode: "decodeFailed") { self?.loadData() }
+                case .dataTaskFailed:
+                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData() }
+                }
+            }
+        }
     }
     
     func alert(errorCode: String, then retryHandler: @escaping () -> ()) {
-        let alert = UIAlertController(title: "Can't Find a Moose", message: "Oops, we can't hear any grunts. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Can't Find Moose", message: "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) -> () in
             retryHandler()
         }))
@@ -150,8 +152,6 @@ class PostDetailsViewController: UIViewController {
     func startActivityIndicator() {
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.color = .white
-        navigationItem.title = loadingNavTitle
-        navigationItem.setRightBarButton(UIBarButtonItem(customView: activityIndicatorView), animated: true)
         activityIndicatorView.startAnimating()
         self.activityIndicatorView = activityIndicatorView
     }

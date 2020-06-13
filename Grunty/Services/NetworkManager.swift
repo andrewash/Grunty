@@ -64,7 +64,7 @@ class NetworkManager {
             }
             do {
                 let comments = try JSONDecoder().decode([PostComment].self, from: data)
-                Utilities.debugLog("Info: Imported posts from remote API")
+                Utilities.debugLog("Info: Imported comments for postId \(postId) from remote API")
                 handler(.success(comments))
             } catch {
                 handler(.failure(.decodeFailed))
