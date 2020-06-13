@@ -116,10 +116,12 @@ class PostsTableViewController: UITableViewController {
     
     // Reset database and refresh data
     @objc func reset() {
+        self.posts = []
         self.startActivityIndicator()
         DataStore.shared.reset { [weak self] in
-            self?.tableView.reloadData()
             self?.loadData()
+            self?.tableView.reloadData()
+            
         }
     }
     
@@ -143,7 +145,7 @@ class PostsTableViewController: UITableViewController {
     func stopActivityIndicator() {
         self.activityIndicatorView?.stopAnimating()
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
-        refreshButton.tintColor = .white
+        refreshButton.tintColor = .black
         navigationItem.setRightBarButton(refreshButton, animated: true)
         self.activityIndicatorView = nil
     }
