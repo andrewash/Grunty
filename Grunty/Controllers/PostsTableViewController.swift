@@ -58,7 +58,7 @@ class PostsTableViewController: UITableViewController {
             Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
             return
         }
-        let vc = PostDetailsTableViewController()
+        let vc = PostDetailsViewController()
         vc.post = posts[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -105,8 +105,6 @@ class PostsTableViewController: UITableViewController {
             self?.loadData()
         }
     }
-
-    
     
     //==========================================================================
     // MARK: Helpers
@@ -132,6 +130,5 @@ class PostsTableViewController: UITableViewController {
         navigationItem.setRightBarButton(refreshButton, animated: true)
         self.activityIndicatorView = nil
     }
-    
     
 }
