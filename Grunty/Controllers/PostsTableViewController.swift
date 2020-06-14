@@ -16,7 +16,7 @@ class PostsTableViewController: UITableViewController {
     var filterByUserId: Int?    /// which user are we filtering for (if nil, no filter is applied)
     var posts: [Post] = []      /// posts to show in this view
     static let standardCellHeight: CGFloat = 100.0
-    
+
     // A beautiful logo at the bottom of the list for some colour
     let tableFooterView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 100.0, height: 100.0))
@@ -32,43 +32,41 @@ class PostsTableViewController: UITableViewController {
         ])
         return view
     }()
-    
+
     init(filterByUserId userId: Int? = nil) {
         filterByUserId = userId
         super.init(style: .plain)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("required because of storyboards")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData(filterByUserId: self.filterByUserId)
         startActivityIndicator()
         prepareView()
     }
-    
+
     func prepareView() {
         self.view.backgroundColor = .white
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.tableFooterView = tableFooterView
         navigationItem.title = loadingNavTitle
     }
-    
-    
-    
+
     //==========================================================================
     // MARK: UITableViewDataSource and UITableViewDelegate
     //==========================================================================
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return PostsTableViewController.standardCellHeight
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PostTableViewCell else {
             return UITableViewCell()
@@ -80,7 +78,7 @@ class PostsTableViewController: UITableViewController {
         cell.model = posts[indexPath.row]
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard isDataAvailable(rowIndex: indexPath.row) else {
             Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
@@ -90,12 +88,11 @@ class PostsTableViewController: UITableViewController {
         vc.post = posts[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 150.0
     }
-    
-    
+
     //==========================================================================
     // MARK: Data-Layer Interactions
     //==========================================================================
@@ -110,7 +107,7 @@ class PostsTableViewController: UITableViewController {
                 } else {
                     self?.navigationItem.title = "Recent \(posts.count) Grunts"
                 }
-                
+
                 self?.posts = posts
                 self?.tableView.reloadData()
             case .failure(let error):
@@ -125,16 +122,15 @@ class PostsTableViewController: UITableViewController {
             }
         }
     }
-    
-    func alert(errorCode: String, then retryHandler: @escaping () -> ()) {
+
+    func alert(errorCode: String, then retryHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: "Can't Find a Moose", message: "Oops, we can't hear any grunts. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) -> () in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) -> Void in
             retryHandler()
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
-    
+
     // Reset database and refresh data
     @objc func reset() {
         self.posts = []
@@ -143,10 +139,10 @@ class PostsTableViewController: UITableViewController {
         DataStore.shared.reset { [weak self] in
             self?.loadData()
             self?.tableView.reloadData()
-            
+
         }
     }
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
@@ -154,7 +150,7 @@ class PostsTableViewController: UITableViewController {
     func isDataAvailable(rowIndex: Int) -> Bool {
         return rowIndex >= 0 && rowIndex < posts.count
     }
-    
+
     func startActivityIndicator() {
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.color = .white
@@ -163,15 +159,15 @@ class PostsTableViewController: UITableViewController {
         activityIndicatorView.startAnimating()
         self.activityIndicatorView = activityIndicatorView
     }
-    
+
     func stopActivityIndicator() {
         self.activityIndicatorView?.stopAnimating()
         if filterByUserId == nil {
             let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
             refreshButton.tintColor = .black
             navigationItem.setRightBarButton(refreshButton, animated: true)
-        }        
+        }
         self.activityIndicatorView = nil
     }
-    
+
 }

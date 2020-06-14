@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-class Utilities {    
+class Utilities {
     // Gate all print statements behind a debug check so we don't log insecure data in production
     static func debugLog(_ message: String) {
         #if DEBUG
             print(message)
         #endif
     }
-    
+
     /// Creates a set of common iPhone auto-layout constraints for currentView,
     ///  where currentView is centered in the screen with equal horizontal margins, topSpacing below the previousView, and a fixed height
     /// - currentView is the view we're laying out

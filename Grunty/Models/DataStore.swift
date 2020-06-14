@@ -8,18 +8,18 @@
 
 import Foundation
 
-class DataStore {    
+class DataStore {
     static let shared = DataStore()
     let networkManager = NetworkManager()
-            
+
     //==========================================================================
     // MARK: Posts
     //==========================================================================
-    
+
     func retrievePosts(filterByUserId userId: Int?, then handler: @escaping (Result<[Post], NetworkManager.ImportError>) -> Void) {
         DispatchQueue.global(qos: .background).async {
             // Load from device storage, when available
-            if let posts = CodableStorage.load(Configuration.postsFilename, as: [Post].self) {                
+            if let posts = CodableStorage.load(Configuration.postsFilename, as: [Post].self) {
                 Utilities.debugLog("Info: Loaded cached posts from disk")
                 let filteredPosts = self.filterPosts(posts, byUserId: userId)
                 let sortedPosts = self.sortPosts(filteredPosts)
@@ -47,7 +47,7 @@ class DataStore {
             }
         }
     }
-    
+
     func filterPosts(_ posts: [Post], byUserId userId: Int?) -> [Post] {
         guard let userId = userId else {
             // no filter supplied, so just return all posts
@@ -55,16 +55,15 @@ class DataStore {
         }
         return posts.filter { $0.userId == userId }
     }
-    
+
     func sortPosts(_ posts: [Post]) -> [Post] {
         return posts.sorted(by: { $0.id < $1.id })
     }
-    
-    
+
     //==========================================================================
     // MARK: Comments
     //==========================================================================
-    
+
     func retrieveComments(forPostId postId: Int, then handler: @escaping (Result<[PostComment], NetworkManager.ImportError>) -> Void) {
         DispatchQueue.global(qos: .background).async {
             // Load from device storage, when available
@@ -95,13 +94,13 @@ class DataStore {
             }
         }
     }
-    
+
     func sortComments(_ comments: [PostComment]) -> [PostComment] {
-        return comments.sorted(by: { $0.id < $1.id } )
+        return comments.sorted(by: { $0.id < $1.id })
     }
-    
+
     /// Resets the database by clearing the app's cache directory
-    func reset(completionHandler: (() -> ())?) {
+    func reset(completionHandler: (() -> Void)?) {
         DispatchQueue.global(qos: .background).async {
             CodableStorage.clear()
             DispatchQueue.main.async {

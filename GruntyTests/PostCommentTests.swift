@@ -11,14 +11,14 @@ import XCTest
 
 class PostCommentTests: XCTestCase {
     var comment: PostComment?
-        
+
     private let decoder = JSONDecoder()
-        
+
     override func setUpWithError() throws {
         super.setUp()
         self.comment = loadTestCommentFromJSON()
     }
-    
+
     func testImportCorrect() {
         guard let comment = self.comment else {
             XCTFail("Error: No mock comment available, test fails")
@@ -31,12 +31,11 @@ class PostCommentTests: XCTestCase {
             comment.body == "vel quae voluptas qui exercitationem\nvoluptatibus unde sed\nminima et qui ipsam aspernatur\nexpedita magnam laudantium et et quaerat ut qui dolorum",
                       "Error: comment not imported correctly")
     }
-        
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    
+
     func loadTestCommentFromJSON() -> PostComment? {
         let bundle = Bundle(for: PostTests.self)
         guard
@@ -56,4 +55,3 @@ class PostCommentTests: XCTestCase {
         }
     }
 }
-

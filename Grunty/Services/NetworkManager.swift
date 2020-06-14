@@ -14,24 +14,24 @@ class NetworkManager {
         // we could do custom data formats or other settings for the JSON decoder here
         return JSONDecoder()
     }()
-    
+
     init() {
         guard let remoteBaseURL = URL(string: Configuration.apiBaseUrlString) else {
             fatalError("Error: API base URL appears to be invalid. App cannot start.")
         }
         self.remoteBaseURL = remoteBaseURL
     }
-    
-    enum ImportError: Error {        
+
+    enum ImportError: Error {
         case dataTaskFailed
         case decodeFailed
         case noDataReturned
     }
-        
+
     func importPosts(then handler: @escaping (Result<[Post], ImportError>) -> Void) {
         let postsUrlPath = "posts"
         let url = self.remoteBaseURL.appendingPathComponent(postsUrlPath)
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
             guard error == nil else {
                 handler(.failure(.dataTaskFailed))
                 return
@@ -49,11 +49,11 @@ class NetworkManager {
             }
         }.resume()
     }
-    
+
     func importComments(forPostId postId: Int, then handler: @escaping (Result<[PostComment], ImportError>) -> Void) {
         let commentsUrlPath = "posts/\(postId)/comments"
         let url = self.remoteBaseURL.appendingPathComponent(commentsUrlPath)
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
             guard error == nil else {
                 handler(.failure(.dataTaskFailed))
                 return

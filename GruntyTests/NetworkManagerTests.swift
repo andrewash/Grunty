@@ -11,10 +11,10 @@ import XCTest
 
 class NetworkManagerTests: XCTestCase {
     let networkManager = NetworkManager()
-        
+
     func testExpectedNumberOfPostsRetrieved() {
         let expect = expectation(description: "loading posts")
-        networkManager.importPosts() { result in
+        networkManager.importPosts { result in
             switch result {
             case .failure(let error):
                 XCTFail("Import posts failed with error \(error)")
@@ -25,7 +25,7 @@ class NetworkManagerTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testExpectedNumberOfCommentsRetrieved() {
         let expect = expectation(description: "loading comments")
         networkManager.importComments(forPostId: 3) { result in
@@ -39,13 +39,11 @@ class NetworkManagerTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
-    
-     
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    
+
     func defaultWaitForExpectations() {
         waitForExpectations(timeout: 15) { (error) in
             if let error = error {

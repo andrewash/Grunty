@@ -11,14 +11,14 @@ import XCTest
 
 class PostTests: XCTestCase {
     var post: Post?
-        
+
     private let decoder = JSONDecoder()
-        
+
     override func setUpWithError() throws {
         super.setUp()
         self.post = loadTestPostFromJSON()
     }
-    
+
     func testImportCorrect() {
         guard let post = self.post else {
             XCTFail("Error: No mock post available, test fails")
@@ -30,12 +30,11 @@ class PostTests: XCTestCase {
             post.body == "doloremque ex facilis sit sint culpa\nsoluta assumenda eligendi non ut eius\nsequi ducimus vel quasi\nveritatis est dolores",
                       "Error: post not imported correctly")
     }
-    
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    
+
     func loadTestPostFromJSON() -> Post? {
         let bundle = Bundle(for: PostTests.self)
         guard
@@ -55,4 +54,3 @@ class PostTests: XCTestCase {
         }
     }
 }
-

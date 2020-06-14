@@ -12,7 +12,7 @@ import UIKit
 class PostCommentTableViewCell: UITableViewCell {
     let cellIdentifier = "PostCommentCell"
     static let standardCellHeight: CGFloat = 66.0
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -20,11 +20,11 @@ class PostCommentTableViewCell: UITableViewCell {
         addSubviews()
         layoutControls()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     var model: PostComment! {
         didSet {
             self.titleLabel.text = model.title
@@ -41,7 +41,7 @@ class PostCommentTableViewCell: UITableViewCell {
         addSubview(emailLabel)
         addSubview(bodyLabel)
     }
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -51,7 +51,7 @@ class PostCommentTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let emailLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
@@ -60,7 +60,7 @@ class PostCommentTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
@@ -70,7 +70,7 @@ class PostCommentTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     func layoutControls() {
         NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: titleLabel,
                                                                            previousView: nil,
@@ -88,7 +88,7 @@ class PostCommentTableViewCell: UITableViewCell {
                                                                            topSpacing: 5.0,
                                                                            height: 20.0 * CGFloat(bodyLabel.numberOfLines)))
     }
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
@@ -97,6 +97,5 @@ class PostCommentTableViewCell: UITableViewCell {
         titleLabel.text = nil
         bodyLabel.text = nil
     }
-    
-}
 
+}

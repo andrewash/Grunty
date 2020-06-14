@@ -17,11 +17,11 @@ class PostTableViewCell: UITableViewCell {
         addSubviews()
         layoutControls()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     var model: Post! {
         didSet {
             self.titleLabel.text = model.title
@@ -36,7 +36,7 @@ class PostTableViewCell: UITableViewCell {
         addSubview(titleLabel)
         addSubview(bodyLabel)
     }
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -45,7 +45,7 @@ class PostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
@@ -55,7 +55,7 @@ class PostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     func layoutControls() {
         NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: titleLabel,
                                                                            previousView: nil,
@@ -66,9 +66,9 @@ class PostTableViewCell: UITableViewCell {
                                                                            previousView: titleLabel,
                                                                            rootView: self.contentView,
                                                                            topSpacing: 5.0,
-                                                                           height: 20.0 * CGFloat(bodyLabel.numberOfLines)))        
+                                                                           height: 20.0 * CGFloat(bodyLabel.numberOfLines)))
     }
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
@@ -77,5 +77,5 @@ class PostTableViewCell: UITableViewCell {
         titleLabel.text = nil
         bodyLabel.text = nil
     }
-    
+
 }

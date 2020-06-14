@@ -11,7 +11,7 @@ import Foundation
 /// CodableStorage allows for saving, loading, and clearing objects which implement the Encodable/Decodable to/from device storage.
 class CodableStorage {
     /// Saves an Encodable object of type T to fileName within the caches directory
-    static func save<T:Encodable>(_ object: T, as filename: String ) {
+    static func save<T: Encodable>(_ object: T, as filename: String ) {
         let destinationURL = getCacheDirectory().appendingPathComponent(filename)
         let encoder = JSONEncoder()
         do {
@@ -24,9 +24,9 @@ class CodableStorage {
             Utilities.debugLog("Error: Cannot save object to disk")
         }
     }
-    
+
     /// Loads a Decodable object of type T from filename within the caches directory
-    static func load<T:Decodable>(_ filename: String, as type: T.Type) -> T? {
+    static func load<T: Decodable>(_ filename: String, as type: T.Type) -> T? {
         let originURL = getCacheDirectory().appendingPathComponent(filename)
         let decoder = JSONDecoder()
         guard FileManager.default.fileExists(atPath: originURL.path) else {
@@ -44,7 +44,7 @@ class CodableStorage {
             return nil
         }
     }
-    
+
     /// Removes all documents from the cache directory
     static func clear() {
         let url = getCacheDirectory()
@@ -56,14 +56,14 @@ class CodableStorage {
             for file in enumerator {
                 if let filePath = file as? String {
                     let url = URL(fileURLWithPath: filePath)
-                    try FileManager.default.removeItem(at: url)                    
+                    try FileManager.default.removeItem(at: url)
                 }
             }
         } catch {
             Utilities.debugLog("Error: Could not remove contents of caches directory")
         }
     }
-    
+
     // MARK: Helpers
     static private func getCacheDirectory() -> URL {
         let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
