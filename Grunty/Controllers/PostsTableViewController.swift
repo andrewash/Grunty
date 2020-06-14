@@ -138,6 +138,7 @@ class PostsTableViewController: UITableViewController {
     // Reset database and refresh data
     @objc func reset() {
         self.posts = []
+        self.tableView.reloadData()
         self.startActivityIndicator()
         DataStore.shared.reset { [weak self] in
             self?.loadData()

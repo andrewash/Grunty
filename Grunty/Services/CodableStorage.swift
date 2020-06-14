@@ -48,10 +48,16 @@ class CodableStorage {
     /// Removes all documents from the cache directory
     static func clear() {
         let url = getCacheDirectory()
+        guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) else {
+            Utilities.debugLog("Could not clear cache directory of JSON files")
+            return
+        }
         do {
-            let files = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [])
-            for file in files {
-                try FileManager.default.removeItem(at: file)
+            for file in enumerator {
+                if let filePath = file as? String {
+                    let url = URL(fileURLWithPath: filePath)
+                    try FileManager.default.removeItem(at: url)                    
+                }
             }
         } catch {
             Utilities.debugLog("Error: Could not remove contents of caches directory")
