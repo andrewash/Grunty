@@ -17,8 +17,24 @@ class PostsTableViewController: UITableViewController {
     var posts: [Post] = []      /// posts to show in this view
     static let standardCellHeight: CGFloat = 100.0
     
+    // A beautiful logo at the bottom of the list for some colour
+    let tableFooterView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100.0, height: 100.0))
+        let logo = UIImageView(image: UIImage(named: "Logo"))
+        logo.alpha = 0.7
+        logo.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(logo)
+        NSLayoutConstraint.activate([
+            logo.widthAnchor.constraint(equalToConstant: 100.0),
+            logo.heightAnchor.constraint(equalTo: logo.widthAnchor),
+            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        return view
+    }()
+    
     init(filterByUserId userId: Int? = nil) {
-        self.filterByUserId = userId
+        filterByUserId = userId
         super.init(style: .plain)
     }
     
@@ -36,6 +52,7 @@ class PostsTableViewController: UITableViewController {
     func prepareView() {
         self.view.backgroundColor = .white
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.tableFooterView = tableFooterView
         navigationItem.title = loadingNavTitle
     }
     
@@ -72,6 +89,10 @@ class PostsTableViewController: UITableViewController {
         let vc = PostDetailsViewController()
         vc.post = posts[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 150.0
     }
     
     
