@@ -136,7 +136,6 @@
 		DEF8473D249429D0005EDEDB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DEF8474824942AC9005EDEDB /* DataStore.swift */,
 				DEF8474124942A28005EDEDB /* Post.swift */,
 				DEF8474324942A36005EDEDB /* PostComment.swift */,
 			);
@@ -165,6 +164,7 @@
 		DEF84740249429FE005EDEDB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				DEF8474824942AC9005EDEDB /* DataStore.swift */,
 				DEF8474624942A5E005EDEDB /* CodableStorage.swift */,
 				DEF8474A24942ADF005EDEDB /* NetworkManager.swift */,
 				DEF8475024942BBC005EDEDB /* Utilities.swift */,
