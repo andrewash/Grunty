@@ -13,7 +13,7 @@ Time spent: 6 hours (I took some extra time for UI polish, code review, and to i
 - Unit testing to verify that the models and NetworkManager work as expected.
 - Offline support. You can launch the app offline on first run, which fails with an error. When you connect to the Internet it works.
 - Adds a Refresh button at top-right to retrieve the latest grunts instead of cached grunts
-- All artwork is licensed
+- All artwork is licensed from Shutterstock
 
 ### Known Issues
 None
