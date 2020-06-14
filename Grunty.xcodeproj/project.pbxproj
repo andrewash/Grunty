@@ -11,10 +11,14 @@
 		DE9BC6FA2494285100781C10 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DE9BC6F92494285100781C10 /* README.md */; };
 		DEA3975D249593B20089404E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975C249593B20089404E /* UIColor.swift */; };
 		DEA3975F249595890089404E /* PostCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975E249595890089404E /* PostCommentTableViewCell.swift */; };
+		DEA397632495EFD30089404E /* PostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA397622495EFD30089404E /* PostTests.swift */; };
+		DEA397652495F1070089404E /* testPost.json in Resources */ = {isa = PBXBuildFile; fileRef = DEA397642495F1070089404E /* testPost.json */; };
+		DEA397692495F22F0089404E /* testPostComment.json in Resources */ = {isa = PBXBuildFile; fileRef = DEA397682495F22F0089404E /* testPostComment.json */; };
+		DEA3976B2495F2410089404E /* PostCommentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3976A2495F2410089404E /* PostCommentTests.swift */; };
+		DEA3976F2495F3990089404E /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3976E2495F3990089404E /* NetworkManagerTests.swift */; };
 		DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15D12494250F00DCA5ED /* AppDelegate.swift */; };
 		DEAD15D42494250F00DCA5ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D32494250F00DCA5ED /* Assets.xcassets */; };
 		DEAD15D72494250F00DCA5ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */; };
-		DEAD15E22494250F00DCA5ED /* GruntyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15E12494250F00DCA5ED /* GruntyTests.swift */; };
 		DEF8474224942A28005EDEDB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474124942A28005EDEDB /* Post.swift */; };
 		DEF8474424942A36005EDEDB /* PostComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474324942A36005EDEDB /* PostComment.swift */; };
 		DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474624942A5E005EDEDB /* CodableStorage.swift */; };
@@ -41,13 +45,17 @@
 		DE9BC6F92494285100781C10 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DEA3975C249593B20089404E /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		DEA3975E249595890089404E /* PostCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentTableViewCell.swift; sourceTree = "<group>"; };
+		DEA397622495EFD30089404E /* PostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTests.swift; sourceTree = "<group>"; };
+		DEA397642495F1070089404E /* testPost.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = testPost.json; sourceTree = "<group>"; };
+		DEA397682495F22F0089404E /* testPostComment.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = testPostComment.json; sourceTree = "<group>"; };
+		DEA3976A2495F2410089404E /* PostCommentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentTests.swift; sourceTree = "<group>"; };
+		DEA3976E2495F3990089404E /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		DEAD15CE2494250F00DCA5ED /* Grunty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grunty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEAD15D12494250F00DCA5ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEAD15D32494250F00DCA5ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEAD15D62494250F00DCA5ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEAD15D82494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEAD15DD2494250F00DCA5ED /* GruntyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GruntyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DEAD15E12494250F00DCA5ED /* GruntyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GruntyTests.swift; sourceTree = "<group>"; };
 		DEAD15E32494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEF8474124942A28005EDEDB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DEF8474324942A36005EDEDB /* PostComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostComment.swift; sourceTree = "<group>"; };
@@ -115,8 +123,12 @@
 		DEAD15E02494250F00DCA5ED /* GruntyTests */ = {
 			isa = PBXGroup;
 			children = (
-				DEAD15E12494250F00DCA5ED /* GruntyTests.swift */,
 				DEAD15E32494250F00DCA5ED /* Info.plist */,
+				DEA3976A2495F2410089404E /* PostCommentTests.swift */,
+				DEA397622495EFD30089404E /* PostTests.swift */,
+				DEA397642495F1070089404E /* testPost.json */,
+				DEA397682495F22F0089404E /* testPostComment.json */,
+				DEA3976E2495F3990089404E /* NetworkManagerTests.swift */,
 			);
 			path = GruntyTests;
 			sourceTree = "<group>";
@@ -214,6 +226,7 @@
 					};
 					DEAD15DC2494250F00DCA5ED = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1150;
 						TestTargetID = DEAD15CD2494250F00DCA5ED;
 					};
 				};
@@ -252,6 +265,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEA397652495F1070089404E /* testPost.json in Resources */,
+				DEA397692495F22F0089404E /* testPostComment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +297,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEAD15E22494250F00DCA5ED /* GruntyTests.swift in Sources */,
+				DEA3976F2495F3990089404E /* NetworkManagerTests.swift in Sources */,
+				DEA397632495EFD30089404E /* PostTests.swift in Sources */,
+				DEA3976B2495F2410089404E /* PostCommentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +482,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JAZXEU3UV7;
 				INFOPLIST_FILE = GruntyTests/Info.plist;
@@ -476,6 +494,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.emotiveapps.GruntyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grunty.app/Grunty";
@@ -487,6 +506,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JAZXEU3UV7;
 				INFOPLIST_FILE = GruntyTests/Info.plist;
