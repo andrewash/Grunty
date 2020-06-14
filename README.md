@@ -8,6 +8,7 @@ Time spent: 6 hours (I took some extra time for UI polish, code review, and to i
 
 ## Dev Design
 - MVC architecture
+- Comments load async when you tap to view a post and appear in a nested UITableView
 - The Codable protocol on my model classes to encode/decode JSON
 - The Codable protocol and FileManager to save and load from the disk, for faster launch times vs. loading data from the cloud (using a CodableStorage class that I wrote for a previous open source project, and adapted for this project)
 - Unit testing to verify that the models and NetworkManager work as expected.
