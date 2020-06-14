@@ -43,8 +43,9 @@ class PostDetailsViewController: UIViewController {
     //==========================================================================
     
     func loadData() {
+        self.postCommentsActivityIndicatorView.startAnimating()
         DataStore.shared.retrieveComments(forPostId: post.id) { [weak self] result in
-            self?.stopActivityIndicator()
+            self?.postCommentsActivityIndicatorView.stopAnimating()
             switch result {
             case .success(let comments):
                 self?.comments = comments
@@ -74,12 +75,12 @@ class PostDetailsViewController: UIViewController {
     //==========================================================================
     
     // TODO: Include a profile photo placeholder
-    private var activityIndicatorView: UIActivityIndicatorView?     // keeps reference to this view so we can stop it's animation
     private let userLabel: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 18), textAlignment: .natural)
     private let titleLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 18), textAlignment: .natural)
     private let bodyLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 16), textAlignment: .natural)
     private let postsByAuthor: UIButton = UIButton(type: .roundedRect)
     private let postCommentsHeading: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 18), textAlignment: .natural)
+    private let postCommentsActivityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .medium)
     private let postCommentsTableView = UITableView()
     
     func prepareView() {
@@ -89,12 +90,13 @@ class PostDetailsViewController: UIViewController {
     }
     
     func addSubviews() {
-        let subviews = [userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsTableView, postsByAuthor]
+        let subviews = [userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
         for subview in subviews {
             view.addSubview(subview)
         }
         bodyLabel.numberOfLines = 0
         bodyLabel.sizeToFit()
+        postCommentsHeading.text = "Comments"
         postCommentsTableView.backgroundColor = .paleCerulean
         postsByAuthor.backgroundColor = UIColor.systemBlue
         postsByAuthor.setTitleColor(.white, for: .normal)
@@ -117,11 +119,25 @@ class PostDetailsViewController: UIViewController {
                                                                            rootView: self.view,
                                                                            topSpacing: 4.0,
                                                                            height: 120.0))
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: postCommentsHeading,
-                                                                           previousView: bodyLabel,
-                                                                           rootView: self.view,
-                                                                           topSpacing: 8.0,
-                                                                           height: 30.0))
+        
+        // Show a comments heading with an activity indicator to the right when comments are loading
+        postCommentsHeading.translatesAutoresizingMaskIntoConstraints = false
+        let postCommentsHeadingConstraints = [
+            postCommentsHeading.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
+            postCommentsHeading.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 8.0),
+            postCommentsHeading.widthAnchor.constraint(equalToConstant: 110.0),
+            postCommentsHeading.heightAnchor.constraint(equalToConstant: 30.0)
+        ]
+        NSLayoutConstraint.activate(postCommentsHeadingConstraints)
+        
+        postCommentsActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        let postCommentsActivityIndicatorViewConstraints = [
+            postCommentsActivityIndicatorView.leadingAnchor.constraint(equalTo: postCommentsHeading.trailingAnchor, constant: 0.0),
+            postCommentsActivityIndicatorView.centerYAnchor.constraint(equalTo: postCommentsHeading.centerYAnchor),
+            postCommentsActivityIndicatorView.widthAnchor.constraint(equalToConstant: 36.0),
+            postCommentsActivityIndicatorView.heightAnchor.constraint(equalTo: postCommentsActivityIndicatorView.widthAnchor)
+        ]
+        NSLayoutConstraint.activate(postCommentsActivityIndicatorViewConstraints)
         
         // Comments appear in a UITableView in the middle, with no fixed height
         postCommentsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -169,21 +185,10 @@ class PostDetailsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-    
-    func startActivityIndicator() {
-        let activityIndicatorView = UIActivityIndicatorView(style: .medium)
-        activityIndicatorView.color = .white
-        activityIndicatorView.startAnimating()
-        self.activityIndicatorView = activityIndicatorView
-    }
-    
-    func stopActivityIndicator() {
-        self.activityIndicatorView?.stopAnimating()
-        self.activityIndicatorView = nil
-    }
 }
 
-/// Delegates for postCommentsTableView, an embedded UITableView
+   
+
 extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate {
     //==========================================================================
     // MARK: UITableViewDataSource
