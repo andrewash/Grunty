@@ -13,7 +13,7 @@ class PostDetailsViewController: UIViewController {
     let loadingNavTitle = "Loading Comments..."
     let cellIdentifier = "PostCommentCell"
 
-    var post: Post! {       // which album was selected in PostsTableViewController
+    var post: Post! {       // what was selected in PostsTableViewController
         didSet {
             self.userLabel.text = "Moose #\(post.userId)"
             self.titleLabel.text = post.title

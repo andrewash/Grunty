@@ -4,7 +4,7 @@ Introducing Grunty: A moose-themed twitter clone for the wilds of Canada  ;-)
 
 By Andrew Ash
 Completed Sunday 6/14/2020
-Time spent: 6 hours (I took some extra time for UI polish, code review, and to implement lightweight offline support)
+Time spent: 6 hours (I took some extra time for UI polish, solo code review, and to implement lightweight offline support)
 
 Please note all messages printed to console are gated by a check to make sure we're not running on production.
 
