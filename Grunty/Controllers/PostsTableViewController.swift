@@ -144,9 +144,11 @@ class PostsTableViewController: UITableViewController {
     
     func stopActivityIndicator() {
         self.activityIndicatorView?.stopAnimating()
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
-        refreshButton.tintColor = .black
-        navigationItem.setRightBarButton(refreshButton, animated: true)
+        if filterByUserId == nil {
+            let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
+            refreshButton.tintColor = .black
+            navigationItem.setRightBarButton(refreshButton, animated: true)
+        }        
         self.activityIndicatorView = nil
     }
     
