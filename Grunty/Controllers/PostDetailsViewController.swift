@@ -63,7 +63,7 @@ class PostDetailsViewController: UIViewController {
 
     func alert(errorCode: String, then retryHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: "Can't Find Moose", message: "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) -> Void in
+        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { (_) -> Void in
             retryHandler()
         }))
         self.present(alert, animated: true, completion: nil)
