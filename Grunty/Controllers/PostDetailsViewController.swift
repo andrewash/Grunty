@@ -11,6 +11,7 @@ import UIKit
 
 class PostDetailsViewController: UIViewController {
     let loadingNavTitle = "Loading Comments..."
+    let cellIdentifier = "PostCommentCell"
     
     var post: Post! {       // which album was selected in PostsTableViewController
         didSet {
@@ -23,7 +24,9 @@ class PostDetailsViewController: UIViewController {
     var comments: [PostComment] = [] {
         didSet {
             self.postCommentsHeading.text = "\(comments.count) Comments"
-            self.postCommentsTableView.comments = comments
+            self.postCommentsTableView.register(PostCommentTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+            self.postCommentsTableView.delegate = self
+            self.postCommentsTableView.dataSource = self
             self.postCommentsTableView.reloadData()
         }
     }
@@ -77,7 +80,7 @@ class PostDetailsViewController: UIViewController {
     private let bodyLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 16), textAlignment: .natural)
     private let postsByAuthor: UIButton = UIButton(type: .roundedRect)
     private let postCommentsHeading: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 18), textAlignment: .natural)
-    private let postCommentsTableView: PostCommentsTableView = PostCommentsTableView()
+    private let postCommentsTableView = UITableView()
     
     func prepareView() {
         self.view.backgroundColor = .white  // for a smooth transition when pushing this VC onto nav stack
@@ -99,13 +102,28 @@ class PostDetailsViewController: UIViewController {
     }
             
     func layoutControls() {
-        // Labels appear at top of the view
-        NSLayoutConstraint.activate(makeConstraints(forView: userLabel, previousView: nil, topSpacing: CGFloat(7), height: CGFloat(30)))
-        NSLayoutConstraint.activate(makeConstraints(forView: titleLabel, previousView: userLabel, topSpacing: CGFloat(0), height: CGFloat(28)))
-        NSLayoutConstraint.activate(makeConstraints(forView: bodyLabel, previousView: titleLabel, topSpacing: CGFloat(4), height: CGFloat(120)))
-        NSLayoutConstraint.activate(makeConstraints(forView: postCommentsHeading, previousView: bodyLabel, topSpacing: CGFloat(8), height: CGFloat(30)))
+        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: userLabel,
+                                                                           previousView: nil,
+                                                                           rootView: self.view,
+                                                                           topSpacing: 7.0,
+                                                                           height: 30.0))
+        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: titleLabel,
+                                                                           previousView: userLabel,
+                                                                           rootView: self.view,
+                                                                           topSpacing: 0.0,
+                                                                           height: 28.0))
+        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: bodyLabel,
+                                                                           previousView: titleLabel,
+                                                                           rootView: self.view,
+                                                                           topSpacing: 4.0,
+                                                                           height: 120.0))
+        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: postCommentsHeading,
+                                                                           previousView: bodyLabel,
+                                                                           rootView: self.view,
+                                                                           topSpacing: 8.0,
+                                                                           height: 30.0))
         
-        // Comments appear in a UITableView in the middle
+        // Comments appear in a UITableView in the middle, with no fixed height
         postCommentsTableView.translatesAutoresizingMaskIntoConstraints = false
         let postCommentsConstraints = [
             postCommentsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -152,21 +170,6 @@ class PostDetailsViewController: UIViewController {
         return label
     }
     
-    /// Creates a set of auto-layout constraints for a given label
-    /// - currentView is the view we're creating constraints for
-    /// - previousView is the view above and to the left of the current view
-    /// - if previousView is nil, then anchor currentView to the top of the screen
-    /// - we layout constraints from top-left)
-    func makeConstraints(forView currentView: UIView, previousView: UIView?, topSpacing: CGFloat = CGFloat(4), height: CGFloat = CGFloat(28)) -> [NSLayoutConstraint] {
-        let topAnchorPoint = previousView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
-        return [
-            currentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: currentView.trailingAnchor, constant: 25),
-            currentView.topAnchor.constraint(equalTo: topAnchorPoint, constant: topSpacing),
-            currentView.heightAnchor.constraint(equalToConstant: height)
-        ]
-    }
-    
     func startActivityIndicator() {
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.color = .white
@@ -177,5 +180,46 @@ class PostDetailsViewController: UIViewController {
     func stopActivityIndicator() {
         self.activityIndicatorView?.stopAnimating()
         self.activityIndicatorView = nil
+    }
+}
+
+/// Delegates for postCommentsTableView, an embedded UITableView
+extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate {
+    //==========================================================================
+    // MARK: UITableViewDataSource
+    //==========================================================================
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return comments.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PostCommentTableViewCell else {
+            return UITableViewCell()
+        }
+        guard isDataAvailable(rowIndex: indexPath.row) else {
+            Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
+            return UITableViewCell()
+        }
+        cell.model = comments[indexPath.row]
+        return cell
+    }
+    
+    
+    //==========================================================================
+    // MARK: UITableViewDelegate
+    //==========================================================================
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120.0    // TODO: Fix
+    }
+    
+    
+    //==========================================================================
+    // MARK: Helpers
+    //==========================================================================
+    /// Is there data available for a given row index?
+    func isDataAvailable(rowIndex: Int) -> Bool {
+        return rowIndex >= 0 && rowIndex < comments.count
     }
 }
