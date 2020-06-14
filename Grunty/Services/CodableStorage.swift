@@ -54,9 +54,9 @@ class CodableStorage {
         }
         do {
             for file in enumerator {
-                if let filePath = file as? String {
-                    let url = URL(fileURLWithPath: filePath)
-                    try FileManager.default.removeItem(at: url)
+                if let fileUrl = file as? URL,
+                fileUrl.pathExtension == "json" {                    
+                    try FileManager.default.removeItem(at: fileUrl)
                 }
             }
         } catch {
