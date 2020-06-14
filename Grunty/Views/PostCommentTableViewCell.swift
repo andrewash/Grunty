@@ -44,16 +44,17 @@ class PostCommentTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textAlignment = .natural
-        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 2
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let emailLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textAlignment = .natural
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +76,7 @@ class PostCommentTableViewCell: UITableViewCell {
                                                                            previousView: nil,
                                                                            rootView: self.contentView,
                                                                            topSpacing: 5.0,
-                                                                           height: 20.0))
+                                                                           height: 20.0 * CGFloat(titleLabel.numberOfLines)))
         NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: emailLabel,
                                                                            previousView: titleLabel,
                                                                            rootView: self.contentView,

@@ -73,13 +73,13 @@ class PostDetailsViewController: UIViewController {
     //==========================================================================
     // MARK: View Layout
     //==========================================================================
-    
-    // TODO: Include a profile photo placeholder
-    private let userLabel: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 18), textAlignment: .natural)
-    private let titleLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 18), textAlignment: .natural)
+        
+    private let userAvatar: UIImageView = UIImageView(image: UIImage(named: "AvatarPlaceholder")!)
+    private let userLabel: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 20), textAlignment: .natural)
+    private let titleLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 20), textAlignment: .natural)
     private let bodyLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 16), textAlignment: .natural)
     private let postsByAuthor: UIButton = UIButton(type: .roundedRect)
-    private let postCommentsHeading: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 18), textAlignment: .natural)
+    private let postCommentsHeading: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 20), textAlignment: .natural)
     private let postCommentsActivityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .medium)
     private let postCommentsTableView = UITableView()
     
@@ -90,30 +90,43 @@ class PostDetailsViewController: UIViewController {
     }
     
     func addSubviews() {
-        let subviews = [userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
+        let subviews = [userAvatar, userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
         for subview in subviews {
             view.addSubview(subview)
         }
+        titleLabel.numberOfLines = 2
         bodyLabel.numberOfLines = 0
         bodyLabel.sizeToFit()
         postCommentsHeading.text = "Comments"
         postCommentsTableView.backgroundColor = .paleCerulean
         postsByAuthor.backgroundColor = UIColor.systemBlue
+        postsByAuthor.layer.cornerRadius = 25.0
         postsByAuthor.setTitleColor(.white, for: .normal)
         postsByAuthor.addTarget(self, action: #selector(goPostsByAuthor), for: .touchUpInside)
     }
             
     func layoutControls() {
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: userLabel,
-                                                                           previousView: nil,
-                                                                           rootView: self.view,
-                                                                           topSpacing: 7.0,
-                                                                           height: 30.0))
+        // Show a user avatar placeholder besides the username so it's clear the name identifies a user
+        userAvatar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            userAvatar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
+            userAvatar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0),
+            userAvatar.widthAnchor.constraint(equalToConstant: 50.0),
+            userAvatar.heightAnchor.constraint(equalTo: userAvatar.widthAnchor)
+        ])
+        userLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            userLabel.leadingAnchor.constraint(equalTo: userAvatar.trailingAnchor, constant: 8.0),
+            userLabel.centerYAnchor.constraint(equalTo: userAvatar.centerYAnchor),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: userLabel.trailingAnchor, constant: 25.0),
+            userLabel.heightAnchor.constraint(equalToConstant: 30.0)
+        ])
+        
         NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: titleLabel,
                                                                            previousView: userLabel,
                                                                            rootView: self.view,
-                                                                           topSpacing: 0.0,
-                                                                           height: 28.0))
+                                                                           topSpacing: 10.0,
+                                                                           height: 28.0 * CGFloat(titleLabel.numberOfLines)))
         NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: bodyLabel,
                                                                            previousView: titleLabel,
                                                                            rootView: self.view,
@@ -122,42 +135,38 @@ class PostDetailsViewController: UIViewController {
         
         // Show a comments heading with an activity indicator to the right when comments are loading
         postCommentsHeading.translatesAutoresizingMaskIntoConstraints = false
-        let postCommentsHeadingConstraints = [
+        NSLayoutConstraint.activate([
             postCommentsHeading.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
-            postCommentsHeading.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 8.0),
-            postCommentsHeading.widthAnchor.constraint(equalToConstant: 110.0),
+            postCommentsHeading.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 32.0),
+            postCommentsHeading.widthAnchor.constraint(equalToConstant: 120.0),
             postCommentsHeading.heightAnchor.constraint(equalToConstant: 30.0)
-        ]
-        NSLayoutConstraint.activate(postCommentsHeadingConstraints)
+        ])
         
         postCommentsActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        let postCommentsActivityIndicatorViewConstraints = [
+        NSLayoutConstraint.activate([
             postCommentsActivityIndicatorView.leadingAnchor.constraint(equalTo: postCommentsHeading.trailingAnchor, constant: 0.0),
             postCommentsActivityIndicatorView.centerYAnchor.constraint(equalTo: postCommentsHeading.centerYAnchor),
             postCommentsActivityIndicatorView.widthAnchor.constraint(equalToConstant: 36.0),
             postCommentsActivityIndicatorView.heightAnchor.constraint(equalTo: postCommentsActivityIndicatorView.widthAnchor)
-        ]
-        NSLayoutConstraint.activate(postCommentsActivityIndicatorViewConstraints)
+        ])
         
         // Comments appear in a UITableView in the middle, with no fixed height
         postCommentsTableView.translatesAutoresizingMaskIntoConstraints = false
-        let postCommentsConstraints = [
+        NSLayoutConstraint.activate([
             postCommentsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: postCommentsTableView.trailingAnchor, constant: 20),
             postCommentsTableView.topAnchor.constraint(equalTo: postCommentsHeading.bottomAnchor, constant: 4)
-        ]
-        NSLayoutConstraint.activate(postCommentsConstraints)
+        ])
         
         // Posts By Author appears at bottom of the view
-        postsByAuthor.translatesAutoresizingMaskIntoConstraints = false
-        let postsByAuthorConstraints = [
+        postsByAuthor.translatesAutoresizingMaskIntoConstraints = false        
+        NSLayoutConstraint.activate([
             postsByAuthor.topAnchor.constraint(equalTo: postCommentsTableView.bottomAnchor, constant: 15),
             postsByAuthor.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: postsByAuthor.trailingAnchor, constant: 20),
             postsByAuthor.heightAnchor.constraint(equalToConstant: 48),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: postsByAuthor.bottomAnchor, constant: 20)
-        ]
-        NSLayoutConstraint.activate(postsByAuthorConstraints)
+        ])
     }
     
     
@@ -216,7 +225,7 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     //==========================================================================
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120.0    // TODO: Fix
+        return 120.0
     }
     
     
