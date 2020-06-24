@@ -11,7 +11,7 @@ import Foundation
 class NetworkManager {
     let remoteBaseURL: URL
     let decoder: JSONDecoder = {
-        // we could do custom data formats or other settings for the JSON decoder here
+        // we could do custom date formats or other settings for the JSON decoder here
         return JSONDecoder()
     }()
 
