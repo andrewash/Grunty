@@ -113,6 +113,8 @@ class DataStore {
     /// Resets the database by clearing the app's cache directory
     func reset(completionHandler: (() -> Void)?) {
         DispatchQueue.global(qos: .background).async {
+            self.posts = nil
+            self.postCommentsForPostId = [:]
             CodableStorage.clear()
             DispatchQueue.main.async {
                 completionHandler?()
