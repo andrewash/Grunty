@@ -28,30 +28,32 @@ class DataStore {
             }
             if let posts = self.posts?.filter(postsFilter) {
                 // Loaded posts from memory
+                Utilities.debugLog("Info: Loaded cached posts from memory")
                 DispatchQueue.main.async {
                     completion(.success(posts))
                 }
             } else if let posts: [Post] = CodableStorage.load()?.filter(postsFilter) {
                 // Loaded posts from device storage
                 self.posts = posts
+                Utilities.debugLog("Info: Loaded cached posts from disk")
                 DispatchQueue.main.async {
                     completion(.success(posts))
                 }
-                return
-            }
-            // Worst-case, we load from remote server
-            self.networkManager.download { (result: Result<[Post], NetworkManager.ImportError>) in
-                switch result {
-                case .success(let posts):
-                    // Save [Posts] to memory and disk for fast retrieval in future, then pass to handler
-                    self.posts = posts
-                    CodableStorage.save(posts)
-                    DispatchQueue.main.async {
-                        completion(.success(posts.sorted().filter(postsFilter)))
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
+            } else {
+                // Worst-case, we load from remote server
+                self.networkManager.download { (result: Result<[Post], NetworkManager.ImportError>) in
+                    switch result {
+                    case .success(let posts):
+                        // Save [Posts] to memory and disk for fast retrieval in future, then pass to handler
+                        self.posts = posts
+                        CodableStorage.save(posts)
+                        DispatchQueue.main.async {
+                            completion(.success(posts.sorted().filter(postsFilter)))
+                        }
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
                     }
                 }
             }
@@ -76,26 +78,28 @@ class DataStore {
                 }
             } else if let postComments: [PostComment] = CodableStorage.load(filename: filename) {
                 // Loaded postComments from device storage
+                // Save [PostComment] to memory for fast retrieval
                 self.postCommentsForPostId[postId] = postComments
                 Utilities.debugLog("Info: Loaded cached comments from disk for postId \(postId)")
                 DispatchQueue.main.async {
                     completion(.success(postComments.sorted()))
                 }
-                return
-            }
-            // Worst-case, we load from remote server
-            self.networkManager.download(pathParam: String(postId)) {
-                (result: Result<[PostComment], NetworkManager.ImportError>) in
-                switch result {
-                case .success(let postComments):
-                    // Save [PostComments] to disk for fast retrieval in future, then pass to handler
-                    CodableStorage.save(postComments, as: filename)
-                    DispatchQueue.main.async {
-                        completion(.success(postComments.sorted()))
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
+            } else {
+                // Worst-case, we load from remote server
+                self.networkManager.download(pathParam: String(postId)) {
+                    (result: Result<[PostComment], NetworkManager.ImportError>) in
+                    switch result {
+                    case .success(let postComments):
+                        // Save [PostComment] to memory and disk for fast retrieval in future, then pass to handler
+                        self.postCommentsForPostId[postId] = postComments
+                        CodableStorage.save(postComments, as: filename)
+                        DispatchQueue.main.async {
+                            completion(.success(postComments.sorted()))
+                        }
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
                     }
                 }
             }
