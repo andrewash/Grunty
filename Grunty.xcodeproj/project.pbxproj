@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE20B48324AC1862008F94EB /* RemoteURLProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */; };
 		DE6DFEDF24955F6A006C0966 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6DFEDE24955F6A006C0966 /* Configuration.swift */; };
 		DE9BC6FA2494285100781C10 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DE9BC6F92494285100781C10 /* README.md */; };
 		DEA3975D249593B20089404E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975C249593B20089404E /* UIColor.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteURLProviding.swift; sourceTree = "<group>"; };
 		DE6DFEDE24955F6A006C0966 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DE9BC6F92494285100781C10 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DEA3975C249593B20089404E /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -164,11 +166,12 @@
 		DEF84740249429FE005EDEDB /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				DEF8474824942AC9005EDEDB /* DataStore.swift */,
 				DEF8474624942A5E005EDEDB /* CodableStorage.swift */,
-				DEF8474A24942ADF005EDEDB /* NetworkManager.swift */,
-				DEF8475024942BBC005EDEDB /* Utilities.swift */,
 				DE6DFEDE24955F6A006C0966 /* Configuration.swift */,
+				DEF8474824942AC9005EDEDB /* DataStore.swift */,
+				DEF8474A24942ADF005EDEDB /* NetworkManager.swift */,
+				DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */,
+				DEF8475024942BBC005EDEDB /* Utilities.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE20B48324AC1862008F94EB /* RemoteURLProviding.swift in Sources */,
 				DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */,
 				DEF8474B24942ADF005EDEDB /* NetworkManager.swift in Sources */,
 				DEF8474F24942B15005EDEDB /* PostDetailsViewController.swift in Sources */,

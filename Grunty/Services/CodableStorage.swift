@@ -10,23 +10,27 @@ import Foundation
 
 /// CodableStorage allows for saving, loading, and clearing objects which implement the Encodable/Decodable to/from device storage.
 class CodableStorage {
-    /// Saves an Encodable object of type T to fileName within the caches directory
-    static func save<T: Encodable>(_ object: T, as filename: String ) {
+    /// Saves an Encodable array of objects of type T to filename within the caches directory
+    /// name is a filename which is computed from type T if not supplied
+    static func save<T: Encodable & CustomStringConvertible>(_ objects: [T], as name: String? = nil) {
+        let filename = name ?? "\(String(describing: T.self))Array.json"
         let destinationURL = getCacheDirectory().appendingPathComponent(filename)
         let encoder = JSONEncoder()
         do {
-            let data = try encoder.encode(object)
+            let data = try encoder.encode(objects)
             if FileManager.default.fileExists(atPath: destinationURL.path) {
                 try FileManager.default.removeItem(at: destinationURL)
             }
-            FileManager.default.createFile(atPath: destinationURL.path, contents: data, attributes: nil)
+            try data.write(to: destinationURL)
         } catch {
-            Utilities.debugLog("Error: Cannot save object to disk")
+            Utilities.debugLog("Error: Cannot save objects of type \(String(describing: T.self)) to disk \(error)")
         }
     }
 
-    /// Loads a Decodable object of type T from filename within the caches directory
-    static func load<T: Decodable>(_ filename: String, as type: T.Type) -> T? {
+    /// Loads a Decodable array of objects of type T, sorted, from filename within the caches directory
+    /// filename is computed from type T if not supplied
+    static func load<T: Decodable & Comparable & CustomStringConvertible>(filename name: String? = nil) -> [T]? {
+        let filename = name ?? "\(String(describing: T.self))Array.json"
         let originURL = getCacheDirectory().appendingPathComponent(filename)
         let decoder = JSONDecoder()
         guard FileManager.default.fileExists(atPath: originURL.path) else {
@@ -37,10 +41,10 @@ class CodableStorage {
                 Utilities.debugLog("Error: Could not read contents of file \(filename) in caches directory")
                 return nil
             }
-            let object = try decoder.decode(type, from: data)
-            return object
+            let objects = try decoder.decode([T].self, from: data)
+            return objects.sorted()
         } catch {
-            Utilities.debugLog("Error: Could not decode object of type \(type) from filename \(filename)")
+            Utilities.debugLog("Error: Could not decode objects of type \(String(describing: T.self)) from filename \(filename)")
             return nil
         }
     }

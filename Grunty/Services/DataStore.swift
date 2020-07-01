@@ -11,84 +11,91 @@ import Foundation
 class DataStore {
     static let shared = DataStore()
     let networkManager = NetworkManager()
+    
+    var posts: [Post]?
+    var postCommentsForPostId: [Int: [PostComment]] = [:]
 
     //==========================================================================
     // MARK: Posts
     //==========================================================================
 
-    func retrievePosts(filterByUserId userId: Int?, then handler: @escaping (Result<[Post], NetworkManager.ImportError>) -> Void) {
+    // TODO: Try to generalize retrievePosts and retrieveComments, like I did in NetworkManager.swift
+    
+    func retrievePosts(filterByUserId userId: Int?, then completion: @escaping (Result<[Post], NetworkManager.ImportError>) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            // Load from device storage, when available
-            if let posts = CodableStorage.load(Configuration.postsFilename, as: [Post].self) {
-                Utilities.debugLog("Info: Loaded cached posts from disk")
-                let filteredPosts = self.filterPosts(posts, byUserId: userId)
-                let sortedPosts = self.sortPosts(filteredPosts)
+            let postsFilter = { (post: Post) -> Bool in
+                userId == nil || post.userId == userId
+            }
+            if let posts = self.posts?.filter(postsFilter) {
+                // Loaded posts from memory
                 DispatchQueue.main.async {
-                    handler(.success(sortedPosts))
+                    completion(.success(posts))
+                }
+            } else if let posts: [Post] = CodableStorage.load()?.filter(postsFilter) {
+                // Loaded posts from device storage
+                self.posts = posts
+                DispatchQueue.main.async {
+                    completion(.success(posts))
                 }
                 return
             }
-            // Load from remote server
-            self.networkManager.importPosts { result in
+            // Worst-case, we load from remote server
+            self.networkManager.download { (result: Result<[Post], NetworkManager.ImportError>) in
                 switch result {
                 case .success(let posts):
-                    // Save [Posts] to disk for fast retrieval in future, then pass to handler
-                    CodableStorage.save(posts, as: Configuration.postsFilename)
-                    let filteredPosts = self.filterPosts(posts, byUserId: userId)
-                    let sortedPosts = self.sortPosts(filteredPosts)
+                    // Save [Posts] to memory and disk for fast retrieval in future, then pass to handler
+                    self.posts = posts
+                    CodableStorage.save(posts)
                     DispatchQueue.main.async {
-                        handler(.success(sortedPosts))
+                        completion(.success(posts.sorted().filter(postsFilter)))
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        handler(.failure(error))
+                        completion(.failure(error))
                     }
                 }
             }
         }
     }
 
-    func filterPosts(_ posts: [Post], byUserId userId: Int?) -> [Post] {
-        guard let userId = userId else {
-            // no filter supplied, so just return all posts
-            return posts
-        }
-        return posts.filter { $0.userId == userId }
-    }
-
-    func sortPosts(_ posts: [Post]) -> [Post] {
-        return posts.sorted(by: { $0.id < $1.id })
-    }
+    
 
     //==========================================================================
     // MARK: Comments
     //==========================================================================
 
-    func retrieveComments(forPostId postId: Int, then handler: @escaping (Result<[PostComment], NetworkManager.ImportError>) -> Void) {
+    func retrieveComments(forPostId postId: Int, then completion: @escaping (Result<[PostComment], NetworkManager.ImportError>) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            // Load from device storage, when available
             let filename = "\(Configuration.postCommentsFilenamePrefix)\(postId)\(Configuration.postCommentsFilenameSuffix)"
-            if let postComments = CodableStorage.load(filename, as: [PostComment].self) {
-                Utilities.debugLog("Info: Loaded cached comments from disk for postId \(postId)")
-                let sortedComments = self.sortComments(postComments)
+            
+            if let postComments = self.postCommentsForPostId[postId] {
+                // Loaded postComments from memory
+                Utilities.debugLog("Info: Loaded cached comments from memory for postId \(postId)")
                 DispatchQueue.main.async {
-                    handler(.success(sortedComments))
+                    completion(.success(postComments))
+                }
+            } else if let postComments: [PostComment] = CodableStorage.load(filename: filename) {
+                // Loaded postComments from device storage
+                self.postCommentsForPostId[postId] = postComments
+                Utilities.debugLog("Info: Loaded cached comments from disk for postId \(postId)")
+                DispatchQueue.main.async {
+                    completion(.success(postComments.sorted()))
                 }
                 return
             }
-            // Load from remote server
-            self.networkManager.importComments(forPostId: postId) { result in
+            // Worst-case, we load from remote server
+            self.networkManager.download(pathParam: String(postId)) {
+                (result: Result<[PostComment], NetworkManager.ImportError>) in
                 switch result {
                 case .success(let postComments):
                     // Save [PostComments] to disk for fast retrieval in future, then pass to handler
                     CodableStorage.save(postComments, as: filename)
-                    let sortedComments = self.sortComments(postComments)
                     DispatchQueue.main.async {
-                        handler(.success(sortedComments))
+                        completion(.success(postComments.sorted()))
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        handler(.failure(error))
+                        completion(.failure(error))
                     }
                 }
             }

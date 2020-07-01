@@ -9,65 +9,42 @@
 import Foundation
 
 class NetworkManager {
-    let remoteBaseURL: URL
-    let decoder: JSONDecoder = {
-        // we could do custom date formats or other settings for the JSON decoder here
-        return JSONDecoder()
-    }()
-
-    init() {
-        guard let remoteBaseURL = URL(string: Configuration.apiBaseUrlString) else {
-            fatalError("Error: API base URL appears to be invalid. App cannot start.")
-        }
-        self.remoteBaseURL = remoteBaseURL
-    }
-
-    enum ImportError: Error {
+    let decoder: JSONDecoder = JSONDecoder()
+    
+    enum ImportError: String, Error, LocalizedError {
+        case invalidURL
         case dataTaskFailed
         case decodeFailed
         case noDataReturned
+        
+        var localizedDescription: String {
+            self.rawValue
+        }
     }
-
-    func importPosts(then handler: @escaping (Result<[Post], ImportError>) -> Void) {
-        let postsUrlPath = "posts"
-        let url = self.remoteBaseURL.appendingPathComponent(postsUrlPath)
+    
+    // TODO: Consider replacing with Error instead of ImportError (best practice: pass the actual error from NSUrlSession and let the UI display it accordingly
+    /// Downloads content from REST API with an optional remote URL path parameter, and a completion callback. Results are sorted
+    func download<T: Codable & Comparable & RemoteURLProviding>(pathParam: String? = nil, completion: @escaping (Result<[T], ImportError>) -> Void) {
+        guard let url = T.makeRemoteURL(pathParam: pathParam) else {
+            Utilities.debugLog("Error: download URL appears to be invalid, cannot download")
+            completion(.failure(.invalidURL))
+            return
+        }
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             guard error == nil else {
-                handler(.failure(.dataTaskFailed))
+                completion(.failure(.dataTaskFailed))
                 return
             }
             guard let data = data else {
-                handler(.failure(.noDataReturned))
+                completion(.failure(.noDataReturned))
                 return
             }
             do {
-                let posts = try JSONDecoder().decode([Post].self, from: data)
-                Utilities.debugLog("Info: Imported posts from remote API")
-                handler(.success(posts))
+                let results = try JSONDecoder().decode([T].self, from: data)
+                Utilities.debugLog("Info: Imported JSON from remote API at URL \(url.path)")
+                completion(.success(results.sorted()))
             } catch {
-                handler(.failure(.decodeFailed))
-            }
-        }.resume()
-    }
-
-    func importComments(forPostId postId: Int, then handler: @escaping (Result<[PostComment], ImportError>) -> Void) {
-        let commentsUrlPath = "posts/\(postId)/comments"
-        let url = self.remoteBaseURL.appendingPathComponent(commentsUrlPath)
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
-            guard error == nil else {
-                handler(.failure(.dataTaskFailed))
-                return
-            }
-            guard let data = data else {
-                handler(.failure(.noDataReturned))
-                return
-            }
-            do {
-                let comments = try JSONDecoder().decode([PostComment].self, from: data)
-                Utilities.debugLog("Info: Imported comments for postId \(postId) from remote API")
-                handler(.success(comments))
-            } catch {
-                handler(.failure(.decodeFailed))
+                completion(.failure(.decodeFailed))
             }
         }.resume()
     }

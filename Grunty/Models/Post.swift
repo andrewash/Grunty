@@ -14,4 +14,30 @@ struct Post: Codable {
     let userId: Int
     let title: String
     let body: String
+    
+    var userName: String {
+        "Moose #\(userId)"
+    }
+}
+
+extension Post: Comparable, Equatable {
+    static func ==(lhs: Post, rhs: Post) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    static func <(lhs: Post, rhs: Post) -> Bool {
+        lhs.id < rhs.id
+    }
+}
+
+extension Post: RemoteURLProviding {
+    static func makeRemoteURL(pathParam: String?) -> URL? {
+        return Configuration.apiBaseUrl?.appendingPathComponent("posts")
+    }
+}
+
+extension Post: CustomStringConvertible {
+    var description: String {
+        return "post"
+    }
 }

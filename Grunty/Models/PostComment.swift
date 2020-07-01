@@ -17,6 +17,16 @@ struct PostComment {
     let body: String
 }
 
+extension PostComment: Comparable, Equatable {
+    static func ==(lhs: PostComment, rhs: PostComment) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    static func < (lhs: PostComment, rhs: PostComment) -> Bool {
+        lhs.id < rhs.id
+    }
+}
+
 extension PostComment: Codable {
     // custom mapping of API's keys to clearer names for our iOS data model
     // "name" is particularly ambiguous. The sample values are far too long for a human name, so I've assumed it's the name of a post, i.e. "title".
@@ -26,5 +36,19 @@ extension PostComment: Codable {
         case parentPostId = "postId"
         case title = "name"
         case postedByEmail = "email"
+    }
+}
+
+extension PostComment: RemoteURLProviding {
+    static func makeRemoteURL(pathParam: String?) -> URL? {
+        guard let pathParam = pathParam else { return nil }
+        let commentsUrlPath = "posts/\(pathParam)/comments"
+        return Configuration.apiBaseUrl?.appendingPathComponent(commentsUrlPath)
+    }
+}
+
+extension PostComment: CustomStringConvertible {
+    var description: String {
+        return "postComment"
     }
 }
