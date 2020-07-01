@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
+    static let identifier = "PostTableViewCell"
+    static let height: CGFloat = 100.0
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .default

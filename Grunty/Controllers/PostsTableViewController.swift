@@ -9,17 +9,18 @@
 import Foundation
 import UIKit
 
-class PostsTableViewController: UITableViewController {
-    let cellIdentifier = "PostCell"
+class PostsTableViewController: UITableViewController, ErrorReportingViewController {
+    var errorTitle: String { NSLocalizedString("Can't Find a Moose", comment: "Can't Find a Moose") }
+    var errorMessage: String { NSLocalizedString("Oops, we can't hear any grunts. Please check your Internet connection then tap OK to try again.\n\nError code %@", comment: "Error description") }
+    
     let loadingNavTitle = "Loading Grunts..."
     var activityIndicatorView: UIActivityIndicatorView?     // keeps reference to this view so we can stop it's animation
-    var filterByUserId: Int?    /// which user are we filtering for (if nil, no filter is applied)
+    let filterByUserId: Int?    /// which user are we filtering for (if nil, no filter is applied)
     var posts: [Post] = []      /// posts to show in this view
-    static let standardCellHeight: CGFloat = 100.0
 
     // A beautiful logo at the bottom of the list for some colour
     let tableFooterView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100.0, height: 100.0))
+        let view = UIView() // because using constraints anyway
         let logo = UIImageView(image: UIImage(named: "Logo"))
         logo.alpha = 0.7
         logo.translatesAutoresizingMaskIntoConstraints = false
@@ -34,24 +35,24 @@ class PostsTableViewController: UITableViewController {
     }()
 
     init(filterByUserId userId: Int? = nil) {
-        filterByUserId = userId
+        self.filterByUserId = userId
         super.init(style: .plain)
     }
 
     required init?(coder: NSCoder) {
-        fatalError("required because of storyboards")
+        fatalError("required designated initializer for storyboards/xibs")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData(filterByUserId: self.filterByUserId)
+        loadData()
         startActivityIndicator()
         prepareView()
     }
 
     func prepareView() {
         self.view.backgroundColor = .white
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.tableFooterView = tableFooterView
         navigationItem.title = loadingNavTitle
     }
@@ -64,29 +65,27 @@ class PostsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return PostsTableViewController.standardCellHeight
+        return PostTableViewCell.height
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PostTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier) as? PostTableViewCell else {
             return UITableViewCell()
         }
-        guard isDataAvailable(rowIndex: indexPath.row) else {
+        guard let post = post(at: indexPath) else {
             Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
             return UITableViewCell()
         }
-        cell.model = posts[indexPath.row]
+        cell.model = post
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard isDataAvailable(rowIndex: indexPath.row) else {
+        guard let post = post(at: indexPath) else {
             Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
             return
         }
-        let vc = PostDetailsViewController()
-        vc.post = posts[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(PostDetailsViewController(post: post), animated: true)
     }
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -96,39 +95,24 @@ class PostsTableViewController: UITableViewController {
     //==========================================================================
     // MARK: Data-Layer Interactions
     //==========================================================================
-    func loadData(filterByUserId userId: Int? = nil) {
-        DataStore.shared.retrievePosts(filterByUserId: userId) { [weak self] result in
-            self?.stopActivityIndicator()
+    func loadData() {
+        DataStore.shared.retrievePosts(filterByUserId: filterByUserId) { [weak self] result in
+            guard let self = self else { return }
+            self.stopActivityIndicator()
             switch result {
             case .success(let posts):
                 // 1 - Determine the navigation title
-                if let filteringForUserId = userId {
-                    self?.navigationItem.title = "Moose #\(filteringForUserId)'s Grunts"
+                if let filteringForUserId = self.filterByUserId {
+                    self.navigationItem.title = "Moose #\(filteringForUserId)'s Grunts"
                 } else {
-                    self?.navigationItem.title = "Recent \(posts.count) Grunts"
+                    self.navigationItem.title = "Recent \(posts.count) Grunts"
                 }
-
-                self?.posts = posts
-                self?.tableView.reloadData()
+                self.posts = posts
+                self.tableView.reloadData()
             case .failure(let error):
-                switch error {
-                case .noDataReturned:
-                    self?.alert(errorCode: "noDataReturned") { self?.loadData(filterByUserId: userId) }
-                case .decodeFailed:
-                    self?.alert(errorCode: "decodeFailed") { self?.loadData(filterByUserId: userId) }
-                case .dataTaskFailed:
-                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData(filterByUserId: userId) }
-                }
+                self.present(self.makeAlert(error: error, then: { self.loadData() }), animated: true, completion: nil)
             }
         }
-    }
-
-    func alert(errorCode: String, then retryHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: "Can't Find a Moose", message: "Oops, we can't hear any grunts. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { (_) -> Void in
-            retryHandler()
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
 
     // Reset database and refresh data
@@ -146,9 +130,9 @@ class PostsTableViewController: UITableViewController {
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    /// Is there data available for a given row index?
-    func isDataAvailable(rowIndex: Int) -> Bool {
-        return rowIndex >= 0 && rowIndex < posts.count
+    func post(at indexPath: IndexPath) -> Post? {
+        if indexPath.row < posts.count { return posts[indexPath.row] }
+        return nil
     }
 
     func startActivityIndicator() {
@@ -162,12 +146,16 @@ class PostsTableViewController: UITableViewController {
 
     func stopActivityIndicator() {
         self.activityIndicatorView?.stopAnimating()
+        showRefreshButtonForAllPosts()
+        self.activityIndicatorView = nil
+    }
+    
+    func showRefreshButtonForAllPosts() {
         if filterByUserId == nil {
             let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
             refreshButton.tintColor = .black
             navigationItem.setRightBarButton(refreshButton, animated: true)
         }
-        self.activityIndicatorView = nil
     }
 
 }

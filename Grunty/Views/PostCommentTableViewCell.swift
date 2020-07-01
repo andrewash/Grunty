@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 class PostCommentTableViewCell: UITableViewCell {
-    let cellIdentifier = "PostCommentCell"
-    static let standardCellHeight: CGFloat = 66.0
+    static let identifier = "PostCommentTableViewCell"
+    static let height: CGFloat = 120.0
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -9,28 +9,28 @@
 import Foundation
 import UIKit
 
-class PostDetailsViewController: UIViewController {
+class PostDetailsViewController: UIViewController, ErrorReportingViewController {
+    var errorTitle: String { NSLocalizedString("Can't Find a Moose", comment: "Can't Find a Moose") }
+    var errorMessage: String { NSLocalizedString("Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap OK to try again.\n\nError code %@", comment: "Error description") }
+    
     let loadingNavTitle = "Loading Comments..."
-    let cellIdentifier = "PostCommentCell"
-
-    var post: Post! {       // what was selected in PostsTableViewController
-        didSet {
-            self.userLabel.text = "Moose #\(post.userId)"
-            self.titleLabel.text = post.title
-            self.bodyLabel.text = post.body
-            self.postsByAuthor.setTitle("More by \(userLabel.text ?? "this author")", for: .normal)
-        }
-    }
+    
+    let post: Post
     var comments: [PostComment] = [] {
         didSet {
-            self.postCommentsHeading.text = "\(comments.count) Comments"
-            self.postCommentsTableView.register(PostCommentTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-            self.postCommentsTableView.delegate = self
-            self.postCommentsTableView.dataSource = self
-            self.postCommentsTableView.reloadData()
+            updateUI()
         }
     }
-
+    
+    init(post: Post) {
+        self.post = post
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("required designated initializer for storyboards/xibs")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareView()
@@ -44,51 +44,50 @@ class PostDetailsViewController: UIViewController {
     func loadData() {
         self.postCommentsActivityIndicatorView.startAnimating()
         DataStore.shared.retrieveComments(forPostId: post.id) { [weak self] result in
-            self?.postCommentsActivityIndicatorView.stopAnimating()
+            guard let self = self else { return }
+            self.postCommentsActivityIndicatorView.stopAnimating()
             switch result {
             case .success(let comments):
-                self?.comments = comments
+                self.comments = comments
             case .failure(let error):
-                switch error {
-                case .noDataReturned:
-                    self?.alert(errorCode: "noDataReturned") { self?.loadData() }
-                case .decodeFailed:
-                    self?.alert(errorCode: "decodeFailed") { self?.loadData() }
-                case .dataTaskFailed:
-                    self?.alert(errorCode: "dataTaskFailed") { self?.loadData() }
-                }
+                self.present(self.makeAlert(error: error, then: { self.loadData() }), animated: true, completion: nil)
             }
         }
     }
-
-    func alert(errorCode: String, then retryHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: "Can't Find Moose", message: "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap OK to try again.\n\nError code \(errorCode)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { (_) -> Void in
-            retryHandler()
-        }))
-        self.present(alert, animated: true, completion: nil)
+    
+    func updateUI() {
+        self.userLabel.text = post.userName
+        self.titleLabel.text = post.title
+        self.bodyLabel.text = post.body
+        self.postsByAuthor.setTitle("More by \(post.userName)", for: .normal)
+        self.postCommentsHeading.text = "\(comments.count) Comments"
+        self.postCommentsTableView.reloadData()
     }
-
+    
+    
+    
     //==========================================================================
     // MARK: View Layout
     //==========================================================================
 
-    private let userAvatar: UIImageView = UIImageView(image: UIImage(named: "AvatarPlaceholder")!)
-    private let userLabel: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 20), textAlignment: .natural)
-    private let titleLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 20), textAlignment: .natural)
-    private let bodyLabel: UILabel = makeStyledLabel(font: .systemFont(ofSize: 16), textAlignment: .natural)
-    private let postsByAuthor: UIButton = UIButton(type: .roundedRect)
-    private let postCommentsHeading: UILabel = makeStyledLabel(font: .boldSystemFont(ofSize: 20), textAlignment: .natural)
-    private let postCommentsActivityIndicatorView: UIActivityIndicatorView = UIActivityIndicatorView(style: .medium)
+    private let userAvatar = UIImageView(image: UIImage(named: "AvatarPlaceholder"))
+    private let userLabel = UILabel(styledWithFont: .boldSystemFont(ofSize: 20))
+    private let titleLabel = UILabel(styledWithFont: .systemFont(ofSize: 20))
+    private let bodyLabel = UILabel(styledWithFont: .systemFont(ofSize: 16))
+    private let postsByAuthor = UIButton(type: .roundedRect)
+    private let postCommentsHeading = UILabel(styledWithFont: .boldSystemFont(ofSize: 20))
+    private let postCommentsActivityIndicatorView = UIActivityIndicatorView(style: .medium)
     private let postCommentsTableView = UITableView()
 
     func prepareView() {
         self.view.backgroundColor = .white  // for a smooth transition when pushing this VC onto nav stack
-        addSubviews()
+        self.postCommentsTableView.register(PostCommentTableViewCell.self, forCellReuseIdentifier: PostCommentTableViewCell.identifier)
+        self.postCommentsTableView.delegate = self
+        self.postCommentsTableView.dataSource = self
         layoutControls()
     }
-
-    func addSubviews() {
+    
+    func layoutControls() {
         let subviews = [userAvatar, userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
         for subview in subviews {
             view.addSubview(subview)
@@ -102,9 +101,7 @@ class PostDetailsViewController: UIViewController {
         postsByAuthor.layer.cornerRadius = 25.0
         postsByAuthor.setTitleColor(.white, for: .normal)
         postsByAuthor.addTarget(self, action: #selector(goPostsByAuthor), for: .touchUpInside)
-    }
-
-    func layoutControls() {
+        
         // Show a user avatar placeholder besides the username so it's clear the name identifies a user
         userAvatar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -175,22 +172,7 @@ class PostDetailsViewController: UIViewController {
     @objc func goPostsByAuthor() {
         let vc = PostsTableViewController(filterByUserId: self.post.userId)
         navigationController?.pushViewController(vc, animated: true)
-    }
-
-    //==========================================================================
-    // MARK: Helpers
-    //==========================================================================
-
-    /// Generate labels with consistent styling
-    static func makeStyledLabel(font: UIFont, textAlignment: NSTextAlignment) -> UILabel {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = font
-        label.textAlignment = textAlignment
-        label.lineBreakMode = .byTruncatingTail
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }
+    }    
 }
 
 extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -203,14 +185,14 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PostCommentTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCommentTableViewCell.identifier) as? PostCommentTableViewCell else {
             return UITableViewCell()
         }
-        guard isDataAvailable(rowIndex: indexPath.row) else {
+        guard let comment = comment(at: indexPath) else {
             Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
             return UITableViewCell()
         }
-        cell.model = comments[indexPath.row]
+        cell.model = comment
         return cell
     }
 
@@ -219,14 +201,14 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     //==========================================================================
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120.0
+        return PostCommentTableViewCell.height
     }
 
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    /// Is there data available for a given row index?
-    func isDataAvailable(rowIndex: Int) -> Bool {
-        return rowIndex >= 0 && rowIndex < comments.count
+    func comment(at indexPath: IndexPath) -> PostComment? {
+        if indexPath.row < comments.count { return comments[indexPath.row] }
+        return nil
     }
 }

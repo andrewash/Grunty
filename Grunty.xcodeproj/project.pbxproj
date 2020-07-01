@@ -20,6 +20,8 @@
 		DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD15D12494250F00DCA5ED /* AppDelegate.swift */; };
 		DEAD15D42494250F00DCA5ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D32494250F00DCA5ED /* Assets.xcassets */; };
 		DEAD15D72494250F00DCA5ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */; };
+		DEF0038124AC4A38003DF47F /* ErrorReportingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF0038024AC4A38003DF47F /* ErrorReportingViewController.swift */; };
+		DEF0038324AC5498003DF47F /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF0038224AC5498003DF47F /* UILabel.swift */; };
 		DEF8474224942A28005EDEDB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474124942A28005EDEDB /* Post.swift */; };
 		DEF8474424942A36005EDEDB /* PostComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474324942A36005EDEDB /* PostComment.swift */; };
 		DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8474624942A5E005EDEDB /* CodableStorage.swift */; };
@@ -59,6 +61,8 @@
 		DEAD15D82494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEAD15DD2494250F00DCA5ED /* GruntyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GruntyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEAD15E32494250F00DCA5ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEF0038024AC4A38003DF47F /* ErrorReportingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReportingViewController.swift; sourceTree = "<group>"; };
+		DEF0038224AC5498003DF47F /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		DEF8474124942A28005EDEDB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DEF8474324942A36005EDEDB /* PostComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostComment.swift; sourceTree = "<group>"; };
 		DEF8474624942A5E005EDEDB /* CodableStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableStorage.swift; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 			children = (
 				DEF8474124942A28005EDEDB /* Post.swift */,
 				DEF8474324942A36005EDEDB /* PostComment.swift */,
+				DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 				DEA3975E249595890089404E /* PostCommentTableViewCell.swift */,
 				DEF847522494306E005EDEDB /* PostTableViewCell.swift */,
 				DEA3975C249593B20089404E /* UIColor.swift */,
+				DEF0038224AC5498003DF47F /* UILabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,6 +165,7 @@
 			children = (
 				DEF8474C24942B08005EDEDB /* PostsTableViewController.swift */,
 				DEF8474E24942B15005EDEDB /* PostDetailsViewController.swift */,
+				DEF0038024AC4A38003DF47F /* ErrorReportingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -170,7 +177,6 @@
 				DE6DFEDE24955F6A006C0966 /* Configuration.swift */,
 				DEF8474824942AC9005EDEDB /* DataStore.swift */,
 				DEF8474A24942ADF005EDEDB /* NetworkManager.swift */,
-				DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */,
 				DEF8475024942BBC005EDEDB /* Utilities.swift */,
 			);
 			path = Services;
@@ -282,9 +288,11 @@
 			files = (
 				DE20B48324AC1862008F94EB /* RemoteURLProviding.swift in Sources */,
 				DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */,
+				DEF0038124AC4A38003DF47F /* ErrorReportingViewController.swift in Sources */,
 				DEF8474B24942ADF005EDEDB /* NetworkManager.swift in Sources */,
 				DEF8474F24942B15005EDEDB /* PostDetailsViewController.swift in Sources */,
 				DEF8474224942A28005EDEDB /* Post.swift in Sources */,
+				DEF0038324AC5498003DF47F /* UILabel.swift in Sources */,
 				DEF8474724942A5E005EDEDB /* CodableStorage.swift in Sources */,
 				DEF8474924942AC9005EDEDB /* DataStore.swift in Sources */,
 				DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */,
