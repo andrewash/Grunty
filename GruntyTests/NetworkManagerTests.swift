@@ -14,7 +14,7 @@ class NetworkManagerTests: XCTestCase {
 
     func testExpectedNumberOfPostsRetrieved() {
         let expect = expectation(description: "loading posts")
-        networkManager.importPosts { result in
+        networkManager.download { (result: Result<[Post], NetworkManager.ImportError>) in
             switch result {
             case .failure(let error):
                 XCTFail("Import posts failed with error \(error)")
@@ -28,7 +28,7 @@ class NetworkManagerTests: XCTestCase {
 
     func testExpectedNumberOfCommentsRetrieved() {
         let expect = expectation(description: "loading comments")
-        networkManager.importComments(forPostId: 3) { result in
+        networkManager.download(pathParam: String(3)) { (result: Result<[PostComment], NetworkManager.ImportError>) in
             switch result {
             case .failure(let error):
                 XCTFail("Import comments failed with error \(error)")
