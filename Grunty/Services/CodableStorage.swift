@@ -9,10 +9,10 @@
 import Foundation
 
 /// CodableStorage allows for saving, loading, and clearing objects which implement the Encodable/Decodable to/from device storage.
-class CodableStorage {
+struct CodableStorage {
     /// Saves an Encodable array of objects of type T to filename within the caches directory
     /// name is a filename which is computed from type T if not supplied
-    static func save<T: Encodable & CustomStringConvertible>(_ objects: [T], as name: String? = nil) {
+    static func save<T: Encodable>(_ objects: [T], as name: String? = nil) {
         guard let cacheURL = getCacheDirectory() else {
             Utilities.debugLog("Error: Cache directory not found")
             return
@@ -33,7 +33,7 @@ class CodableStorage {
 
     /// Loads a Decodable array of objects of type T, sorted, from filename within the caches directory
     /// filename is computed from type T if not supplied
-    static func load<T: Decodable & Comparable & CustomStringConvertible>(filename name: String? = nil) -> [T]? {
+    static func load<T: Decodable & Comparable>(filename name: String? = nil) -> [T]? {
         guard let cacheURL = getCacheDirectory() else {
             Utilities.debugLog("Error: Cache directory not found")
             return nil

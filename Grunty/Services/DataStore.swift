@@ -18,101 +18,93 @@ class DataStore {
         self.networkManager = NetworkManager()
     }
     
-    //==========================================================================
-    // MARK: Posts
-    //==========================================================================
-
-    // TODO: Try to generalize retrievePosts and retrieveComments, like I did in NetworkManager.swift
-    
-    func retrievePosts(filterByUserId userId: Int?, then completion: @escaping (Result<[Post], NetworkManager.ImportError>) -> Void) {
+    /// Retrieves an array of objects of type T from disk, or if not cached on disk retrieves from network
+    /// - parameter filter: filters objects before passing them to completion closure, if specified
+    /// - parameter pathParam: URL parameter to include with network request, if required
+    /// - parameter diskCacheFilename: specifies a filename for disk storage of this object, otherwise the filename is determined by CodableStorage
+    private func retrieve<T: Codable & Comparable & RemoteURLProviding>(diskCacheFilename filename: String? = nil, pathParam: String? = nil, filter: @escaping ((T) -> Bool) = { _ in true }, completion: @escaping (Result<[T], Error>) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            // First we try loading from disk
+            if let onDisk: [T] = CodableStorage.load(filename: filename)?.filter(filter) {
+                Utilities.debugLog("Info: Loaded cached \(String(describing: T.self).lowercased())s from disk")
+                DispatchQueue.main.async {
+                    completion(.success(onDisk))
+                }
+                return
+            }
+            // Worst-case, we load from remote server
+            self.networkManager.download(pathParam: pathParam) { (result: Result<[T], Error>) in
+                switch result {
+                case .success(let objects):
+                    // Save objects to disk for fast retrieval in future, then pass to handler
+                    CodableStorage.save(objects, as: filename)
+                    DispatchQueue.main.async {
+                        completion(.success(objects.sorted().filter(filter)))
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
+        
+    /// Retrieves posts from memory, disk, or remote network
+    func retrievePosts(filterByUserId userId: Int?, then completion: @escaping (Result<[Post], Error>) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let postsFilter = { (post: Post) -> Bool in
                 userId == nil || post.userId == userId
             }
-            if let posts = self.posts?.filter(postsFilter) {
-                // Loaded posts from memory
-                Utilities.debugLog("Info: Loaded cached posts from memory")
+            // Load posts from memory, if available
+            if let posts = self.posts?.sorted().filter(postsFilter) {
+                Utilities.debugLog("Info: Loaded cached poosts from memory")
                 DispatchQueue.main.async {
                     completion(.success(posts))
                 }
-            } else if let posts: [Post] = CodableStorage.load()?.filter(postsFilter) {
-                // Loaded posts from device storage
-                self.posts = posts
-                Utilities.debugLog("Info: Loaded cached posts from disk")
-                DispatchQueue.main.async {
-                    completion(.success(posts))
-                }
-            } else {
-                // Worst-case, we load from remote server
-                self.networkManager.download { (result: Result<[Post], NetworkManager.ImportError>) in
-                    switch result {
+                return
+            }
+            
+            // Otherwise, load posts from disk or network, then save result to memory
+            self.retrieve(filter: postsFilter) { result in
+                switch result {
                     case .success(let posts):
-                        // Save [Posts] to memory and disk for fast retrieval in future, then pass to handler
                         self.posts = posts
-                        CodableStorage.save(posts)
-                        DispatchQueue.main.async {
-                            completion(.success(posts.sorted().filter(postsFilter)))
-                        }
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            completion(.failure(error))
-                        }
-                    }
+                    default:
+                        break
                 }
+                completion(result)
             }
         }
     }
 
-    
-
-    //==========================================================================
-    // MARK: Comments
-    //==========================================================================
-
-    func retrieveComments(forPostId postId: Int, then completion: @escaping (Result<[PostComment], NetworkManager.ImportError>) -> Void) {
+    /// Retrieves comments from memory, disk, or remote network
+    func retrieveComments(forPostId postId: Int, then completion: @escaping (Result<[PostComment], Error>) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let filename = "\(Configuration.postCommentsFilenamePrefix)\(postId)\(Configuration.postCommentsFilenameSuffix)"
-            
+            // Load comments from memory, if available
             if let postComments = self.postCommentsForPostId[postId] {
-                // Loaded postComments from memory
                 Utilities.debugLog("Info: Loaded cached comments from memory for postId \(postId)")
                 DispatchQueue.main.async {
                     completion(.success(postComments))
                 }
-            } else if let postComments: [PostComment] = CodableStorage.load(filename: filename) {
-                // Loaded postComments from device storage
-                // Save [PostComment] to memory for fast retrieval
-                self.postCommentsForPostId[postId] = postComments
-                Utilities.debugLog("Info: Loaded cached comments from disk for postId \(postId)")
-                DispatchQueue.main.async {
-                    completion(.success(postComments.sorted()))
+                return
+            }
+            
+            // Otherwise, load comments from disk or network, then save result to memory
+            self.retrieve(diskCacheFilename: filename, pathParam: String(postId)) { (result: Result<[PostComment], Error>) in
+                switch result {
+                case .success(let comments):
+                    self.postCommentsForPostId[postId] = comments
+                default:
+                    break
                 }
-            } else {
-                // Worst-case, we load from remote server
-                self.networkManager.download(pathParam: String(postId)) {
-                    (result: Result<[PostComment], NetworkManager.ImportError>) in
-                    switch result {
-                    case .success(let postComments):
-                        // Save [PostComment] to memory and disk for fast retrieval in future, then pass to handler
-                        self.postCommentsForPostId[postId] = postComments
-                        CodableStorage.save(postComments, as: filename)
-                        DispatchQueue.main.async {
-                            completion(.success(postComments.sorted()))
-                        }
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            completion(.failure(error))
-                        }
-                    }
-                }
+                completion(result)
+                return
             }
         }
     }
-
-    func sortComments(_ comments: [PostComment]) -> [PostComment] {
-        return comments.sorted(by: { $0.id < $1.id })
-    }
-
+    
     /// Resets the database by clearing the app's cache directory
     func reset(completionHandler: (() -> Void)?) {
         DispatchQueue.global(qos: .background).async {
