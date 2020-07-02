@@ -9,12 +9,15 @@
 import Foundation
 
 class DataStore {
-    static let shared = DataStore()
-    let networkManager = NetworkManager()
+    let networkManager: NetworkManager
     
     var posts: [Post]?
     var postCommentsForPostId: [Int: [PostComment]] = [:]
 
+    init() {
+        self.networkManager = NetworkManager()
+    }
+    
     //==========================================================================
     // MARK: Posts
     //==========================================================================

@@ -13,11 +13,7 @@ struct Post: Codable {
     let id: Int
     let userId: Int
     let title: String
-    let body: String
-    
-    var userName: String {
-        "Moose #\(userId)"
-    }
+    let body: String        
 }
 
 extension Post: Comparable, Equatable {

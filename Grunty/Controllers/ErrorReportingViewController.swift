@@ -15,16 +15,16 @@ protocol ErrorReportingViewController {
 }
 
 extension ErrorReportingViewController {
-    func makeAlert(error: Error, then retryHandler: @escaping () -> Void) -> UIAlertController {
+    func makeAlert(errorDetails: String, retryHandler: @escaping () -> Void, cancelHandler: @escaping () -> Void) -> UIAlertController {
         let alert = UIAlertController(title: errorTitle,
-                                      message: String(format: errorMessage, error.localizedDescription),
+                                      message: String(format: errorMessage, errorDetails),
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Retry",
                                       style: .default,
                                       handler: { (_) -> Void in retryHandler() }))
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
-                                      handler: nil))
+                                      handler: { (_) -> Void in cancelHandler() }))
         return alert
     }
 }

@@ -23,13 +23,7 @@ class PostTableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    var model: Post! {
-        didSet {
-            self.titleLabel.text = model.title
-            self.bodyLabel.text = model.body
-        }
-    }
+    
 
     //==========================================================================
     // MARK: Controls
@@ -54,7 +48,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
 
-    func layoutControls() {
+    private func layoutControls() {
         // 1 - Add views
         addSubview(titleLabel)
         addSubview(bodyLabel)
@@ -74,6 +68,12 @@ class PostTableViewCell: UITableViewCell {
             bodyLabel.heightAnchor.constraint(equalToConstant: 28.0 * CGFloat(bodyLabel.numberOfLines))
         ])
     }
+    
+    func updateUI(title: String, body: String) {
+        self.titleLabel.text = title
+        self.bodyLabel.text = body
+    }
+    
 
     //==========================================================================
     // MARK: Helpers

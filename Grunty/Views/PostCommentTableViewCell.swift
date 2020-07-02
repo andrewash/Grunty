@@ -24,14 +24,7 @@ class PostCommentTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var model: PostComment! {
-        didSet {
-            self.titleLabel.text = model.title
-            self.emailLabel.text = "by \(model.postedByEmail.lowercased())"
-            self.bodyLabel.text = model.body
-        }
-    }
-
+    
     //==========================================================================
     // MARK: Controls
     //==========================================================================
@@ -84,6 +77,13 @@ class PostCommentTableViewCell: UITableViewCell {
             contentView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 5.0)
         ])
     }
+    
+    func updateUI(title: String, email: String, body: String) {
+        self.titleLabel.text = title
+        self.emailLabel.text = email
+        self.bodyLabel.text = body
+    }
+    
 
     //==========================================================================
     // MARK: Helpers

@@ -10,21 +10,16 @@ import Foundation
 import UIKit
 
 class PostDetailsViewController: UIViewController, ErrorReportingViewController {
+    private let viewModel: PostDetailsViewModel
+    
     var errorTitle: String { NSLocalizedString("Can't Find a Moose", comment: "Can't Find a Moose") }
-    var errorMessage: String { NSLocalizedString("Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap OK to try again.\n\nError code %@", comment: "Error description") }
+    var errorMessage: String { NSLocalizedString("Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap Retry to try again.\n\nError: %@", comment: "Error description") }
     
-    let loadingNavTitle = "Loading Comments..."
-    
-    let post: Post
-    var comments: [PostComment] = [] {
-        didSet {
-            updateUI()
-        }
-    }
-    
-    init(post: Post) {
-        self.post = post
+    init(viewModel: PostDetailsViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.updateHandler = updateUI
+        self.viewModel.errorHandler = errorHandler
     }
     
     required init?(coder: NSCoder) {
@@ -36,45 +31,17 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         postCommentsTableView.dataSource = nil
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white  // for a smooth transition when pushing this VC onto nav stack
-        layoutViews()
-        loadData()
-    }
-
-    //==========================================================================
-    // MARK: Data-Layer Interactions
-    //==========================================================================
-
-    func loadData() {
-        self.postCommentsActivityIndicatorView.startAnimating()
-        DataStore.shared.retrieveComments(forPostId: post.id) { [weak self] result in
-            guard let self = self else { return }
-            self.postCommentsActivityIndicatorView.stopAnimating()
-            switch result {
-            case .success(let comments):
-                self.comments = comments
-            case .failure(let error):
-                self.present(self.makeAlert(error: error, then: { self.loadData() }), animated: true, completion: nil)
-            }
-        }
-    }
-    
-    func updateUI() {
-        self.userLabel.text = post.userName
-        self.titleLabel.text = post.title
-        self.bodyLabel.text = post.body
-        self.postsByAuthor.setTitle("More by \(post.userName)", for: .normal)
-        self.postCommentsHeading.text = "\(comments.count) Comments"
-        self.postCommentsTableView.reloadData()
-    }
-    
-    
     
     //==========================================================================
     // MARK: View Layout
     //==========================================================================
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white  // for a smooth transition when pushing this VC onto nav stack
+        layoutViews()
+        updateUI()
+    }
 
     private let userAvatar: UIImageView = {
         let view = UIImageView(image: UIImage(named: "AvatarPlaceholder"))
@@ -199,15 +166,35 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: postsByAuthor.bottomAnchor, constant: 20)
         ])
     }
-
+    
+    
     //==========================================================================
     // MARK: Actions
     //==========================================================================
-
+    
+    func updateUI() {
+        navigationItem.title = viewModel.titleForScreen
+        userLabel.text = viewModel.postAuthor
+        titleLabel.text = viewModel.postTitle
+        bodyLabel.text = viewModel.postBody
+        postsByAuthor.setTitle(viewModel.postsByAuthorButtonTitle, for: .normal)
+        postCommentsHeading.text = viewModel.commentsHeading
+        // Show an activity indicator when view model is loading
+        if viewModel.isLoading {
+            postCommentsActivityIndicatorView.startAnimating()
+        } else {
+            postCommentsActivityIndicatorView.stopAnimating()
+        }
+        postCommentsTableView.reloadData()
+    }
+    
     @objc func goPostsByAuthor() {
-        let vc = PostsTableViewController(filterByUserId: self.post.userId)
-        navigationController?.pushViewController(vc, animated: true)
-    }    
+        guard let relatedViewModel = viewModel.makePostsWithSameAuthorViewModel() else {
+            Utilities.debugLog("No view model available to instantiate PostsTableViewController")
+            return
+        }
+        navigationController?.pushViewController(PostsTableViewController(viewModel: relatedViewModel), animated: true)
+    }
 }
 
 extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -216,21 +203,22 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     //==========================================================================
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count
+        return viewModel.numberOfComments
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCommentTableViewCell.identifier) as? PostCommentTableViewCell else {
             return UITableViewCell()
         }
-        guard let comment = comment(at: indexPath) else {
+        guard let comment = viewModel.comment(at: indexPath.row) else {
             Utilities.debugLog("No data model for UITableViewCell at row \(indexPath.row)")
             return UITableViewCell()
         }
-        cell.model = comment
+        cell.updateUI(title: comment.title, email: comment.postedByEmail, body: comment.body)
         return cell
     }
 
+    
     //==========================================================================
     // MARK: UITableViewDelegate
     //==========================================================================
@@ -239,11 +227,21 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         return PostCommentTableViewCell.height
     }
 
+    
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    func comment(at indexPath: IndexPath) -> PostComment? {
-        if indexPath.row < comments.count { return comments[indexPath.row] }
-        return nil
+    
+    func errorHandler(errorDetails: String) {
+        self.present(
+            self.makeAlert(errorDetails: errorDetails,
+                           retryHandler: { [weak self] in
+                            self?.viewModel.reloadComments() },
+                           cancelHandler: { [weak self] in
+                            self?.updateUI()
+            } ),
+            animated: true,
+            completion: nil
+        )
     }
 }

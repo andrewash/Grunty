@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DE20B48324AC1862008F94EB /* RemoteURLProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */; };
 		DE6DFEDF24955F6A006C0966 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6DFEDE24955F6A006C0966 /* Configuration.swift */; };
+		DE874BB624AD74A6000BF8AD /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE874BB524AD74A6000BF8AD /* PostsViewModel.swift */; };
+		DE874BB824AD74B4000BF8AD /* PostDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE874BB724AD74B4000BF8AD /* PostDetailsViewModel.swift */; };
 		DE9BC6FA2494285100781C10 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DE9BC6F92494285100781C10 /* README.md */; };
 		DEA3975D249593B20089404E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975C249593B20089404E /* UIColor.swift */; };
 		DEA3975F249595890089404E /* PostCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975E249595890089404E /* PostCommentTableViewCell.swift */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteURLProviding.swift; sourceTree = "<group>"; };
 		DE6DFEDE24955F6A006C0966 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		DE874BB524AD74A6000BF8AD /* PostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
+		DE874BB724AD74B4000BF8AD /* PostDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsViewModel.swift; sourceTree = "<group>"; };
 		DE9BC6F92494285100781C10 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DEA3975C249593B20089404E /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		DEA3975E249595890089404E /* PostCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -92,6 +96,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE874BB424AD7480000BF8AD /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DE874BB524AD74A6000BF8AD /* PostsViewModel.swift */,
+				DE874BB724AD74B4000BF8AD /* PostDetailsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		DEAD15C52494250F00DCA5ED = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +134,7 @@
 				DEAD15D52494250F00DCA5ED /* LaunchScreen.storyboard */,
 				DEF8473D249429D0005EDEDB /* Models */,
 				DEF84740249429FE005EDEDB /* Services */,
+				DE874BB424AD7480000BF8AD /* ViewModels */,
 				DEF8473E249429F0005EDEDB /* Views */,
 			);
 			path = Grunty;
@@ -286,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE874BB624AD74A6000BF8AD /* PostsViewModel.swift in Sources */,
 				DE20B48324AC1862008F94EB /* RemoteURLProviding.swift in Sources */,
 				DEAD15D22494250F00DCA5ED /* AppDelegate.swift in Sources */,
 				DEF0038124AC4A38003DF47F /* ErrorReportingViewController.swift in Sources */,
@@ -298,6 +313,7 @@
 				DEF8475124942BBC005EDEDB /* Utilities.swift in Sources */,
 				DEF847532494306E005EDEDB /* PostTableViewCell.swift in Sources */,
 				DEA3975F249595890089404E /* PostCommentTableViewCell.swift in Sources */,
+				DE874BB824AD74B4000BF8AD /* PostDetailsViewModel.swift in Sources */,
 				DEA3975D249593B20089404E /* UIColor.swift in Sources */,
 				DEF8474424942A36005EDEDB /* PostComment.swift in Sources */,
 				DEF8474D24942B08005EDEDB /* PostsTableViewController.swift in Sources */,
