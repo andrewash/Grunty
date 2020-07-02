@@ -11,8 +11,8 @@ import Foundation
 class DataStore {
     let networkManager: NetworkManager
     
-    var posts: [Post]?
-    var postCommentsForPostId: [Int: [PostComment]] = [:]
+    var posts: [Post]?                                      /// in-memory cache of posts
+    var postCommentsForPostId: [Int: [PostComment]] = [:]   /// in-memory cache of comments retrieved for a given post.id
 
     init() {
         self.networkManager = NetworkManager()
