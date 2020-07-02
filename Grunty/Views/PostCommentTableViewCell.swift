@@ -17,7 +17,6 @@ class PostCommentTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         self.contentView.backgroundColor = .paleCerulean
-        addSubviews()
         layoutControls()
     }
 
@@ -36,11 +35,6 @@ class PostCommentTableViewCell: UITableViewCell {
     //==========================================================================
     // MARK: Controls
     //==========================================================================
-    func addSubviews() {
-        addSubview(titleLabel)
-        addSubview(emailLabel)
-        addSubview(bodyLabel)
-    }
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -72,21 +66,23 @@ class PostCommentTableViewCell: UITableViewCell {
     }()
 
     func layoutControls() {
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: titleLabel,
-                                                                           previousView: nil,
-                                                                           rootView: self.contentView,
-                                                                           topSpacing: 5.0,
-                                                                           height: 20.0 * CGFloat(titleLabel.numberOfLines)))
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: emailLabel,
-                                                                           previousView: titleLabel,
-                                                                           rootView: self.contentView,
-                                                                           topSpacing: 5.0,
-                                                                           height: 20.0))
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: bodyLabel,
-                                                                           previousView: emailLabel,
-                                                                           rootView: self.contentView,
-                                                                           topSpacing: 5.0,
-                                                                           height: 20.0 * CGFloat(bodyLabel.numberOfLines)))
+        // 1 - Add views
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, emailLabel, bodyLabel])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.spacing = 5.0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
+
+        // 2 - Layout
+        let hMargin: CGFloat = 25.0
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: hMargin),
+            contentView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: hMargin),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            contentView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 5.0)
+        ])
     }
 
     //==========================================================================
@@ -95,6 +91,7 @@ class PostCommentTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         titleLabel.text = nil
+        emailLabel.text = nil
         bodyLabel.text = nil
     }
 

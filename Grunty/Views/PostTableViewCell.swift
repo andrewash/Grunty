@@ -17,7 +17,6 @@ class PostTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .default
         self.contentView.backgroundColor = .white
-        addSubviews()
         layoutControls()
     }
 
@@ -35,11 +34,7 @@ class PostTableViewCell: UITableViewCell {
     //==========================================================================
     // MARK: Controls
     //==========================================================================
-    func addSubviews() {
-        addSubview(titleLabel)
-        addSubview(bodyLabel)
-    }
-
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -60,16 +55,24 @@ class PostTableViewCell: UITableViewCell {
     }()
 
     func layoutControls() {
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: titleLabel,
-                                                                           previousView: nil,
-                                                                           rootView: self.contentView,
-                                                                           topSpacing: 5.0,
-                                                                           height: 20.0))
-        NSLayoutConstraint.activate(Utilities.makeStandardPhoneConstraints(forView: bodyLabel,
-                                                                           previousView: titleLabel,
-                                                                           rootView: self.contentView,
-                                                                           topSpacing: 5.0,
-                                                                           height: 20.0 * CGFloat(bodyLabel.numberOfLines)))
+        // 1 - Add views
+        addSubview(titleLabel)
+        addSubview(bodyLabel)
+
+        // 2 - Layout
+        let hMargin: CGFloat = 25.0
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
+            contentView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: hMargin),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20.0)
+        ])
+        NSLayoutConstraint.activate([
+            bodyLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
+            contentView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: bodyLabel.trailingAnchor, constant: hMargin),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10.0),
+            bodyLabel.heightAnchor.constraint(equalToConstant: 28.0 * CGFloat(bodyLabel.numberOfLines))
+        ])
     }
 
     //==========================================================================
