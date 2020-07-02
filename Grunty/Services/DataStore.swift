@@ -84,7 +84,7 @@ class DataStore {
             let filename = "\(Configuration.postCommentsFilenamePrefix)\(postId)\(Configuration.postCommentsFilenameSuffix)"
             // Load comments from memory, if available
             if let postComments = self.postCommentsForPostId[postId] {
-                Utilities.debugLog("Info: Loaded cached comments from memory for postId \(postId)")
+                Utilities.debugLog("Info: Loaded cached postcomments from memory for postId \(postId)")
                 DispatchQueue.main.async {
                     completion(.success(postComments))
                 }
