@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// Notes:
+/// I went back and forth about whether this ViewModel should be a class or struct, and went with a class as described here:
+///  https://www.swiftbysundell.com/articles/different-flavors-of-view-models-in-swift/
 class PostsViewModel {
     private let dataStore: DataStore
     private let filterByUserId: Int?                /// which user are we filtering for (if nil, no filter is applied)
@@ -34,9 +37,7 @@ class PostsViewModel {
         }
     }
     
-    var numberOfPosts: Int {
-        return posts.count
-    }
+    var numberOfPosts: Int { posts.count }
         
     /// We only show the refresh button when viewing all posts
     var isRefreshButtonAvailable: Bool { filterByUserId == nil }

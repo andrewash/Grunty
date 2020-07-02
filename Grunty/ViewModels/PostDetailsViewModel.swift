@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// Notes:
+/// I went back and forth about whether this ViewModel should be a class or struct, and went with a class as described here:
+///  https://www.swiftbysundell.com/articles/different-flavors-of-view-models-in-swift/
 class PostDetailsViewModel {
     private let dataStore: DataStore
     private(set) var isLoading: Bool = false        /// is ViewModel waiting for data to load?
@@ -23,29 +26,12 @@ class PostDetailsViewModel {
         loadData()
     }
         
-    var postAuthor: String {
-        "Moose #\(post.userId)"
-    }
-    
-    var postTitle: String {
-        post.title
-    }
-    
-    var postBody: String {
-        post.body
-    }
-    
-    var numberOfComments: Int {
-        return comments.count
-    }
-    
-    var commentsHeading: String {
-        "\(numberOfComments) Comments"
-    }
-    
-    var postsByAuthorButtonTitle: String {
-        "More by \(postAuthor)"
-    }
+    var postAuthor: String { "Moose #\(post.userId)" }    
+    var postTitle: String { post.title }
+    var postBody: String { post.body }
+    var numberOfComments: Int { comments.count }
+    var commentsHeading: String { "\(numberOfComments) Comments" }
+    var postsByAuthorButtonTitle: String { "More by \(postAuthor)" }
     
     /// Retrieves a particular PostComment object, or nil if index is invalid
     func comment(at index: Int) -> PostComment? {

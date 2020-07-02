@@ -66,10 +66,11 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     // MARK: Actions
     //==========================================================================
 
+    /// Update the UI based on the current state of the viewModel
     func updateUI() {
         navigationItem.title = viewModel.titleForScreen
         // Show an activity indicator when view model is loading
-        if viewModel.isLoading && activityIndicatorView == nil {
+        if viewModel.isLoading {
             startActivityIndicator()
         } else {
             stopActivityIndicator()
@@ -123,6 +124,7 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     // MARK: Helpers
     //==========================================================================
     func startActivityIndicator() {
+        if self.activityIndicatorView?.isAnimating == true { return }
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.color = .black
         navigationItem.setRightBarButton(UIBarButtonItem(customView: activityIndicatorView), animated: true)
