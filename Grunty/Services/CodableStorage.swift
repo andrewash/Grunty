@@ -13,8 +13,12 @@ class CodableStorage {
     /// Saves an Encodable array of objects of type T to filename within the caches directory
     /// name is a filename which is computed from type T if not supplied
     static func save<T: Encodable & CustomStringConvertible>(_ objects: [T], as name: String? = nil) {
+        guard let cacheURL = getCacheDirectory() else {
+            Utilities.debugLog("Error: Cache directory not found")
+            return
+        }
         let filename = name ?? "\(String(describing: T.self))Array.json"
-        let destinationURL = getCacheDirectory().appendingPathComponent(filename)
+        let destinationURL = cacheURL.appendingPathComponent(filename)
         let encoder = JSONEncoder()
         do {
             let data = try encoder.encode(objects)
@@ -30,8 +34,12 @@ class CodableStorage {
     /// Loads a Decodable array of objects of type T, sorted, from filename within the caches directory
     /// filename is computed from type T if not supplied
     static func load<T: Decodable & Comparable & CustomStringConvertible>(filename name: String? = nil) -> [T]? {
+        guard let cacheURL = getCacheDirectory() else {
+            Utilities.debugLog("Error: Cache directory not found")
+            return nil
+        }
         let filename = name ?? "\(String(describing: T.self))Array.json"
-        let originURL = getCacheDirectory().appendingPathComponent(filename)
+        let originURL = cacheURL.appendingPathComponent(filename)
         let decoder = JSONDecoder()
         guard FileManager.default.fileExists(atPath: originURL.path) else {
             return nil
@@ -44,15 +52,18 @@ class CodableStorage {
             let objects = try decoder.decode([T].self, from: data)
             return objects.sorted()
         } catch {
-            Utilities.debugLog("Error: Could not decode objects of type \(String(describing: T.self)) from filename \(filename)")
+            Utilities.debugLog("Error: Could not decode objects of type \(String(describing: T.self)) from filename \(filename) with error \(error)")
             return nil
         }
     }
 
     /// Removes all documents from the cache directory
     static func clear() {
-        let url = getCacheDirectory()
-        guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) else {
+        guard let cacheURL = getCacheDirectory() else {
+            Utilities.debugLog("Error: Cache directory not found")
+            return
+        }
+        guard let enumerator = FileManager.default.enumerator(at: cacheURL, includingPropertiesForKeys: nil) else {
             Utilities.debugLog("Could not clear cache directory of JSON files")
             return
         }
@@ -64,16 +75,13 @@ class CodableStorage {
                 }
             }
         } catch {
-            Utilities.debugLog("Error: Could not remove contents of caches directory")
+            Utilities.debugLog("Error: Could not remove contents of caches directory with error \(error)")
         }
     }
 
     // MARK: Helpers
-    static private func getCacheDirectory() -> URL {
+    static private func getCacheDirectory() -> URL? {
         let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-        guard let cachePath = paths.first else {
-            fatalError("Error: No path found for default cache directory")
-        }
-        return cachePath
+        return paths.first
     }
 }
