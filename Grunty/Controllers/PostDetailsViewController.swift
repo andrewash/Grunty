@@ -51,6 +51,7 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
     private let userLabel: UILabel = {
         let label = UILabel(styledWithFont: .boldSystemFont(ofSize: 20))
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)     // TODO: Play with removing this
         return label
     }()
     private let titleLabel: UILabel = {
@@ -58,6 +59,11 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    private let spacer: UIView = {
+        let spacer = UIView()
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        return spacer
     }()
     private let bodyLabel: UILabel = {
         let label = UILabel(styledWithFont: .systemFont(ofSize: 16))
@@ -100,7 +106,7 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         postCommentsTableView.dataSource = self
         
         // 2 - Add views
-        let subviews = [userAvatar, userLabel, titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
+        let subviews = [titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
         for subview in subviews {
             view.addSubview(subview)
         }
@@ -108,18 +114,19 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         // 3 - Layout
         let hMargin: CGFloat = 25.0
         // Layout a user avatar placeholder besides the username so it's clear the name identifies a user
+        let stackView = UIStackView(arrangedSubviews: [userAvatar, userLabel, spacer])
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 5.0
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
         NSLayoutConstraint.activate([
-            userAvatar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: hMargin),
-            userAvatar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0),
-            userAvatar.widthAnchor.constraint(equalToConstant: 50.0),
-            userAvatar.heightAnchor.constraint(equalTo: userAvatar.widthAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            userLabel.leadingAnchor.constraint(equalTo: userAvatar.trailingAnchor, constant: 8.0),
-            userLabel.centerYAnchor.constraint(equalTo: userAvatar.centerYAnchor),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: userLabel.trailingAnchor, constant: hMargin),
-            userLabel.heightAnchor.constraint(equalToConstant: 30.0)
-        ])
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: hMargin),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: hMargin),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0)
+        ])            
         
         // Layout title and body with custom vertical spacing
         NSLayoutConstraint.activate([
