@@ -172,8 +172,7 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
     // MARK: Actions
     //==========================================================================
     
-    func updateUI() {
-        navigationItem.title = viewModel.titleForScreen
+    func updateUI() {        
         userLabel.text = viewModel.postAuthor
         titleLabel.text = viewModel.postTitle
         bodyLabel.text = viewModel.postBody

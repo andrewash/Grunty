@@ -22,16 +22,7 @@ class PostDetailsViewModel {
         self.post = post
         loadData()
     }
-    
-    /// Title shown in navigation bar. It's a function of the current state of this view model
-    var titleForScreen: String {
-        if isLoading {
-            return "Loading Comments..."
-        } else {
-            return ""
-        }
-    }
-    
+        
     var postAuthor: String {
         "Moose #\(post.userId)"
     }
