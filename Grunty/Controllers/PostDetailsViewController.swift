@@ -51,7 +51,6 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
     private let userLabel: UILabel = {
         let label = UILabel(styledWithFont: .boldSystemFont(ofSize: 20))
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)     // TODO: Play with removing this
         return label
     }()
     private let titleLabel: UILabel = {
@@ -59,11 +58,6 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    private let spacer: UIView = {
-        let spacer = UIView()
-        spacer.translatesAutoresizingMaskIntoConstraints = false
-        return spacer
     }()
     private let bodyLabel: UILabel = {
         let label = UILabel(styledWithFont: .systemFont(ofSize: 16))
@@ -82,6 +76,11 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         let view = UIActivityIndicatorView(style: .medium)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    private let spacer: UIView = {
+        let spacer = UIView()
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        return spacer
     }()
     private let postCommentsTableView: UITableView = {
         let tableView = UITableView()
@@ -104,73 +103,49 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         // 1 - Configure UITableView
         postCommentsTableView.delegate = self
         postCommentsTableView.dataSource = self
-        
-        // 2 - Add views
-        let subviews = [titleLabel, bodyLabel, postCommentsHeading, postCommentsActivityIndicatorView, postCommentsTableView, postsByAuthor]
-        for subview in subviews {
-            view.addSubview(subview)
-        }
-        
-        // 3 - Layout
+                
+        // 2 - Two horizontal stack views
         let hMargin: CGFloat = 25.0
         // Layout a user avatar placeholder besides the username so it's clear the name identifies a user
-        let stackView = UIStackView(arrangedSubviews: [userAvatar, userLabel, spacer])
-        stackView.axis = .horizontal
+        let userStackView = UIStackView(arrangedSubviews: [userAvatar, userLabel])
+        userStackView.axis = .horizontal
+        userStackView.distribution = .fill
+        userStackView.spacing = 8.0
+        userStackView.alignment = .center
+        userStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let postCommentsHeadingStackView = UIStackView(arrangedSubviews: [postCommentsHeading, postCommentsActivityIndicatorView, spacer])
+        postCommentsHeadingStackView.axis = .horizontal
+        postCommentsHeadingStackView.distribution = .fill
+        postCommentsHeadingStackView.spacing = 0.0
+        postCommentsHeadingStackView.alignment = .center
+        postCommentsHeadingStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 3 - One vertical stack view to bring it all together
+        let stackView = UIStackView(arrangedSubviews: [userStackView, titleLabel, bodyLabel, postCommentsHeadingStackView, postCommentsTableView, postsByAuthor])
+        stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.spacing = 5.0
-        stackView.alignment = .center
+        stackView.spacing = 4.0
+        stackView.setCustomSpacing(10.0, after: userStackView)
+        stackView.setCustomSpacing(15.0, after: postCommentsTableView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
         
+        // 4 - stackView takes up most of the screen, with nice margins
         NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20.0),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: hMargin),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: hMargin),
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0)
-        ])            
-        
-        // Layout title and body with custom vertical spacing
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: hMargin),
-            titleLabel.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 10.0),
-            titleLabel.heightAnchor.constraint(equalToConstant: 28.0 * CGFloat(titleLabel.numberOfLines))
-        ])
-        NSLayoutConstraint.activate([
-            bodyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: hMargin),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: bodyLabel.trailingAnchor, constant: hMargin),
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4.0),
-            bodyLabel.heightAnchor.constraint(equalToConstant: 120.0)
         ])
         
-        // Layout a comments heading with an activity indicator to the right when comments are loading
+        // 5 - Fixed dimensions for some subviews
         NSLayoutConstraint.activate([
-            postCommentsHeading.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 25.0),
-            postCommentsHeading.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 32.0),
-            postCommentsHeading.widthAnchor.constraint(equalToConstant: 120.0),
-            postCommentsHeading.heightAnchor.constraint(equalToConstant: 30.0)
-        ])
-        
-        NSLayoutConstraint.activate([
-            postCommentsActivityIndicatorView.leadingAnchor.constraint(equalTo: postCommentsHeading.trailingAnchor, constant: 0.0),
-            postCommentsActivityIndicatorView.centerYAnchor.constraint(equalTo: postCommentsHeading.centerYAnchor),
+            userAvatar.widthAnchor.constraint(equalToConstant: 50.0),
             postCommentsActivityIndicatorView.widthAnchor.constraint(equalToConstant: 36.0),
-            postCommentsActivityIndicatorView.heightAnchor.constraint(equalTo: postCommentsActivityIndicatorView.widthAnchor)
-        ])
-
-        // Comments are laid out in a UITableView in the middle, with no fixed height
-        NSLayoutConstraint.activate([
-            postCommentsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: postCommentsTableView.trailingAnchor, constant: 20),
-            postCommentsTableView.topAnchor.constraint(equalTo: postCommentsHeading.bottomAnchor, constant: 4)
-        ])
-
-        // Layout Posts By Author at bottom of the view
-        NSLayoutConstraint.activate([
-            postsByAuthor.topAnchor.constraint(equalTo: postCommentsTableView.bottomAnchor, constant: 15),
-            postsByAuthor.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: postsByAuthor.trailingAnchor, constant: 20),
-            postsByAuthor.heightAnchor.constraint(equalToConstant: 48),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: postsByAuthor.bottomAnchor, constant: 20)
+            titleLabel.heightAnchor.constraint(equalToConstant: 28.0 * CGFloat(titleLabel.numberOfLines)),
+            bodyLabel.heightAnchor.constraint(equalToConstant: 150.0),
+            postsByAuthor.heightAnchor.constraint(equalToConstant: 48)
         ])
     }
     
