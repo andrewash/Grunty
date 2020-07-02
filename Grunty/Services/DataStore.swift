@@ -18,6 +18,13 @@ class DataStore {
         self.networkManager = NetworkManager()
     }
     
+    /// For testing, you can init a DataStore with mock objects
+    convenience init(mockPosts: [Post], mockPostCommentsForPostId: [Int: [PostComment]]) {
+        self.init()
+        self.posts = mockPosts
+        self.postCommentsForPostId = mockPostCommentsForPostId
+    }
+    
     /// Retrieves an array of objects of type T from disk, or if not cached on disk retrieves from network
     /// - parameter filter: filters objects before passing them to completion closure, if specified
     /// - parameter pathParam: URL parameter to include with network request, if required
