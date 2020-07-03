@@ -12,7 +12,7 @@ import UIKit
 class PostTableViewCell: UITableViewCell {
     static let identifier = "PostTableViewCell"
     static let height: CGFloat = 100.0
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .default
@@ -28,7 +28,7 @@ class PostTableViewCell: UITableViewCell {
     //==========================================================================
     // MARK: Controls
     //==========================================================================
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -68,7 +68,7 @@ class PostTableViewCell: UITableViewCell {
             bodyLabel.heightAnchor.constraint(equalToConstant: 28.0 * CGFloat(bodyLabel.numberOfLines))
         ])
     }
-    
+
     func updateUI(title: String, body: String) {
         titleLabel.text = title
         bodyLabel.text = body

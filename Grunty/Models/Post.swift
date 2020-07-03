@@ -13,14 +13,14 @@ struct Post: Codable {
     let id: Int
     let userId: Int
     let title: String
-    let body: String        
+    let body: String
 }
 
 extension Post: Comparable, Equatable {
     static func ==(lhs: Post, rhs: Post) -> Bool {
         lhs.id == rhs.id
     }
-    
+
     static func <(lhs: Post, rhs: Post) -> Bool {
         lhs.id < rhs.id
     }

@@ -10,7 +10,7 @@
 import Foundation
 
 class Configuration {
-    static let apiBaseUrl = URL(string: "https://jsonplaceholder.typicode.com/")    
+    static let apiBaseUrl = URL(string: "https://jsonplaceholder.typicode.com/")
     static let postCommentsFilenamePrefix = "postComments"      /// stores [PostComment] in device storage for fast retrieval
     static let postCommentsFilenameSuffix = ".json"
 }

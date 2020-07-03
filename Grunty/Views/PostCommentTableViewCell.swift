@@ -77,13 +77,12 @@ class PostCommentTableViewCell: UITableViewCell {
             contentView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 5.0)
         ])
     }
-    
+
     func updateUI(title: String, email: String, body: String) {
         titleLabel.text = title
         emailLabel.text = email
         bodyLabel.text = body
     }
-    
 
     //==========================================================================
     // MARK: Helpers

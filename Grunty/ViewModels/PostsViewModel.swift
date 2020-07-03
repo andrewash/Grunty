@@ -16,10 +16,10 @@ class PostsViewModel {
     private let filterByUserId: Int?                /// which user are we filtering for (if nil, no filter is applied)
     private(set) var isLoading: Bool = false        /// is ViewModel waiting for data to load?
     private var posts: [Post] = []
-    
+
     var updateHandler: () -> Void = {}
     var errorHandler: (String) -> Void = { (_) in }
-        
+
     init(dataStore: DataStore, filterByUserId: Int? = nil) {
         self.dataStore = dataStore
         self.filterByUserId = filterByUserId
@@ -36,18 +36,18 @@ class PostsViewModel {
             return "Recent \(posts.count) Grunts"
         }
     }
-    
+
     var numberOfPosts: Int { posts.count }
-        
+
     /// We only show the refresh button when viewing all posts
     var isRefreshButtonAvailable: Bool { filterByUserId == nil }
-    
+
     /// Retrieves a particular Post object, or nil if index is invalid
     func post(at index: Int) -> Post? {
         if index < posts.count { return posts[index] }
         return nil
     }
-    
+
     /// Triggers data-layer to clear caches and reload data
     func reset() {
         posts = []
@@ -55,7 +55,7 @@ class PostsViewModel {
             self?.loadData()
         }
     }
-    
+
     /// Creates a new view model for PostDetailsViewControllers without the
     ///  controller layer having access to this view model's private properties
     func makePostDetailsViewModel(at index: Int) -> PostDetailsViewModel? {
@@ -63,11 +63,11 @@ class PostsViewModel {
         return PostDetailsViewModel(dataStore: dataStore, post: post)
     }
     
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    
+
     /// Retrieve posts and keep track of whether data is still loading
     private func loadData() {
         isLoading = true

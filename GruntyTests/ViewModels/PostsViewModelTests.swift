@@ -11,7 +11,7 @@ import XCTest
 
 class PostsViewModelTests: XCTestCase {
     private var dataStore: DataStore!
-    
+
     override func setUpWithError() throws {
         super.setUp()
         // Initialize DataStore with mock data
@@ -40,7 +40,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testTitleForFilteredViewModel() {
         let expect = expectation(description: "loading view model's data")
         let filteringForUserId = 1
@@ -51,7 +51,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testNumberOfPosts() {
         let expect = expectation(description: "loading view model's data")
         let viewModel = PostsViewModel(dataStore: dataStore)
@@ -61,7 +61,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testRefreshButtonDefaultViewModel() {
         let expect = expectation(description: "loading view model's data")
         let viewModel = PostsViewModel(dataStore: dataStore)
@@ -71,7 +71,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testRefreshButtonWhenViewModelFiltered() {
         let expect = expectation(description: "loading view model's data")
         let viewModel = PostsViewModel(dataStore: dataStore, filterByUserId: 1)
@@ -81,7 +81,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testPostForIndex() {
         let expect = expectation(description: "loading view model's data")
         let viewModel = PostsViewModel(dataStore: dataStore)
@@ -92,7 +92,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testPostForIndexOutOfBounds() {
         let expect = expectation(description: "loading view model's data")
         let viewModel = PostsViewModel(dataStore: dataStore)
@@ -103,7 +103,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
+
     func testMakeModel() {
         let expect = expectation(description: "loading view model's data")
         let viewModel = PostsViewModel(dataStore: dataStore)
@@ -114,8 +114,7 @@ class PostsViewModelTests: XCTestCase {
         }
         defaultWaitForExpectations()
     }
-    
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================

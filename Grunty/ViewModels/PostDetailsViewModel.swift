@@ -16,23 +16,23 @@ class PostDetailsViewModel {
     private(set) var isLoading: Bool = false        /// is ViewModel waiting for data to load?
     private var post: Post
     private var comments: [PostComment] = []
-    
+
     var updateHandler: () -> Void = {}
     var errorHandler: (String) -> Void = { (_) in }
-    
+
     init(dataStore: DataStore, post: Post) {
         self.dataStore = dataStore
         self.post = post
         loadData()
     }
-        
-    var postAuthor: String { "Moose #\(post.userId)" }    
+
+    var postAuthor: String { "Moose #\(post.userId)" }
     var postTitle: String { post.title }
     var postBody: String { post.body }
     var numberOfComments: Int { comments.count }
     var commentsHeading: String { "\(numberOfComments) Comments" }
     var postsByAuthorButtonTitle: String { "More by \(postAuthor)" }
-    
+
     /// Retrieves a particular PostComment object, or nil if index is invalid
     func comment(at index: Int) -> PostComment? {
         if index < comments.count {
@@ -46,14 +46,14 @@ class PostDetailsViewModel {
         }
         return nil
     }
-    
+
     /// Creates a new view model for PostsTableViewControllers without the
     ///  controller layer having access to this view model's private properties
     func makePostsWithSameAuthorViewModel() -> PostsViewModel? {
         return PostsViewModel(dataStore: dataStore, filterByUserId: post.userId)
     }
     
-    
+
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
@@ -73,7 +73,7 @@ class PostDetailsViewModel {
             }
         }
     }
-    
+
     func reloadComments() {
         loadData()
     }

@@ -10,21 +10,21 @@ import Foundation
 
 class DataStore {
     let networkManager: NetworkManager
-    
+
     var posts: [Post]?                                      /// in-memory cache of posts
     var postCommentsForPostId: [Int: [PostComment]] = [:]   /// in-memory cache of comments retrieved for a given post.id
 
     init() {
         self.networkManager = NetworkManager()
     }
-    
+
     /// For testing, you can init a DataStore with mock objects
     convenience init(mockPosts: [Post], mockPostCommentsForPostId: [Int: [PostComment]]) {
         self.init()
         self.posts = mockPosts
         self.postCommentsForPostId = mockPostCommentsForPostId
     }
-    
+
     /// Retrieves an array of objects of type T from disk, or if not cached on disk retrieves from network
     /// - parameter filter: filters objects before passing them to completion closure, if specified
     /// - parameter pathParam: URL parameter to include with network request, if required
@@ -56,7 +56,7 @@ class DataStore {
             }
         }
     }
-        
+
     /// Retrieves posts from memory, disk, or remote network
     func retrievePosts(filterByUserId userId: Int?, then completion: @escaping (Result<[Post], Error>) -> Void) {
         DispatchQueue.global(qos: .background).async {
@@ -71,7 +71,7 @@ class DataStore {
                 }
                 return
             }
-            
+
             // Otherwise, load posts from disk or network, then save result to memory
             self.retrieve(filter: postsFilter) { result in
                 switch result {
@@ -97,7 +97,7 @@ class DataStore {
                 }
                 return
             }
-            
+
             // Otherwise, load comments from disk or network, then save result to memory
             self.retrieve(diskCacheFilename: filename, pathParam: String(postId)) { (result: Result<[PostComment], Error>) in
                 switch result {
@@ -111,7 +111,7 @@ class DataStore {
             }
         }
     }
-    
+
     /// Resets the database by clearing the app's cache directory
     func reset(completionHandler: (() -> Void)?) {
         DispatchQueue.global(qos: .background).async {

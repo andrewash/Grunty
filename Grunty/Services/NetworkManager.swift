@@ -11,7 +11,7 @@ import Foundation
 class NetworkManager {
     let decoder: JSONDecoder = JSONDecoder()
     let urlSession: URLSession
-    
+
     init(timeout: TimeInterval = TimeInterval(30)) {
         // By default we set a shorter timeout because Heroku web service can be unreliable
         let config = URLSessionConfiguration.default
@@ -19,16 +19,16 @@ class NetworkManager {
         config.timeoutIntervalForResource = timeout
         self.urlSession = URLSession(configuration: config)
     }
-    
+
     enum ImportError: String, Error, LocalizedError {
         case invalidURL
         case noDataReturned
-        
+
         var localizedDescription: String {
             rawValue
         }
     }
-        
+
     /// Downloads content from REST API with an optional remote URL path parameter, and a completion callback. Results are sorted
     func download<T: Codable & Comparable & RemoteURLProviding>(pathParam: String? = nil, completion: @escaping (Result<[T], Error>) -> Void) {
         guard let url = T.makeRemoteURL(pathParam: pathParam) else {

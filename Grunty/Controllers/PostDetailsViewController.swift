@@ -11,27 +11,27 @@ import UIKit
 
 class PostDetailsViewController: UIViewController, ErrorReportingViewController {
     private let viewModel: PostDetailsViewModel
-    
+
     var errorTitle: String { "Can't Find a Moose" }
     var errorMessage: String { "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
-    
+
     init(viewModel: PostDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.updateHandler = updateUI
         self.viewModel.errorHandler = errorHandler
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("required designated initializer for storyboards/xibs")
     }
-    
+
     deinit {
         postCommentsTableView.delegate = nil
         postCommentsTableView.dataSource = nil
     }
     
-    
+
     //==========================================================================
     // MARK: View Layout
     //==========================================================================
@@ -199,7 +199,6 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
 
-    
     //==========================================================================
     // MARK: UITableViewDelegate
     //==========================================================================
@@ -208,11 +207,10 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         return PostCommentTableViewCell.height
     }
 
-    
     //==========================================================================
     // MARK: Helpers
     //==========================================================================
-    
+
     func errorHandler(errorDetails: String) {
         present(
             makeAlert(errorDetails: errorDetails,
@@ -220,7 +218,7 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
                             self?.viewModel.reloadComments() },
                            cancelHandler: { [weak self] in
                             self?.updateUI()
-            } ),
+            }),
             animated: true,
             completion: nil
         )

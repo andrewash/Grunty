@@ -11,12 +11,12 @@ import UIKit
 
 class PostsTableViewController: UITableViewController, ErrorReportingViewController {
     private let viewModel: PostsViewModel
-        
+
     // Keeps a reference to this view so we can stop it's animation
     var activityIndicatorView: UIActivityIndicatorView?
     var errorTitle: String { "Can't Find a Moose" }
     var errorMessage: String { "Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
-    
+
     init(viewModel: PostsViewModel) {
         self.viewModel = viewModel
         super.init(style: .plain)
@@ -36,7 +36,7 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         super.viewDidLoad()
         prepareView()
     }
-    
+
     func prepareView() {
         view.backgroundColor = .white
         navigationItem.title = viewModel.titleForScreen
@@ -44,7 +44,7 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         tableView.tableFooterView = tableFooterView
         updateUI()
     }
-    
+
     // A beautiful logo at the bottom of the list for some colour
     private let tableFooterView: UIView = {
         let footerLength: CGFloat = 100.0
@@ -78,13 +78,13 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         }
         tableView.reloadData()
     }
-    
+
     // Ask view model to clear caches and reload data
     @objc func reset() {
         viewModel.reset()
     }
     
-    
+
     //==========================================================================
     // MARK: UITableViewDataSource and UITableViewDelegate
     //==========================================================================
@@ -113,7 +113,7 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
             Utilities.debugLog("No view model available at row \(indexPath.row) to instantiate PostDetailsViewController")
             return
         }
-        navigationController?.pushViewController(PostDetailsViewController(viewModel: relatedViewModel), animated: true)            
+        navigationController?.pushViewController(PostDetailsViewController(viewModel: relatedViewModel), animated: true)
     }
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -140,13 +140,13 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
             showRefreshButton()
         }
     }
-    
+
     func showRefreshButton() {
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
         refreshButton.tintColor = .black
         navigationItem.setRightBarButton(refreshButton, animated: true)
     }
-    
+
     func errorHandler(errorDetails: String) {
         present(
             makeAlert(errorDetails: errorDetails,
@@ -154,7 +154,7 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
                             self?.viewModel.reset() },
                            cancelHandler: { [weak self] in
                             self?.updateUI()
-            } ),
+            }),
             animated: true,
             completion: nil
         )

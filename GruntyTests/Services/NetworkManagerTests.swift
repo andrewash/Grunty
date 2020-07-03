@@ -27,7 +27,7 @@ class NetworkManagerTests: XCTestCase {
     }
 
     func testExpectedNumberOfCommentsRetrieved() {
-        let expect = expectation(description: "loading comments")        
+        let expect = expectation(description: "loading comments")
         networkManager.download(pathParam: String(3)) { (result: Result<[PostComment], Error>) in
             switch result {
             case .failure(let error):

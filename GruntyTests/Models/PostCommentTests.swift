@@ -16,7 +16,7 @@ class PostCommentTests: XCTestCase {
         super.setUp()
         self.comment = TestUtilities.loadObjectFromJSON(filename: "testPostComment")
     }
-    
+
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         self.comment = nil
