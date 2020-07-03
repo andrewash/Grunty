@@ -6,9 +6,25 @@ By Andrew Ash
 
 Please note all messages printed to console are gated by a check to make sure we're not running on production.
 
-## Dev Design
-- MVVM architecture
-- Dependency injection
+## What's New
+Version 1.1 - July 2020
+- MVVM-C architecture
+- Added unit tests for view models.  
+- Common view controller functionality moved to my new `ErrorReportingViewController` protocol.
+- View controllers are cleaner and more consistent
+
+- Dependency injection instead of singletons. `DataStore` can also be mocked with fake models for testing purposes.
+- `UIStackView`s used extensively for simpler auto-layout, with fewer constraints to manage, and fewer lines of code.
+- `NetworkManager` is more DRY with one `download` method that uses generics, and the actual REST API endpoint URLs are provided by types which conform to my new `RemoteURLProviding` protocol. 
+- Network requests have shorter timeouts for when the Heroku REST API service is unreliable
+- Consistently thorough comments and documentation
+- I only use `self` in initializers and to disambiguate between a local variable and class member with the same name.
+- More succint 1-line computed properties that omit `return`
+- All error messages are passed up the stack, and all helpful information is shown to the user in an error dialog. For security reasons, in a production app I'd submit this to a monitoring service instead of showing some of these details to the user. 
+- `DataStore` now retrieves models from memory, falling back to on-disk storage, and lastly to requesting from the network. You can see this work by viewing debug messags in the console. Refactored to be more DRY by moving common code into a `retrieve` method that takes a type parameter `T` (via generics). My goal was as simple as possible but no simpler.
+
+## Original Design
+Version 1.0 - June 2020
 - Uses some newer Swift features like the Result type
 - Comments load async when you tap to view a post and appear in a nested UITableView
 - The Codable protocol on my model classes to encode/decode JSON
@@ -18,6 +34,5 @@ Please note all messages printed to console are gated by a check to make sure we
 - Adds a Refresh button at top-right to retrieve the latest grunts instead of cached grunts
 - All artwork is licensed from Shutterstock
 
-### Known Issues
+## Known Issues
 None
-
