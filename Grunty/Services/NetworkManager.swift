@@ -10,6 +10,15 @@ import Foundation
 
 class NetworkManager {
     let decoder: JSONDecoder = JSONDecoder()
+    let urlSession: URLSession
+    
+    init(timeout: TimeInterval = TimeInterval(30)) {
+        // By default we set a shorter timeout because Heroku web service can be unreliable
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = timeout
+        config.timeoutIntervalForResource = timeout
+        self.urlSession = URLSession(configuration: config)
+    }
     
     enum ImportError: String, Error, LocalizedError {
         case invalidURL
@@ -27,7 +36,7 @@ class NetworkManager {
             completion(.failure(ImportError.invalidURL))
             return
         }
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
+        urlSession.dataTask(with: url) { (data, _, error) in
             if let err = error {
                 completion(.failure(err))
                 return
