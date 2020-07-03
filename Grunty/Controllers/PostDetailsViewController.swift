@@ -30,7 +30,6 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         postCommentsTableView.delegate = nil
         postCommentsTableView.dataSource = nil
     }
-    
 
     //==========================================================================
     // MARK: View Layout
@@ -98,12 +97,12 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     func layoutViews() {
         // 1 - Configure UITableView
         postCommentsTableView.delegate = self
         postCommentsTableView.dataSource = self
-                
+
         // 2 - Two horizontal stack views
         let hMargin: CGFloat = 25.0
         // Layout a user avatar placeholder besides the username so it's clear the name identifies a user
@@ -113,14 +112,14 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         userStackView.spacing = 8.0
         userStackView.alignment = .center
         userStackView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         let postCommentsHeadingStackView = UIStackView(arrangedSubviews: [postCommentsHeading, postCommentsActivityIndicatorView, spacer])
         postCommentsHeadingStackView.axis = .horizontal
         postCommentsHeadingStackView.distribution = .fill
         postCommentsHeadingStackView.spacing = 0.0
         postCommentsHeadingStackView.alignment = .center
         postCommentsHeadingStackView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         // 3 - One vertical stack view to bring it all together
         let stackView = UIStackView(arrangedSubviews: [userStackView, titleLabel, bodyLabel, postCommentsHeadingStackView, postCommentsTableView, postsByAuthor])
         stackView.axis = .vertical
@@ -130,15 +129,15 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         stackView.setCustomSpacing(15.0, after: postCommentsTableView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
-        
+
         // 4 - stackView takes up most of the screen, with nice margins
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7.0),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20.0),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: hMargin),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: hMargin),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: hMargin)
         ])
-        
+
         // 5 - Fixed dimensions for some subviews
         NSLayoutConstraint.activate([
             userAvatar.widthAnchor.constraint(equalToConstant: 50.0),
@@ -149,12 +148,12 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         ])
     }
     
-    
+
     //==========================================================================
     // MARK: Actions
     //==========================================================================
-    
-    func updateUI() {        
+
+    func updateUI() {
         userLabel.text = viewModel.postAuthor
         titleLabel.text = viewModel.postTitle
         bodyLabel.text = viewModel.postBody
@@ -168,7 +167,7 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         }
         postCommentsTableView.reloadData()
     }
-    
+
     @objc func goPostsByAuthor() {
         guard let relatedViewModel = viewModel.makePostsWithSameAuthorViewModel() else {
             Utilities.debugLog("No view model available to instantiate PostsTableViewController")
