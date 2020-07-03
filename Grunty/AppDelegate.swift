@@ -14,8 +14,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var dataStore = DataStore()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         let viewModel = PostsViewModel(dataStore: dataStore)
         let mainVC = PostsTableViewController(viewModel: viewModel)
+        
         window = UIWindow()
         window?.backgroundColor = UIColor.white
         window?.rootViewController = UINavigationController(rootViewController: mainVC)

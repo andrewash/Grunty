@@ -12,7 +12,8 @@ import UIKit
 class PostsTableViewController: UITableViewController, ErrorReportingViewController {
     private let viewModel: PostsViewModel
         
-    var activityIndicatorView: UIActivityIndicatorView?     // keeps reference to this view so we can stop it's animation
+    // Keeps a reference to this view so we can stop it's animation
+    var activityIndicatorView: UIActivityIndicatorView?
     var errorTitle: String { "Can't Find a Moose" }
     var errorMessage: String { "Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
     
