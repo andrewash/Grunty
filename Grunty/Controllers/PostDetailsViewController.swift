@@ -12,8 +12,8 @@ import UIKit
 class PostDetailsViewController: UIViewController, ErrorReportingViewController {
     private let viewModel: PostDetailsViewModel
     
-    var errorTitle: String { NSLocalizedString("Can't Find a Moose", comment: "Can't Find a Moose") }
-    var errorMessage: String { NSLocalizedString("Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap Retry to try again.\n\nError: %@", comment: "Error description") }
+    var errorTitle: String { "Can't Find a Moose" }
+    var errorMessage: String { "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
     
     init(viewModel: PostDetailsViewModel) {
         self.viewModel = viewModel
@@ -214,8 +214,8 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
     //==========================================================================
     
     func errorHandler(errorDetails: String) {
-        self.present(
-            self.makeAlert(errorDetails: errorDetails,
+        present(
+            makeAlert(errorDetails: errorDetails,
                            retryHandler: { [weak self] in
                             self?.viewModel.reloadComments() },
                            cancelHandler: { [weak self] in

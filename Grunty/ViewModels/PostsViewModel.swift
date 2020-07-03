@@ -30,7 +30,7 @@ class PostsViewModel {
     var titleForScreen: String {
         if isLoading {
             return "Loading Grunts..."
-        } else if let filteringForUserId = self.filterByUserId {
+        } else if let filteringForUserId = filterByUserId {
             return "Moose #\(filteringForUserId)'s Grunts"
         } else {
             return "Recent \(posts.count) Grunts"
@@ -50,7 +50,7 @@ class PostsViewModel {
     
     /// Triggers data-layer to clear caches and reload data
     func reset() {
-        self.posts = []
+        posts = []
         dataStore.reset { [weak self] in
             self?.loadData()
         }
@@ -60,7 +60,7 @@ class PostsViewModel {
     ///  controller layer having access to this view model's private properties
     func makePostDetailsViewModel(at index: Int) -> PostDetailsViewModel? {
         guard let post = post(at: index) else { return nil }
-        return PostDetailsViewModel(dataStore: self.dataStore, post: post)
+        return PostDetailsViewModel(dataStore: dataStore, post: post)
     }
     
     

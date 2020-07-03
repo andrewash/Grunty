@@ -50,7 +50,7 @@ class PostDetailsViewModel {
     /// Creates a new view model for PostsTableViewControllers without the
     ///  controller layer having access to this view model's private properties
     func makePostsWithSameAuthorViewModel() -> PostsViewModel? {
-        return PostsViewModel(dataStore: self.dataStore, filterByUserId: post.userId)
+        return PostsViewModel(dataStore: dataStore, filterByUserId: post.userId)
     }
     
     

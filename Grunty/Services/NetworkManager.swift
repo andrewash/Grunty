@@ -25,7 +25,7 @@ class NetworkManager {
         case noDataReturned
         
         var localizedDescription: String {
-            self.rawValue
+            rawValue
         }
     }
         

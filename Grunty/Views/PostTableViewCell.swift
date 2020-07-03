@@ -70,8 +70,8 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func updateUI(title: String, body: String) {
-        self.titleLabel.text = title
-        self.bodyLabel.text = body
+        titleLabel.text = title
+        bodyLabel.text = body
     }
     
 

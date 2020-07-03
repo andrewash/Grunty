@@ -79,9 +79,9 @@ class PostCommentTableViewCell: UITableViewCell {
     }
     
     func updateUI(title: String, email: String, body: String) {
-        self.titleLabel.text = title
-        self.emailLabel.text = email
-        self.bodyLabel.text = body
+        titleLabel.text = title
+        emailLabel.text = email
+        bodyLabel.text = body
     }
     
 

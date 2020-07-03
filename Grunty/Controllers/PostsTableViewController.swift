@@ -13,8 +13,8 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     private let viewModel: PostsViewModel
         
     var activityIndicatorView: UIActivityIndicatorView?     // keeps reference to this view so we can stop it's animation
-    var errorTitle: String { NSLocalizedString("Can't Find a Moose", comment: "Can't Find a Moose") }
-    var errorMessage: String { NSLocalizedString("Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@", comment: "Error description") }
+    var errorTitle: String { "Can't Find a Moose" }
+    var errorMessage: String { "Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
     
     init(viewModel: PostsViewModel) {
         self.viewModel = viewModel
@@ -147,8 +147,8 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     }
     
     func errorHandler(errorDetails: String) {
-        self.present(
-            self.makeAlert(errorDetails: errorDetails,
+        present(
+            makeAlert(errorDetails: errorDetails,
                            retryHandler: { [weak self] in
                             self?.viewModel.reset() },
                            cancelHandler: { [weak self] in
