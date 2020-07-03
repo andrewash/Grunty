@@ -75,10 +75,10 @@ class DataStore {
             // Otherwise, load posts from disk or network, then save result to memory
             self.retrieve(filter: postsFilter) { result in
                 switch result {
-                    case .success(let posts):
-                        self.posts = posts
-                    default:
-                        break
+                case .success(let posts):
+                    self.posts = posts
+                default:
+                    break
                 }
                 completion(result)
             }

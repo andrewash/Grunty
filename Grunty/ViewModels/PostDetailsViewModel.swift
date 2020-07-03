@@ -9,7 +9,8 @@
 import Foundation
 
 /// Notes:
-/// I went back and forth about whether this ViewModel should be a class or struct, and went with a class as described here:
+/// I went back and forth about whether this ViewModel should be a class or struct,
+///  and went with a class as described here:
 ///  https://www.swiftbysundell.com/articles/different-flavors-of-view-models-in-swift/
 class PostDetailsViewModel {
     private let dataStore: DataStore
@@ -65,11 +66,11 @@ class PostDetailsViewModel {
         dataStore.retrieveComments(forPostId: post.id) { [weak self] result in
             self?.isLoading = false
             switch result {
-                case .success(let comments):
-                    self?.comments = comments
-                    self?.updateHandler()
-                case .failure(let error):
-                    self?.errorHandler(error.localizedDescription)
+            case .success(let comments):
+                self?.comments = comments
+                self?.updateHandler()
+            case .failure(let error):
+                self?.errorHandler(error.localizedDescription)
             }
         }
     }

@@ -18,7 +18,7 @@ struct PostComment {
 }
 
 extension PostComment: Comparable, Equatable {
-    static func ==(lhs: PostComment, rhs: PostComment) -> Bool {
+    static func == (lhs: PostComment, rhs: PostComment) -> Bool {
         lhs.id == rhs.id
     }
 

@@ -17,11 +17,11 @@ struct Post: Codable {
 }
 
 extension Post: Comparable, Equatable {
-    static func ==(lhs: Post, rhs: Post) -> Bool {
+    static func == (lhs: Post, rhs: Post) -> Bool {
         lhs.id == rhs.id
     }
 
-    static func <(lhs: Post, rhs: Post) -> Bool {
+    static func < (lhs: Post, rhs: Post) -> Bool {
         lhs.id < rhs.id
     }
 }
