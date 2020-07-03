@@ -12,11 +12,9 @@ import XCTest
 class PostTests: XCTestCase {
     var post: Post?
 
-    private let decoder = JSONDecoder()
-
     override func setUpWithError() throws {
         super.setUp()
-        self.post = loadTestPostFromJSON()
+        self.post = TestUtilities.loadObjectFromJSON(filename: "testPost")
     }
 
     func testImportCorrect() {
@@ -24,33 +22,10 @@ class PostTests: XCTestCase {
             XCTFail("Error: No mock post available, test fails")
             return
         }
-        XCTAssertTrue(post.userId == 10 &&
-            post.id == 98 &&
-            post.title == "laboriosam dolor voluptates" &&
-            post.body == "doloremque ex facilis sit sint culpa\nsoluta assumenda eligendi non ut eius\nsequi ducimus vel quasi\nveritatis est dolores",
+        XCTAssertTrue(post.userId == 1 &&
+            post.id == 1 &&
+            post.title == "sunt aut facere repellat provident occaecati excepturi optio reprehenderit" &&
+            post.body == "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
                       "Error: post not imported correctly")
-    }
-
-    //==========================================================================
-    // MARK: Helpers
-    //==========================================================================
-
-    func loadTestPostFromJSON() -> Post? {
-        let bundle = Bundle(for: PostTests.self)
-        guard
-            let path = bundle.path(forResource: "testPost", ofType: "json"),
-            let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-            FileManager.default.fileExists(atPath: path) else
-        {
-            print("Error: Cannot locate or load testPost.json")
-            return nil
-        }
-        let decoder = JSONDecoder()
-        do {
-            return try decoder.decode(Post.self, from: data)
-        } catch {
-            print("Error: Could not decode Post test object with error \(error)")
-            return nil
-        }
     }
 }

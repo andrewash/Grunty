@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		DE20B48324AC1862008F94EB /* RemoteURLProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */; };
+		DE6482AA24AF0E6F00726F2C /* testPostComments.json in Resources */ = {isa = PBXBuildFile; fileRef = DE6482A924AF0E6F00726F2C /* testPostComments.json */; };
+		DE6482AC24AF116C00726F2C /* TestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6482AB24AF116C00726F2C /* TestUtilities.swift */; };
 		DE6DFEDF24955F6A006C0966 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6DFEDE24955F6A006C0966 /* Configuration.swift */; };
 		DE874BB624AD74A6000BF8AD /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE874BB524AD74A6000BF8AD /* PostsViewModel.swift */; };
 		DE874BB824AD74B4000BF8AD /* PostDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE874BB724AD74B4000BF8AD /* PostDetailsViewModel.swift */; };
+		DE9B1AD824AE5D7700E8A0EF /* PostsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9B1AD724AE5D7700E8A0EF /* PostsViewModelTests.swift */; };
+		DE9B1ADA24AE5D8900E8A0EF /* PostDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9B1AD924AE5D8900E8A0EF /* PostDetailsViewModelTests.swift */; };
 		DE9BC6FA2494285100781C10 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DE9BC6F92494285100781C10 /* README.md */; };
 		DEA3975D249593B20089404E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975C249593B20089404E /* UIColor.swift */; };
 		DEA3975F249595890089404E /* PostCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA3975E249595890089404E /* PostCommentTableViewCell.swift */; };
@@ -47,9 +51,13 @@
 
 /* Begin PBXFileReference section */
 		DE20B48224AC1862008F94EB /* RemoteURLProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteURLProviding.swift; sourceTree = "<group>"; };
+		DE6482A924AF0E6F00726F2C /* testPostComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = testPostComments.json; sourceTree = "<group>"; };
+		DE6482AB24AF116C00726F2C /* TestUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtilities.swift; sourceTree = "<group>"; };
 		DE6DFEDE24955F6A006C0966 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DE874BB524AD74A6000BF8AD /* PostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
 		DE874BB724AD74B4000BF8AD /* PostDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsViewModel.swift; sourceTree = "<group>"; };
+		DE9B1AD724AE5D7700E8A0EF /* PostsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewModelTests.swift; sourceTree = "<group>"; };
+		DE9B1AD924AE5D8900E8A0EF /* PostDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		DE9BC6F92494285100781C10 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DEA3975C249593B20089404E /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		DEA3975E249595890089404E /* PostCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -144,11 +152,15 @@
 			isa = PBXGroup;
 			children = (
 				DEAD15E32494250F00DCA5ED /* Info.plist */,
+				DEA3976E2495F3990089404E /* NetworkManagerTests.swift */,
 				DEA3976A2495F2410089404E /* PostCommentTests.swift */,
+				DE9B1AD924AE5D8900E8A0EF /* PostDetailsViewModelTests.swift */,
+				DE9B1AD724AE5D7700E8A0EF /* PostsViewModelTests.swift */,
 				DEA397622495EFD30089404E /* PostTests.swift */,
 				DEA397642495F1070089404E /* testPost.json */,
 				DEA397682495F22F0089404E /* testPostComment.json */,
-				DEA3976E2495F3990089404E /* NetworkManagerTests.swift */,
+				DE6482A924AF0E6F00726F2C /* testPostComments.json */,
+				DE6482AB24AF116C00726F2C /* TestUtilities.swift */,
 			);
 			path = GruntyTests;
 			sourceTree = "<group>";
@@ -289,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEA397652495F1070089404E /* testPost.json in Resources */,
+				DE6482AA24AF0E6F00726F2C /* testPostComments.json in Resources */,
 				DEA397692495F22F0089404E /* testPostComment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +338,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE6482AC24AF116C00726F2C /* TestUtilities.swift in Sources */,
+				DE9B1AD824AE5D7700E8A0EF /* PostsViewModelTests.swift in Sources */,
+				DE9B1ADA24AE5D8900E8A0EF /* PostDetailsViewModelTests.swift in Sources */,
 				DEA3976F2495F3990089404E /* NetworkManagerTests.swift in Sources */,
 				DEA397632495EFD30089404E /* PostTests.swift in Sources */,
 				DEA3976B2495F2410089404E /* PostCommentTests.swift in Sources */,
