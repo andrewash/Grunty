@@ -10,7 +10,7 @@
 import Foundation
 import UIKit
 
-struct Utilities {    
+struct Utilities {
     /// Gate all print statements behind a debug check so we don't log insecure data in production
     static func debugLog(_ message: String) {
         #if DEBUG

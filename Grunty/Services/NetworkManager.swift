@@ -17,11 +17,11 @@ class NetworkManager {
         case invalidURL
         case noDataReturned
     }
-        
+
     /// Initialize a NetworkManager
     /// - parameter timeout: By default we set a shorter timeout because the Heroku web service can be unreliable. You can specify your own timeout.
     init(timeout: TimeInterval = TimeInterval(30)) {
-    
+
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = timeout
         config.timeoutIntervalForResource = timeout

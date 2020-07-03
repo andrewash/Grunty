@@ -10,7 +10,7 @@
 import Foundation
 import UIKit
 
-extension UILabel {    
+extension UILabel {
     convenience init(styledWithFont font: UIFont, textAlignment: NSTextAlignment = .natural) {
         self.init()
         self.textColor = .black

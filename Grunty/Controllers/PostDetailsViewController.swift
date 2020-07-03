@@ -13,7 +13,6 @@ import UIKit
 class PostDetailsViewController: UIViewController {
     private let viewModel: PostDetailsViewModel
 
-    
     init(viewModel: PostDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -165,7 +164,7 @@ class PostDetailsViewController: UIViewController {
         }
         postCommentsTableView.reloadData()
     }
-        
+
     @objc func goPostsByAuthor() {
         // Requests a new view model from an existing view model, so this controller doesn't
         //  need to know anything about the models used to instantiate a PostDetailsViewModel
@@ -180,7 +179,7 @@ class PostDetailsViewController: UIViewController {
 //==========================================================================
 // MARK: UITableViewDataSource
 //==========================================================================
-extension PostDetailsViewController: UITableViewDataSource  {
+extension PostDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfComments
     }

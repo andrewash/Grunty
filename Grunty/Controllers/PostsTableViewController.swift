@@ -13,7 +13,7 @@ import UIKit
 class PostsTableViewController: UITableViewController {
     private let viewModel: PostsViewModel
     var activityIndicatorView: UIActivityIndicatorView?     // shown when viewModel is loading
-    
+
     init(viewModel: PostsViewModel) {
         self.viewModel = viewModel
         super.init(style: .plain)
@@ -51,7 +51,7 @@ class PostsTableViewController: UITableViewController {
         ])
         return view
     }()
-    
+
     func layoutViews() {
         view.backgroundColor = .white
         navigationItem.title = viewModel.titleForScreen
@@ -142,7 +142,7 @@ extension PostsTableViewController {
             showRefreshButton()
         }
     }
-    
+
     private func showRefreshButton() {
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
         refreshButton.tintColor = .black
@@ -153,7 +153,7 @@ extension PostsTableViewController {
 extension PostsTableViewController: ErrorReportingViewController {
     var errorTitle: String { "Can't Find a Moose" }
     var errorMessage: String { "Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
-    
+
     private func errorHandler(errorDetails: String) {
         present(
             makeAlert(errorDetails: errorDetails,

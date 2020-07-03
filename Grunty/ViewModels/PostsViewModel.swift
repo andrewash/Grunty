@@ -14,19 +14,19 @@ import Foundation
 ///  https://www.swiftbysundell.com/articles/different-flavors-of-view-models-in-swift/
 class PostsViewModel {
     private let dataStore: DataStore
-    
+
     /// which user are we filtering for (if nil, no filter is applied)
     private let filterByUserId: Int?
-    
+
     /// is ViewModel waiting for data to load?
     private(set) var isLoading: Bool = false
-    
+
     /// underlying model objects
     private var posts: [Post] = []
 
     /// PostsViewModel calls updateHandler when the viewModel changes such that the view needs to be refreshed
     var updateHandler: () -> Void = {}
-    
+
     /// PostsViewModel calls errorHandler when an error needs to be presented to the user
     var errorHandler: (String) -> Void = { (_) in }
 
