@@ -16,7 +16,7 @@ protocol ErrorReportingViewController: UIViewController {
     var errorMessage: String { get }
 }
 
-extension ErrorReportingViewController {
+extension ErrorReportingViewController where Self: UIViewController {
     func makeAlert(errorDetails: String, retryHandler: @escaping () -> Void, cancelHandler: @escaping () -> Void) -> UIAlertController {
         let alert = UIAlertController(title: errorTitle,
                                       message: String(format: errorMessage, errorDetails),
