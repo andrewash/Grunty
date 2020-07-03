@@ -53,7 +53,6 @@ class PostDetailsViewModel {
     func makePostsWithSameAuthorViewModel() -> PostsViewModel? {
         return PostsViewModel(dataStore: dataStore, filterByUserId: post.userId)
     }
-    
 
     //==========================================================================
     // MARK: Helpers

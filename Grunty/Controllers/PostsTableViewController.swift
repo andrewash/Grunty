@@ -62,7 +62,6 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         return view
     }()
 
-    
     //==========================================================================
     // MARK: Actions
     //==========================================================================
@@ -83,7 +82,6 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     @objc func reset() {
         viewModel.reset()
     }
-    
 
     //==========================================================================
     // MARK: UITableViewDataSource and UITableViewDelegate
@@ -119,7 +117,6 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 150.0
     }
-    
 
     //==========================================================================
     // MARK: Helpers

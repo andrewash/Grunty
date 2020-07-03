@@ -147,7 +147,6 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
             postsByAuthor.heightAnchor.constraint(equalToConstant: 48)
         ])
     }
-    
 
     //==========================================================================
     // MARK: Actions

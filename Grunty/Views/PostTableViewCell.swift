@@ -23,7 +23,6 @@ class PostTableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
     //==========================================================================
     // MARK: Controls
@@ -73,7 +72,6 @@ class PostTableViewCell: UITableViewCell {
         titleLabel.text = title
         bodyLabel.text = body
     }
-    
 
     //==========================================================================
     // MARK: Helpers

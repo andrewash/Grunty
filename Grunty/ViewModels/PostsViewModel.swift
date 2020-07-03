@@ -62,7 +62,6 @@ class PostsViewModel {
         guard let post = post(at: index) else { return nil }
         return PostDetailsViewModel(dataStore: dataStore, post: post)
     }
-    
 
     //==========================================================================
     // MARK: Helpers
