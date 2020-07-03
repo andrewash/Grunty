@@ -104,6 +104,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE6482AD24AF247800726F2C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DEA3976A2495F2410089404E /* PostCommentTests.swift */,
+				DEA397622495EFD30089404E /* PostTests.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DE6482AE24AF248100726F2C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DE9B1AD924AE5D8900E8A0EF /* PostDetailsViewModelTests.swift */,
+				DE9B1AD724AE5D7700E8A0EF /* PostsViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DE6482AF24AF248700726F2C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DEA3976E2495F3990089404E /* NetworkManagerTests.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		DE874BB424AD7480000BF8AD /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,15 +178,13 @@
 			isa = PBXGroup;
 			children = (
 				DEAD15E32494250F00DCA5ED /* Info.plist */,
-				DEA3976E2495F3990089404E /* NetworkManagerTests.swift */,
-				DEA3976A2495F2410089404E /* PostCommentTests.swift */,
-				DE9B1AD924AE5D8900E8A0EF /* PostDetailsViewModelTests.swift */,
-				DE9B1AD724AE5D7700E8A0EF /* PostsViewModelTests.swift */,
-				DEA397622495EFD30089404E /* PostTests.swift */,
+				DE6482AD24AF247800726F2C /* Models */,
+				DE6482AF24AF248700726F2C /* Services */,
 				DEA397642495F1070089404E /* testPost.json */,
 				DEA397682495F22F0089404E /* testPostComment.json */,
 				DE6482A924AF0E6F00726F2C /* testPostComments.json */,
 				DE6482AB24AF116C00726F2C /* TestUtilities.swift */,
+				DE6482AE24AF248100726F2C /* ViewModels */,
 			);
 			path = GruntyTests;
 			sourceTree = "<group>";
