@@ -9,6 +9,6 @@
 
 import UIKit
 
-extension UIColor {
+extension UIColor {    
     public static let paleCerulean = UIColor(red: 229/255.0, green: 248/255.0, blue: 255/255.0, alpha: 1.0)
 }

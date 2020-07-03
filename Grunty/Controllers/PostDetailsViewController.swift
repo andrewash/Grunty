@@ -5,16 +5,15 @@
 //  Created by Andrew Ash on 6/12/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  UIViewController showing post details and a list of comments
 
 import Foundation
 import UIKit
 
-class PostDetailsViewController: UIViewController, ErrorReportingViewController {
+class PostDetailsViewController: UIViewController {
     private let viewModel: PostDetailsViewModel
 
-    var errorTitle: String { "Can't Find a Moose" }
-    var errorMessage: String { "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
-
+    
     init(viewModel: PostDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -149,7 +148,7 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
     }
 
     //==========================================================================
-    // MARK: Actions
+    // MARK: Data & Actions
     //==========================================================================
 
     func updateUI() {
@@ -166,8 +165,10 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
         }
         postCommentsTableView.reloadData()
     }
-
+        
     @objc func goPostsByAuthor() {
+        // Requests a new view model from an existing view model, so this controller doesn't
+        //  need to know anything about the models used to instantiate a PostDetailsViewModel
         guard let relatedViewModel = viewModel.makePostsWithSameAuthorViewModel() else {
             Utilities.debugLog("No view model available to instantiate PostsTableViewController")
             return
@@ -176,11 +177,10 @@ class PostDetailsViewController: UIViewController, ErrorReportingViewController 
     }
 }
 
-extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate {
-    //==========================================================================
-    // MARK: UITableViewDataSource
-    //==========================================================================
-
+//==========================================================================
+// MARK: UITableViewDataSource
+//==========================================================================
+extension PostDetailsViewController: UITableViewDataSource  {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfComments
     }
@@ -196,20 +196,27 @@ extension PostDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         cell.updateUI(title: comment.title, email: comment.postedByEmail, body: comment.body)
         return cell
     }
+}
 
-    //==========================================================================
-    // MARK: UITableViewDelegate
-    //==========================================================================
+//==========================================================================
+// MARK: UITableViewDelegate
+//==========================================================================
 
+extension PostDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return PostCommentTableViewCell.height
     }
+}
 
-    //==========================================================================
-    // MARK: Helpers
-    //==========================================================================
+//==========================================================================
+// MARK: Helpers
+//==========================================================================
 
-    func errorHandler(errorDetails: String) {
+extension PostDetailsViewController: ErrorReportingViewController {
+    var errorTitle: String { "Can't Find a Moose" }
+    var errorMessage: String { "Oops, we can't hear all the grunts about this grunt. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
+
+    private func errorHandler(errorDetails: String) {
         present(
             makeAlert(errorDetails: errorDetails,
                            retryHandler: { [weak self] in

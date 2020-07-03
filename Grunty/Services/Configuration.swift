@@ -9,8 +9,13 @@
 
 import Foundation
 
-class Configuration {
+struct Configuration {
+    /// Remote REST API base URL
     static let apiBaseUrl = URL(string: "https://jsonplaceholder.typicode.com/")
-    static let postCommentsFilenamePrefix = "postComments"      /// stores [PostComment] in device storage for fast retrieval
+    
+    /// Filename prefix for storing [PostComment] in device storage
+    static let postCommentsFilenamePrefix = "postComments"
+    
+    /// Filename suffix for storing [PostComment] in device storage
     static let postCommentsFilenameSuffix = ".json"
 }

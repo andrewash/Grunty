@@ -5,6 +5,7 @@
 //  Created by Andrew Ash on 6/12/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  View for a custom UITableViewCell showing a post
 
 import Foundation
 import UIKit
@@ -47,7 +48,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
 
-    private func layoutControls() {
+    func layoutControls() {
         // 1 - Add views
         addSubview(titleLabel)
         addSubview(bodyLabel)
@@ -68,6 +69,7 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
 
+    /// Controllers may call this method to bind data to this view
     func updateUI(title: String, body: String) {
         titleLabel.text = title
         bodyLabel.text = body

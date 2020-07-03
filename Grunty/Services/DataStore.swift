@@ -5,6 +5,7 @@
 //  Created by Andrew Ash on 6/12/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  DataStore for the app
 
 import Foundation
 
@@ -26,9 +27,10 @@ class DataStore {
     }
 
     /// Retrieves an array of objects of type T from disk, or if not cached on disk retrieves from network
-    /// - parameter filter: filters objects before passing them to completion closure, if specified
     /// - parameter pathParam: URL parameter to include with network request, if required
     /// - parameter diskCacheFilename: specifies a filename for disk storage of this object, otherwise the filename is determined by CodableStorage
+    /// - parameter filter: filters objects before passing them to completion closure, if specified
+    /// - parameter completion: closure called on success or failure
     private func retrieve<T: Codable & Comparable & RemoteURLProviding>(diskCacheFilename filename: String? = nil, pathParam: String? = nil, filter: @escaping ((T) -> Bool) = { _ in true }, completion: @escaping (Result<[T], Error>) -> Void) {
         DispatchQueue.global(qos: .background).async {
             // First we try loading from disk
@@ -112,7 +114,7 @@ class DataStore {
         }
     }
 
-    /// Resets the database by clearing the app's cache directory
+    /// Resets the DataStore to clear all locally cached records (whether in-memory or on-disk)
     func reset(completionHandler: (() -> Void)?) {
         DispatchQueue.global(qos: .background).async {
             self.posts = nil

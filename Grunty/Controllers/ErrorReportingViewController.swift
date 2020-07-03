@@ -5,11 +5,13 @@
 //  Created by Andrew Ash on 6/30/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  Protocol for a UIViewController that that reports errors using a standard interface,
+//   with an UIAlertController containing retry and cancel buttons
 
 import Foundation
 import UIKit
 
-protocol ErrorReportingViewController {
+protocol ErrorReportingViewController: UIViewController {
     var errorTitle: String { get }
     var errorMessage: String { get }
 }

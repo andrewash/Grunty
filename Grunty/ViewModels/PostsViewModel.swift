@@ -5,6 +5,7 @@
 //  Created by Andrew Ash on 7/1/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  View model for PostsTableViewController
 
 import Foundation
 
@@ -13,11 +14,20 @@ import Foundation
 ///  https://www.swiftbysundell.com/articles/different-flavors-of-view-models-in-swift/
 class PostsViewModel {
     private let dataStore: DataStore
-    private let filterByUserId: Int?                /// which user are we filtering for (if nil, no filter is applied)
-    private(set) var isLoading: Bool = false        /// is ViewModel waiting for data to load?
+    
+    /// which user are we filtering for (if nil, no filter is applied)
+    private let filterByUserId: Int?
+    
+    /// is ViewModel waiting for data to load?
+    private(set) var isLoading: Bool = false
+    
+    /// underlying model objects
     private var posts: [Post] = []
 
+    /// PostsViewModel calls updateHandler when the viewModel changes such that the view needs to be refreshed
     var updateHandler: () -> Void = {}
+    
+    /// PostsViewModel calls errorHandler when an error needs to be presented to the user
     var errorHandler: (String) -> Void = { (_) in }
 
     init(dataStore: DataStore, filterByUserId: Int? = nil) {
@@ -37,6 +47,7 @@ class PostsViewModel {
         }
     }
 
+    /// How many posts to show in the view
     var numberOfPosts: Int { posts.count }
 
     /// We only show the refresh button when viewing all posts

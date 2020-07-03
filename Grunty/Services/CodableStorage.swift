@@ -5,10 +5,10 @@
 //  Created by Andrew Ash on 6/12/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  Allows for saving, loading, and clearing objects which implement the Encodable/Decodable to/from device storage.
 
 import Foundation
 
-/// CodableStorage allows for saving, loading, and clearing objects which implement the Encodable/Decodable to/from device storage.
 struct CodableStorage {
     /// Saves an Encodable array of objects of type T to filename within the caches directory
     /// name is a filename which is computed from type T if not supplied
@@ -79,7 +79,10 @@ struct CodableStorage {
         }
     }
 
+    //==========================================================================
     // MARK: Helpers
+    //==========================================================================
+
     static private func getCacheDirectory() -> URL? {
         let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
         return paths.first

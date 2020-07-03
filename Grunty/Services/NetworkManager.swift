@@ -5,6 +5,7 @@
 //  Created by Andrew Ash on 6/12/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  Retrieve data from remote servers
 
 import Foundation
 
@@ -12,21 +13,19 @@ class NetworkManager {
     let decoder: JSONDecoder = JSONDecoder()
     let urlSession: URLSession
 
+    enum ImportError: String, Error {
+        case invalidURL
+        case noDataReturned
+    }
+        
+    /// Initialize a NetworkManager
+    /// - parameter timeout: By default we set a shorter timeout because the Heroku web service can be unreliable. You can specify your own timeout.
     init(timeout: TimeInterval = TimeInterval(30)) {
-        // By default we set a shorter timeout because Heroku web service can be unreliable
+    
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = timeout
         config.timeoutIntervalForResource = timeout
         self.urlSession = URLSession(configuration: config)
-    }
-
-    enum ImportError: String, Error, LocalizedError {
-        case invalidURL
-        case noDataReturned
-
-        var localizedDescription: String {
-            rawValue
-        }
     }
 
     /// Downloads content from REST API with an optional remote URL path parameter, and a completion callback. Results are sorted

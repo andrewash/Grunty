@@ -5,6 +5,7 @@
 //  Created by Andrew Ash on 7/1/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  View model for PostDetailsViewController
 
 import Foundation
 
@@ -14,11 +15,18 @@ import Foundation
 ///  https://www.swiftbysundell.com/articles/different-flavors-of-view-models-in-swift/
 class PostDetailsViewModel {
     private let dataStore: DataStore
-    private(set) var isLoading: Bool = false        /// is ViewModel waiting for data to load?
+    
+    /// is ViewModel waiting for data to load?
+    private(set) var isLoading: Bool = false
+    
+    /// underlying model objects
     private var post: Post
     private var comments: [PostComment] = []
 
+    /// We call updateHandler when the viewModel changes such that the view needs to be refreshed
     var updateHandler: () -> Void = {}
+    
+    /// We call errorHandler when an error needs to be presented to the user
     var errorHandler: (String) -> Void = { (_) in }
 
     init(dataStore: DataStore, post: Post) {
@@ -53,6 +61,11 @@ class PostDetailsViewModel {
     func makePostsWithSameAuthorViewModel() -> PostsViewModel? {
         return PostsViewModel(dataStore: dataStore, filterByUserId: post.userId)
     }
+    
+    /// When comments fail to load, controller may request another attempt
+    func reloadComments() {
+        loadData()
+    }
 
     //==========================================================================
     // MARK: Helpers
@@ -72,9 +85,5 @@ class PostDetailsViewModel {
                 self?.errorHandler(error.localizedDescription)
             }
         }
-    }
-
-    func reloadComments() {
-        loadData()
     }
 }

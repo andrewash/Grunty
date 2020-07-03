@@ -5,6 +5,7 @@
 //  Created by Andrew Ash on 6/13/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  View for a custom UITableViewCell showing a comment
 
 import Foundation
 import UIKit
@@ -77,6 +78,7 @@ class PostCommentTableViewCell: UITableViewCell {
         ])
     }
 
+    /// Controllers may call this method to bind data to this view
     func updateUI(title: String, email: String, body: String) {
         titleLabel.text = title
         emailLabel.text = email

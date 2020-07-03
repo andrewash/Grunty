@@ -5,18 +5,15 @@
 //  Created by Andrew Ash on 6/12/20.
 //  Copyright © 2020 Andrew Ash. All rights reserved.
 //
+//  UIViewController for a list of posts
 
 import Foundation
 import UIKit
 
-class PostsTableViewController: UITableViewController, ErrorReportingViewController {
+class PostsTableViewController: UITableViewController {
     private let viewModel: PostsViewModel
-
-    // Keeps a reference to this view so we can stop it's animation
-    var activityIndicatorView: UIActivityIndicatorView?
-    var errorTitle: String { "Can't Find a Moose" }
-    var errorMessage: String { "Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
-
+    var activityIndicatorView: UIActivityIndicatorView?     // shown when viewModel is loading
+    
     init(viewModel: PostsViewModel) {
         self.viewModel = viewModel
         super.init(style: .plain)
@@ -34,14 +31,7 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareView()
-    }
-
-    func prepareView() {
-        view.backgroundColor = .white
-        navigationItem.title = viewModel.titleForScreen
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
-        tableView.tableFooterView = tableFooterView
+        layoutViews()
         updateUI()
     }
 
@@ -61,9 +51,16 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         ])
         return view
     }()
+    
+    func layoutViews() {
+        view.backgroundColor = .white
+        navigationItem.title = viewModel.titleForScreen
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.tableFooterView = tableFooterView
+    }
 
     //==========================================================================
-    // MARK: Actions
+    // MARK: Data & Actions
     //==========================================================================
 
     /// Update the UI based on the current state of the viewModel
@@ -78,11 +75,13 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         tableView.reloadData()
     }
 
-    // Ask view model to clear caches and reload data
+    /// Ask view model to clear caches and reload data
     @objc func reset() {
         viewModel.reset()
     }
+}
 
+extension PostsTableViewController {
     //==========================================================================
     // MARK: UITableViewDataSource and UITableViewDelegate
     //==========================================================================
@@ -117,11 +116,15 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 150.0
     }
+}
 
-    //==========================================================================
-    // MARK: Helpers
-    //==========================================================================
-    func startActivityIndicator() {
+//==========================================================================
+// MARK: Helpers
+//==========================================================================
+
+extension PostsTableViewController {
+    /// Show an activity indicator on the navigation bar's right bar button item
+    private func startActivityIndicator() {
         if self.activityIndicatorView?.isAnimating == true { return }
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.color = .black
@@ -130,21 +133,28 @@ class PostsTableViewController: UITableViewController, ErrorReportingViewControl
         self.activityIndicatorView = activityIndicatorView
     }
 
-    func stopActivityIndicator() {
+    /// Stop and remove the activity indicator
+    ///  Shows a refresh button in place of the activity indicator when view model says it's ok
+    private func stopActivityIndicator() {
         activityIndicatorView?.stopAnimating()
         activityIndicatorView = nil
         if viewModel.isRefreshButtonAvailable {
             showRefreshButton()
         }
     }
-
-    func showRefreshButton() {
+    
+    private func showRefreshButton() {
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reset))
         refreshButton.tintColor = .black
         navigationItem.setRightBarButton(refreshButton, animated: true)
     }
+}
 
-    func errorHandler(errorDetails: String) {
+extension PostsTableViewController: ErrorReportingViewController {
+    var errorTitle: String { "Can't Find a Moose" }
+    var errorMessage: String { "Oops, we can't hear any grunts. Please check your Internet connection then tap Retry to try again.\n\nError: %@" }
+    
+    private func errorHandler(errorDetails: String) {
         present(
             makeAlert(errorDetails: errorDetails,
                            retryHandler: { [weak self] in
