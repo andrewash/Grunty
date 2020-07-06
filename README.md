@@ -8,7 +8,7 @@ Please note all messages printed to console are gated by a check to make sure we
 
 ## What's New
 Version 1.1 - July 2020
-- MVVM-C architecture
+- MVVM architecture
 - Added unit tests for view models.  
 - Common view controller functionality moved to my new `ErrorReportingViewController` protocol.
 - View controllers are cleaner and more consistent
