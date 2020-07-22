@@ -55,7 +55,7 @@ class PostsViewModel {
 
     /// Retrieves a particular Post object, or nil if index is invalid
     func post(at index: Int) -> Post? {
-        if index < posts.count { return posts[index] }
+        if index >= 0 && index < posts.count { return posts[index] }
         return nil
     }
 

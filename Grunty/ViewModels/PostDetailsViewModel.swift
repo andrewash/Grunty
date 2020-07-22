@@ -44,7 +44,7 @@ class PostDetailsViewModel {
 
     /// Retrieves a particular PostComment object, or nil if index is invalid
     func comment(at index: Int) -> PostComment? {
-        if index < comments.count {
+        if index >= 0 && index < comments.count {
             let comment = comments[index]
             let formattedComment = PostComment(id: comment.id,
                                                parentPostId: comment.parentPostId,

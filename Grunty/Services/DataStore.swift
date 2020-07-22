@@ -10,15 +10,11 @@
 import Foundation
 
 class DataStore {
-    let networkManager: NetworkManager
+    let networkManager = NetworkManager()
 
     var posts: [Post]?                                      /// in-memory cache of posts
     var postCommentsForPostId: [Int: [PostComment]] = [:]   /// in-memory cache of comments retrieved for a given post.id
-
-    init() {
-        self.networkManager = NetworkManager()
-    }
-
+    
     /// For testing, you can init a DataStore with mock objects
     convenience init(mockPosts: [Post], mockPostCommentsForPostId: [Int: [PostComment]]) {
         self.init()
