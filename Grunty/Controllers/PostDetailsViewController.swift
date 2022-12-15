@@ -86,7 +86,7 @@ class PostDetailsViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    private let postsByAuthor: UIButton = {
+    private lazy var postsByAuthor: UIButton = {
         let button = UIButton(type: .roundedRect)
         button.backgroundColor = UIColor.systemBlue
         button.layer.cornerRadius = 25.0

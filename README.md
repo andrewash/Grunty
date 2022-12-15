@@ -6,7 +6,15 @@ By Andrew Ash
 
 Please note all messages printed to console are gated by a check to make sure we're not running on production.
 
+## Requirements
+- Xcode 12, 13, or 14
+- iOS 14, 15, or 16
+
 ## What's New
+Version 1.2 - Dec 2022
+- Resolved a compiler warning introduced by Xcode 13
+- Verified app runs free of errors and warnings on Xcode 14 and iOS 16 
+
 Version 1.1 - July 2020
 - MVVM architecture
 - Added unit tests for view models.  
